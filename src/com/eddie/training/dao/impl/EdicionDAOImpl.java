@@ -18,7 +18,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 	
 	private FormatoDAOImpl formatoDAO=null;
 	private TipoEdicionDAOImpl tipoEdicionDAO=null;
-	private JuegoDAO juegoDAO=null;
+	private JuegoDAOImpl juegoDAO=null;
 	
 	public EdicionDAOImpl(){
 		formatoDAO=new FormatoDAOImpl();
