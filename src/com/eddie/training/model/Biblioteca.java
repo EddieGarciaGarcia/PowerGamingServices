@@ -1,5 +1,6 @@
 package com.eddie.training.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Biblioteca extends AbstractValueObject implements Comparable<Biblio
 	private List<Juego> juegos=null;
 	
 	public Biblioteca() {
-		
+		juegos=new ArrayList<Juego>();
 	}
 
 	public String getEmail() {
@@ -55,6 +56,14 @@ public class Biblioteca extends AbstractValueObject implements Comparable<Biblio
 
 	public void setComentario(String comentario) {
 		comentario = comentario;
+	}
+
+	public List<Juego> getJuegos() {
+		return juegos;
+	}
+
+	public void setJuegos(List<Juego> juegos) {
+		this.juegos = juegos;
 	}
 
 	@Override

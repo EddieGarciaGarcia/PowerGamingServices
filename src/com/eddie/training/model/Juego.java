@@ -1,5 +1,6 @@
 package com.eddie.training.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +13,17 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	private Integer id_creador = null;
 	
 	private List<Edicion> ediciones = null;	
+	private List<Categoria> categorias=null;
+	private List<Idioma> idiomas=null;
+	private List<Plataforma> plataformas=null;
+	private List<Guia> guias=null; 
+	
 	public Juego() {
-		
+		ediciones= new ArrayList<Edicion>();
+		categorias = new ArrayList<Categoria>();
+		idiomas=new ArrayList<Idioma>();
+		plataformas= new ArrayList<Plataforma>();
+		guias=new ArrayList<Guia>();
 	}
 	
 	public Juego(Integer idJuego, String nombre, String informacion) {
@@ -93,6 +103,38 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	
 	public int compareTo2(Juego j) {
 		return this.getNombre().compareTo(j.getNombre());
+	}
+
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+
+	public List<Idioma> getIdiomas() {
+		return idiomas;
+	}
+
+	public void setIdiomas(List<Idioma> idiomas) {
+		this.idiomas = idiomas;
+	}
+
+	public List<Plataforma> getPlataformas() {
+		return plataformas;
+	}
+
+	public void setPlataformas(List<Plataforma> plataformas) {
+		this.plataformas = plataformas;
+	}
+
+	public List<Guia> getGuias() {
+		return guias;
+	}
+
+	public void setGuias(List<Guia> guias) {
+		this.guias = guias;
 	}
 	
 

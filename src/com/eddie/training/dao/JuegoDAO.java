@@ -3,11 +3,12 @@ package com.eddie.training.dao;
 import java.sql.Date;
 import java.util.List;
 
+import com.eddie.training.model.Edicion;
 import com.eddie.training.model.Juego;
 
 public interface JuegoDAO {
 	
-	public Juego findById(Integer id) throws Exception;
+	public List<Edicion> findByJuegoAll(Integer id) throws Exception;
 	
 	public List<Juego> findByCreador(Integer id_creador) throws Exception;
 	

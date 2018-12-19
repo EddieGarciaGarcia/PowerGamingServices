@@ -3,9 +3,9 @@ package com.eddie.training.model;
 public class Edicion implements ValueObject{
 
 	private Integer id = null;
-	//private int idJuego = 0;
-	private int idFormato=0;
-	private int idTipoEdicion= 0;
+	private Integer idJuego = null;
+	private Integer idFormato=null;
+	private Integer idTipoEdicion= null;
 	
 	
 	// Para implementar como enum ou, como unha simple interface con constantes

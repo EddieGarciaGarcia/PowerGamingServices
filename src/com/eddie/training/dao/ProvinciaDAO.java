@@ -1,3 +1,5 @@
+package com.eddie.training.dao;
+
 
 public interface ProvinciaDAO {
 

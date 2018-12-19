@@ -8,5 +8,5 @@ public interface PaisDAO {
 	
 	public Pais findById(String id)throws Exception;
 		
-	public List<Pais> findAll()throws Exception;
+	public List<Pais> findAllById()throws Exception;
 }

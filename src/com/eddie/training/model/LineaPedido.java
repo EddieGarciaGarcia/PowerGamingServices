@@ -3,8 +3,10 @@ package com.eddie.training.model;
 public class LineaPedido implements ValueObject{
 	private Integer numeroLinea=null;
 	private Integer idJuego=null;
-	private Integer idPrecio=null;
+	private Integer pedido=null;
 	private Integer cantidad=null;
+	private Double precio=null;
+	
 	private static final Double IVA=0.0d;
 	
 	
@@ -23,12 +25,6 @@ public class LineaPedido implements ValueObject{
 	public void setIdJuego(Integer idJuego) {
 		this.idJuego = idJuego;
 	}
-	public Integer getIdPrecio() {
-		return idPrecio;
-	}
-	public void setIdPrecio(Integer idPrecio) {
-		this.idPrecio = idPrecio;
-	}
 	public Integer getCantidad() {
 		return cantidad;
 	}
@@ -38,7 +34,18 @@ public class LineaPedido implements ValueObject{
 	public static Double getIva() {
 		return IVA;
 	}
-	
+	public Integer getPedido() {
+		return pedido;
+	}
+	public void setPedido(Integer pedido) {
+		this.pedido = pedido;
+	}
+	public Double getPrecio() {
+		return precio;
+	}
+	public void setPrecio(Double precio) {
+		this.precio = precio;
+	}
 	
 	
 }

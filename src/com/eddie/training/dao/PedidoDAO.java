@@ -1,3 +1,4 @@
+package com.eddie.training.dao;
 
 public interface PedidoDAO {
 
