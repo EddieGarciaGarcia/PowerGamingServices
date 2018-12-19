@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class TipoEdicion extends ValueObject{
+public class TipoEdicion implements ValueObject{
 	private Integer idTipoEdicion=null;
 	private String nombre=null;
 	

@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Pais {
+public class Pais implements ValueObject{
 	private Integer idPais=null;
 	private String nombre=null;
 	

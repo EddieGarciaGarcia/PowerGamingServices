@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Pedido extends LineaPedido{
+public class Pedido implements ValueObject{
 	private	Integer numeroLinea=null;
 	private Integer numeroPedido=null;
 	

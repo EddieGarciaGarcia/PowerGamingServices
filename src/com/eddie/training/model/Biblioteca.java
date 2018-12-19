@@ -3,13 +3,13 @@ package com.eddie.training.model;
 import java.util.Date;
 import java.util.List;
 
-public class Biblioteca extends ValueObject{
+public class Biblioteca extends AbstractValueObject implements Comparable<Biblioteca>{
 
 	private String email=null;
 	private Integer idJuego=null;
 	private Integer puntuacion=null;
 	private Date fechaCompra=null;
-	private String Comentario=null;
+	private String comentario=null;
 	
 	private List<Juego> juegos=null;
 	
@@ -50,11 +50,17 @@ public class Biblioteca extends ValueObject{
 	}
 
 	public String getComentario() {
-		return Comentario;
+		return comentario;
 	}
 
 	public void setComentario(String comentario) {
-		Comentario = comentario;
+		comentario = comentario;
+	}
+
+	@Override
+	public int compareTo(Biblioteca b) {
+		return this.getPuntuacion()-b.getPuntuacion();
+		
 	}
 	
 }

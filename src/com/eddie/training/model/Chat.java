@@ -1,7 +1,8 @@
 package com.eddie.training.model;
 
+import java.util.Date;
 
-public class Chat {
+public class Chat implements ValueObject{
 	private Integer idMensage;
 	private String mensage;
 	private String email;

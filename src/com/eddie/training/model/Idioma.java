@@ -1,21 +1,21 @@
 package com.eddie.training.model;
 
 
-public class Idioma extends ValueObject{
+public class Idioma implements ValueObject{
 
-	private Char idIdioma;
+	private Character idIdioma;
 	private String nombre;
 	
 	public Idioma() {
 		
 	}
-	public Char getIdIdioma() {
+	public Character getIdIdioma() {
 		return idIdioma;
 	}
 	public String getNombre() {
 		return nombre;
 	}
-	public void setIdIdioma(Char idIdioma) {
+	public void setIdIdioma(Character idIdioma) {
 		this.idIdioma = idIdioma;
 	}
 	

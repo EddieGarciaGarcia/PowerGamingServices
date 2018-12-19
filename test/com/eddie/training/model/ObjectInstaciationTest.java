@@ -1,5 +1,6 @@
 package com.eddie.training.model;
 
+import java.util.Collections;
 import java.util.Date;
 
 public class ObjectInstaciationTest {
@@ -22,7 +23,7 @@ public class ObjectInstaciationTest {
 		arrayjuegos[0]=juego1;
 		arrayjuegos[1]=juego2;
 		*/
-		Usuario u1=new Usuario("Eddie", "Garcia","Garcia", "masquisieras","eddie_t@hotmail.com");
+		Usuario u1=new Usuario("Eddie", "Garcia","Garcia");
 		
 		Administrador u2=new Administrador("Jorge","piñe","vice","pass","jordepiñevice@hotmail.com",new Date(),new Direccion(),5,4,true,null);
 		/*
@@ -43,6 +44,7 @@ public class ObjectInstaciationTest {
 		System.out.println(j1.toString());
 		System.out.println(""+j2);
 		System.out.println(j1.getIdJuego()==j2.getIdJuego());*/
+		//Collections.sort(arg0, arg1);
 		System.out.println(u1.toString());
 		System.out.println(u2.toString());
 		

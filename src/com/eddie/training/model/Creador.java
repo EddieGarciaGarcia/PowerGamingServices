@@ -1,23 +1,23 @@
 
 package com.eddie.training.model;
 
-public class Creador extends ValueObject{
+public class Creador implements ValueObject{
 	
-	private Char IdCreador;
+	private Integer idCreador;
 	private String nombre;
 	
 	public Creador() {
 		
 	}
 	
-	public Char getIdCreador() {
-		return IdCreador;
+	public Integer getIdCreador() {
+		return idCreador;
 	}
 	public String getNombre() {
 		return nombre;
 	}
-	public void setIdCreador(Char idCreador) {
-		IdCreador = idCreador;
+	public void setIdCreador(Integer idcreador) {
+		idCreador = idcreador;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;

@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Formato extends ValueObject{
+public class Formato implements ValueObject{
 	private Integer idFormato=null;
 	private String nombre=null;
 	

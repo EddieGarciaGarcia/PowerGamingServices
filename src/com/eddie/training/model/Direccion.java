@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Direccion {
+public class Direccion implements ValueObject{
 	private String calle=null;
 	private String piso=null;
 	private Integer numero=null;

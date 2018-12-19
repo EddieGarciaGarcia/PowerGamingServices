@@ -5,7 +5,8 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Usuario {
+public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
+	
 	private Direccion direccion=null;
 	private String nombre=null;
 	private String apellido1=null;
@@ -96,16 +97,14 @@ public class Usuario {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
 	@Override
-	public String toString() {
-		return new ReflectionToStringBuilder(this).toString();
+	public int compareTo(Usuario u) {
+		return this.getFechaNacimiento().compareTo(u.getFechaNacimiento());
+		
 	}
 	
-	/*
-	 * ToStringBuilder.toString(this);
-	 * Sirve para que te de todos los atributos y todos los metodos de una superclase o clase 
-	 * 
-	 * */
+	public int compareTo2(Usuario u) {
+		return this.getNombre().compareTo(u.getNombre());
+	}
 	
 }

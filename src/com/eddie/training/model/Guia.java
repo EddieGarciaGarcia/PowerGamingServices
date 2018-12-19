@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Guia {
+public class Guia implements ValueObject{
 	private Integer idGuia;
 	private String nombre;
 	

@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Plataforma {
+public class Plataforma implements ValueObject{
 	private Integer IdPlatadorma;
 	private String nombre;
 	

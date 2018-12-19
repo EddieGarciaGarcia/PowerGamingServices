@@ -3,7 +3,7 @@ package com.eddie.training.model;
 import java.util.Date;
 import java.util.List;
 
-public class Juego extends ValueObject{
+public class Juego implements ValueObject, Comparable<Juego>{
 	private Integer idJuego=null;
 	private String nombre = null;
 	private Date fechaLanzamiento = null;
@@ -77,14 +77,6 @@ public class Juego extends ValueObject{
 		this.ediciones = ediciones;
 	}
 
-	
-//	@Override
-//	public String toString() {
-//		return "Juego " + getIdJuego() + ", nombre " + getNombre() + ", fechaLanzamiento " + getFechaLanzamiento()
-//				+ ", informacion " + getInformacion() + ", requisitos " + getRequisitos() 
-//				+ ", ediciones " + Arrays.toString(ediciones) ;
-//	}
-
 	public Integer getId_creador() {
 		return id_creador;
 	}
@@ -93,10 +85,26 @@ public class Juego extends ValueObject{
 		this.id_creador = id_creador;
 	}
 
+	@Override
+	public int compareTo(Juego j) {
+		return this.getFechaLanzamiento().compareTo(j.getFechaLanzamiento());
+		
+	}
+	
+	public int compareTo2(Juego j) {
+		return this.getNombre().compareTo(j.getNombre());
+	}
+	
+
 	/*SI HUBIERA HERENCIA*/
 	
 	/* 
 	 * super.toString( ) + atributos
 	 * 
 	 * */
+	
+	
+	
+	
 }
+

@@ -2,14 +2,14 @@ package com.eddie.training.model;
 
 import java.util.Date;
 
-public class Administrador extends Usuario{
+public class Administrador extends Usuario implements ValueObject{
 
 	private Boolean permisos=true;
 	private String opcionAdmin=null;
 	
 	public Administrador(String nombre, String apellido1, String apellido2, String password, String email,
 			Date fechaNacimiento, Direccion direccion, Integer pais, Integer provincia, Boolean permisos, String opcionAdmin) {
-		super(nombre, apellido1, apellido2, password, email, fechaNacimiento, direccion, pais, provincia);
+		super(nombre, apellido1, apellido2);
 		setPermisos(permisos);
 		setOpcionAdmin(opcionAdmin);
 	}

@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Categoria extends ValueObject{
+public class Categoria implements ValueObject{
 	
 	private Integer idCategria=null;
 	private String nombre=null;

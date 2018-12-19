@@ -1,6 +1,6 @@
 package com.eddie.training.model;
 
-public class Provincia {
+public class Provincia implements ValueObject{
 	private Integer idProvincia=null;
 	private String nombre=null;
 	private Integer idPais=null;
