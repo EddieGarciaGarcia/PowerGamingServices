@@ -5,7 +5,7 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
+public class Usuario extends AbstractValueObject /*implements Comparable<Usuario>*/{
 	
 	private Direccion direccion=null;
 	private String nombre=null;
@@ -97,14 +97,10 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	@Override
-	public int compareTo(Usuario u) {
-		return this.getFechaNacimiento().compareTo(u.getFechaNacimiento());
-		
-	}
-	
-	public int compareTo2(Usuario u) {
-		return this.getNombre().compareTo(u.getNombre());
-	}
+//	@Override
+//	public int compareTo(Usuario u) {
+//		return UsuarioComparator.compare(this,u);
+//		
+//	}
 	
 }
