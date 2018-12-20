@@ -21,6 +21,6 @@ public class UsuarioComparator implements Comparator<Usuario>{
 			return u1.getNombre().compareTo(u2.getNombre());
 		}
 		
-		public UsuarioComparator() {};
+		private UsuarioComparator() {};
 
 }

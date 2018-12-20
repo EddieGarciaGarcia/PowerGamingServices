@@ -5,7 +5,9 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Usuario extends AbstractValueObject /*implements Comparable<Usuario>*/{
+import com.eddie.training.model.comparator.UsuarioComparator;
+
+public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	
 	private Direccion direccion=null;
 	private String nombre=null;
@@ -18,10 +20,7 @@ public class Usuario extends AbstractValueObject /*implements Comparable<Usuario
 	private String telefono=null;
 	private Character genero=null;
 	
-	public boolean equals(Object o) {
-		String otroEmail= ((Usuario) o).getEmail();
-		return getEmail().equalsIgnoreCase(otroEmail);
-	}
+	
 	
 	public Usuario(String nombre, String apellido1, String apellido2) {
 		this(nombre,apellido1,apellido2,null,null);
@@ -97,10 +96,29 @@ public class Usuario extends AbstractValueObject /*implements Comparable<Usuario
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-//	@Override
-//	public int compareTo(Usuario u) {
-//		return UsuarioComparator.compare(this,u);
-//		
-//	}
+	
+	public boolean equals(Object o) {
+		String otroEmail=((Usuario) o).getEmail();
+		if(this.getEmail()==null && otroEmail==null) {
+			return true;
+		}
+		if(this.getEmail()==null || otroEmail==null) {
+			return false;
+		}
+		
+		return getEmail().equalsIgnoreCase(otroEmail);
+	}
+	
+	@Override
+	public final int compareTo(Usuario u) {
+		if(u.getNombre()==null && this.getNombre()==null) {
+			return 0;
+		}
+		if(u.getNombre()==null) return 1;
+		if(this.getNombre()==null)return -1;
+		
+		return this.getNombre().compareTo(u.getNombre());
+		
+	}
 	
 }
