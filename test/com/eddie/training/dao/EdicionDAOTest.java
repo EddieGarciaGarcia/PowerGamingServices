@@ -16,7 +16,7 @@ public class EdicionDAOTest {
 		
 		public void testfindByJuego() 
 			throws Exception{
-			List<Edicion> edicionesJuego= dao.findByJuegoAll(1);
+			List<Edicion> edicionesJuego= dao.findByIdEdicion(1);
 			for(Edicion e: edicionesJuego) {
 				System.out.println(e);
 			}

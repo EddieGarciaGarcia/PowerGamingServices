@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
 import com.eddie.training.dao.FormatoDAO;
 import com.eddie.training.dao.Utils.ConnectionManager;
 import com.eddie.training.dao.Utils.JDBCUtils;
@@ -54,51 +56,14 @@ public class FormatoDAOImpl implements FormatoDAO{
 		return f;
 	}
 	
-	public Formato create(Formato f) 
-	throws Exception{
-		Connection conn=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
-		try {
-			conn=ConnectionManager.getConnection();
-			String sql="Insert Into id_formato,nombre values (?,?)";
-			pst=conn.prepareStatement(sql);
-			int i=1;
-			pst.setInt(i++, f.getIdFormato());
-			pst.setString(i++, f.getNombre());
-			
-			int insertRow=pst.executeUpdate();
-			
-			if(insertRow == 0) {
-				throw new SQLException(" No se pudo insertar");
-			}
-			
-			rs=pst.getGeneratedKeys();
-			if(rs.next()) {
-				Integer idFormato=rs.getInt(i++);
-				String nombre=rs.getString(i++);
-				f.setIdFormato(idFormato);
-				f.setNombre(nombre);
-			}else {
-				throw new DataException("Problemas al autogenerar primary key");
-			}
+	public List<Formato> findAll() throws Exception{
 		
-			return f;
-		}catch (SQLException ex) {
-			throw new DataException(ex);
-		}finally{
-			JDBCUtils.closeConnection(conn);
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
-		}
-		}
+		
+		
+		
+		return null;
+	}
 	
-	public boolean update(Formato f) {
-		return false;
-		}
-		
-
-	public void delete(Formato f) {}
 	
 	
 	public Formato LoadNext(ResultSet rs)throws Exception{

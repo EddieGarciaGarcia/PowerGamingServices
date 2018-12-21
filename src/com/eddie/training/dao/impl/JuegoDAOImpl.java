@@ -1,12 +1,12 @@
 package com.eddie.training.dao.impl;
 
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.eddie.training.dao.JuegoDAO;
@@ -15,6 +15,8 @@ import com.eddie.training.dao.Utils.JDBCUtils;
 import com.eddie.training.exceptions.DataException;
 import com.eddie.training.model.Edicion;
 import com.eddie.training.model.Juego;
+import com.eddie.training.model.JuegoCriteria;
+
 
 public  class JuegoDAOImpl implements JuegoDAO {
 	
@@ -25,18 +27,36 @@ public  class JuegoDAOImpl implements JuegoDAO {
 	}
 	
 	@Override
-	public List<Juego> findByJuegoCriteria() throws Exception {
+	public List<Juego> findByJuegoCriteria(JuegoCriteria c) throws Exception {
 		
-		
-		
-		
-		
-		
+//		String sql .g
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		List<Integer> categorias = c.getCategorias();
+//		if (categorias !=null && !categorias .isEmpty() ) {
+//			sql. + . "ashdfasdf asdfasd fasin " 
+//		}
+//		
+//		
+//		if (c.getFechaLanzamiento()!=null) {
+//			sql = sl + " and FECHA_MIENT = ?";
+//		}
+//		
+//		
+//		
 		return null;
+
 	}
 
+		
 	
-	public List<Juego> findAll(Integer id, java.sql.Date fecha) 
+
+	public List<Juego> findAll() 
 		throws Exception{
 			Juego j=null;
 			Connection connection=null;
@@ -45,12 +65,12 @@ public  class JuegoDAOImpl implements JuegoDAO {
 		try {
 			connection=ConnectionManager.getConnection();
 			String sql;
-			sql="select nombre from juego where fecha_lanzamiento =(select max(?) from juego);";
+			sql="select nombre from juego order by fechaLanzamiento DESc ";
 			
 			pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
-			pst.setDate(i++, fecha);
+		
 			
 			rs=pst.executeQuery();
 			
@@ -60,10 +80,10 @@ public  class JuegoDAOImpl implements JuegoDAO {
 				juegos.add(j);
 				
 			}else {
-				throw new Exception("Non se encontrou o empleado "+id);
+				throw new Exception("Non se encontrou o xogo ");
 			}
 			if (rs.next()) {
-				throw new Exception("Empleado "+id+" duplicado");
+				throw new Exception("Xogo duplicado");
 			}
 			return juegos;
 		}catch (SQLException ex) {
@@ -167,9 +187,7 @@ public  class JuegoDAOImpl implements JuegoDAO {
 		StringBuilder sqlupdate;
 		try {	
 			connection=ConnectionManager.getConnection();
-			sqlupdate = new StringBuilder(
-					" UPDATE Juego" 
-					);
+			sqlupdate = new StringBuilder(" UPDATE Juego");
 			
 			if (j.getNombre()!=null) {}
 			
@@ -193,7 +211,7 @@ public  class JuegoDAOImpl implements JuegoDAO {
 				preparedStatement.setString(i++,j.getNombre());
 			
 			if (j.getFechaLanzamiento()!=null) 
-				preparedStatement.setDate(i++,(java.sql.Date) j.getFechaLanzamiento());
+				preparedStatement.setDate(i++,new java.sql.Date(j.getFechaLanzamiento().getTime()));
 			
 			if (j.getInformacion()!=null) 
 				preparedStatement.setString(i++,j.getInformacion());

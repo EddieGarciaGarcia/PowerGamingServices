@@ -1,21 +1,20 @@
 package com.eddie.training.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Biblioteca extends AbstractValueObject implements Comparable<Biblioteca>{
+public class ItemBiblioteca extends AbstractValueObject implements Comparable<ItemBiblioteca>{
 
 	private String email=null;
-	private Integer idJuego=null;
 	private Integer puntuacion=null;
+	private Integer idJuego=null;
 	private Date fechaCompra=null;
+	
 	private String comentario=null;
 	
-	private List<Juego> juegos=null;
 	
-	public Biblioteca() {
-		juegos=new ArrayList<Juego>();
+	public ItemBiblioteca() {
+		
 	}
 
 	public String getEmail() {
@@ -58,16 +57,8 @@ public class Biblioteca extends AbstractValueObject implements Comparable<Biblio
 		comentario = comentario;
 	}
 
-	public List<Juego> getJuegos() {
-		return juegos;
-	}
-
-	public void setJuegos(List<Juego> juegos) {
-		this.juegos = juegos;
-	}
-
 	@Override
-	public int compareTo(Biblioteca b) {
+	public int compareTo(ItemBiblioteca b) {
 		return this.getPuntuacion()-b.getPuntuacion();
 		
 	}

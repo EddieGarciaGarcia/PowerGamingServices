@@ -1,4 +1,4 @@
-package com.jal.training.dao.util;
+package com.eddie.training.dao.Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

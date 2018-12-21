@@ -1,11 +1,8 @@
 package com.eddie.training.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import com.eddie.training.model.comparator.UsuarioComparator;
+import java.util.List;
 
 public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	
@@ -20,7 +17,11 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	private String telefono=null;
 	private Character genero=null;
 	
+	private List<ItemBiblioteca> itemsBiblioteca=null;
 	
+	public Usuario() {
+		itemsBiblioteca=new ArrayList<>();
+	}
 	
 	public Usuario(String nombre, String apellido1, String apellido2) {
 		this(nombre,apellido1,apellido2,null,null);

@@ -8,7 +8,5 @@ public interface PlataformaDAO {
 	
 	public Plataforma create(Plataforma p) throws Exception;
 	
-	public boolean update(Plataforma p) throws Exception;
-	
 	public void delete(Plataforma p) throws Exception;
 }
