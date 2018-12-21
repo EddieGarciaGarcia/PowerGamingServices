@@ -26,7 +26,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 		juegoDAO=new JuegoDAOImpl();
 	}
 	
-	public List<Edicion> findByJuegoAll(Integer id) 
+	public List<Edicion> findByIdEdicion(Integer id) 
 			throws Exception{
 				Edicion e=null;
 				Connection connection=null;
@@ -35,7 +35,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego=?";
+				sql="select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_edicion=?";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				

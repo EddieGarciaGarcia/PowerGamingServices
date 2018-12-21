@@ -1,13 +1,17 @@
 package com.eddie.training.dao;
 
-import com.eddie.training.model.Juego;
+import java.util.Date;
+import java.util.List;
+
+import com.eddie.training.model.Biblioteca;
 
 public interface BibliotecaDAO {
 
+	public List<Biblioteca> findByUsuario(String email) throws Exception;
 	
-	public Juego create(Juego j) throws Exception;
+	public Biblioteca create(Biblioteca b) throws Exception;
 	
-	public boolean update(Juego j) throws Exception;
+	public boolean update(Biblioteca b) throws Exception;
 	
-	public void delete(Juego j) throws Exception;
+	public void delete(Biblioteca b) throws Exception;
 }

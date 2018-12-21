@@ -15,7 +15,7 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 
 	public TipoEdicionDAOImpl() {}
 	
-	public TipoEdicion findbyID(Integer id)
+	public TipoEdicion findbyIdTipoEdicion(Integer id)
 		throws Exception{
 			TipoEdicion te=null;
 			Connection connection=null;
@@ -115,4 +115,6 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 		return te;
 
 	}
+
+	
 }

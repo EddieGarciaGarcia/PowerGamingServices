@@ -6,7 +6,7 @@ import com.eddie.training.model.Edicion;
 
 public interface EdicionDAO {
 	
-	public List<Edicion> findByJuegoAll(Integer id) throws Exception;
+	public List<Edicion> findByIdEdicion(Integer id) throws Exception;
 	
 	public Edicion create(Edicion e) throws Exception;
 	

@@ -14,7 +14,7 @@ public class FormatoDAOImpl implements FormatoDAO{
 	
 	public FormatoDAOImpl() {}
 	
-	public Formato findbyID(Integer id)
+	public Formato findbyIdFormato(Integer id)
 		throws Exception{
 			Formato f=null;
 			Connection connection=null;
@@ -113,4 +113,5 @@ public class FormatoDAOImpl implements FormatoDAO{
 		return f;
 
 	}
+
 }

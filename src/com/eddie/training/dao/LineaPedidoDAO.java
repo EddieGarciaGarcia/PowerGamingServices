@@ -1,3 +1,5 @@
+package com.eddie.training.dao;
+
 import com.eddie.training.model.LineaPedido;
 
 public interface LineaPedidoDAO {
