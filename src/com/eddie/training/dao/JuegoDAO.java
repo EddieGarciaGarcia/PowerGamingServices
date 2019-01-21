@@ -7,7 +7,7 @@ import com.eddie.training.model.JuegoCriteria;
 
 public interface JuegoDAO {
 	
-	public List<Juego> findByJuegoCriteria(JuegoCriteria c) throws Exception;
+	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma) throws Exception;
 	
 	public List<Juego> findAll() throws Exception;
 	

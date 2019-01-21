@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.eddie.training.dao.JuegoDAO;
 import com.eddie.training.dao.Utils.ConnectionManager;
 import com.eddie.training.dao.Utils.JDBCUtils;
 import com.eddie.training.exceptions.DataException;
@@ -17,44 +16,98 @@ import com.eddie.training.model.Edicion;
 import com.eddie.training.model.Juego;
 import com.eddie.training.model.JuegoCriteria;
 
-
-public  class JuegoDAOImpl implements JuegoDAO {
-	
-	private EdicionDAOImpl edicionDAO=null;
+public class JuegoDAOImpl {
+private EdicionDAOImpl edicionDAO=null;
 	
 	public JuegoDAOImpl() {
 		edicionDAO= new EdicionDAOImpl();
 	}
 	
-	@Override
-	public List<Juego> findByJuegoCriteria(JuegoCriteria c) throws Exception {
+	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma) throws Exception {
+		Connection connection=null;
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		StringBuilder strb=null;
 		
-//		String sql .g
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		List<Integer> categorias = c.getCategorias();
-//		if (categorias !=null && !categorias .isEmpty() ) {
-//			sql. + . "ashdfasdf asdfasd fasin " 
-//		}
-//		
-//		
-//		if (c.getFechaLanzamiento()!=null) {
-//			sql = sl + " and FECHA_MIENT = ?";
-//		}
-//		
-//		
-//		
-		return null;
-
+		try {
+			strb=new StringBuilder("select j.nombre from juego j " );
+			
+			boolean first=true;
+			
+			if(!c.getCategoria().isEmpty()) {
+				strb.append("inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria");
+			}
+			
+			//Falta Fecha Lanzamiento
+			
+			if(!c.getIdioma().isEmpty()) {
+				strb.append("inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma");
+			}
+			
+			if(!c.getPlataforma().isEmpty()) {
+				strb.append("inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma");
+			}
+			if(!c.getCreador().isEmpty()) {
+				strb.append("inner join creador c on j.id_creador=c.id_creador");
+			}
+			
+			if(c.getCategoria()!=null) {
+				addClause(strb,first,"c.id_categoria = ?");
+				first=false;
+			}
+			
+			//Falta Fecha Lanzamiento
+			
+			if(c.getIdioma()!=null) {
+				addClause(strb,first,"i.id_idioma LIKE ?");
+				first=false;
+			}
+			if(c.getPlataforma()!=null) {
+				addClause(strb,first,"p.id_plataforma = ?");
+				first=false;
+			}
+			
+			if(c.getCreador()!=null) {
+				addClause(strb,first,"c.id_creador = ?");
+				first=false;
+			}
+			
+			pst = connection.prepareStatement(strb.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			
+			int i = 1;
+			
+			if(c.getCategoria()!=null) {
+				pst.setString(i++, "%"+ c.getCategoria() +"%");
+			}
+			// Falta Fecha Lanzamiento
+			if(c.getIdioma()!=null) {
+				pst.setString(i++, "%"+ c.getIdioma() +"%");
+			}
+			if(c.getPlataforma()!=null) {
+				pst.setString(i++, "%"+ c.getPlataforma() +"%");
+			}
+			if(c.getCreador()!=null) {
+				pst.setString(i++, "%"+ c.getCreador() +"%");
+			}
+			if (idioma!=null) { 
+				pst.setString(i++,idioma);
+			}
+			
+			rs = pst.executeQuery();
+			
+			List<Juego> juegos = new ArrayList<Juego>();
+			Juego j=null;
+			
+			if(rs.next()){
+				j=loadNext(rs);
+				juegos.add(j);
+			}
+			return juegos;
+		} finally {
+			JDBCUtils.closeResultSet(rs);
+			JDBCUtils.closeStatement(pst);
 	}
-
-		
-	
+	}
 
 	public List<Juego> findAll() 
 		throws Exception{
@@ -79,12 +132,8 @@ public  class JuegoDAOImpl implements JuegoDAO {
 				j=loadNext(rs);
 				juegos.add(j);
 				
-			}else {
-				throw new Exception("Non se encontrou o xogo ");
-			}
-			if (rs.next()) {
-				throw new Exception("Xogo duplicado");
-			}
+			}else { throw new Exception("Non se encontrou o xogo ");}
+			if (rs.next()) { throw new Exception("Xogo duplicado");}
 			return juegos;
 		}catch (SQLException ex) {
 			throw new DataException(ex);
@@ -189,17 +238,32 @@ public  class JuegoDAOImpl implements JuegoDAO {
 			connection=ConnectionManager.getConnection();
 			sqlupdate = new StringBuilder(" UPDATE Juego");
 			
-			if (j.getNombre()!=null) {}
+			boolean first = true;
 			
-			if (j.getFechaLanzamiento()!=null) {}
+			if (j.getNombre()!=null) {
+				addUpdate(sqlupdate,first," nombre = ?");
+				first=false;
+			}
 			
-			if (j.getInformacion()!=null) {}
+			if (j.getFechaLanzamiento()!=null) {
+				addUpdate(sqlupdate,first," FECHA_LANZAMIENTO = ?");
+				first=false;
+			}
 			
-			if (j.getInformacion()!=null) {}
+			if (j.getInformacion()!=null) {
+				addUpdate(sqlupdate,first," INFORMACION = ?");
+				first=false;
+			}
 			
-			if (j.getRequisitos()!=null) {}
+			if (j.getRequisitos()!=null) {
+				addUpdate(sqlupdate,first," REQUISITOS = ?");
+				first=false;
+			}
 			
-			if (j.getId_creador()!=null) {}
+			if (j.getId_creador()!=null) {
+				addUpdate(sqlupdate,first," ID_CREADOR = ?");
+				first=false;
+			}
 			
 			sqlupdate.append("WHERE id_juego = ?");
 			
@@ -242,6 +306,13 @@ public  class JuegoDAOImpl implements JuegoDAO {
 
 	public void delete(Juego j) {}
 			
+	private void addClause(StringBuilder queryString, boolean first, String clause) {
+		queryString.append(first? "WHERE ": " AND ").append(clause);
+	}
+	
+	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
+		queryString.append(first? " SET ": " , ").append(clause);
+	}
 	
 	public Juego loadNext(ResultSet rs) 
 		throws Exception{
