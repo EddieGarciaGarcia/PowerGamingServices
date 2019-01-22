@@ -23,8 +23,7 @@ private EdicionDAOImpl edicionDAO=null;
 		edicionDAO= new EdicionDAOImpl();
 	}
 	
-	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma) throws Exception {
-		Connection connection=null;
+	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma, Connection connection) throws Exception {
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		StringBuilder strb=null;

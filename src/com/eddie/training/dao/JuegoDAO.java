@@ -1,5 +1,6 @@
 package com.eddie.training.dao;
 
+import java.sql.Connection;
 import java.util.List;
 
 import com.eddie.training.model.Juego;
@@ -7,7 +8,7 @@ import com.eddie.training.model.JuegoCriteria;
 
 public interface JuegoDAO {
 	
-	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma) throws Exception;
+	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma, Connection connection) throws Exception;
 	
 	public List<Juego> findAll() throws Exception;
 	

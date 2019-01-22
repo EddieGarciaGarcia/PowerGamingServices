@@ -1,18 +1,16 @@
-package com.eddie.training.service;
+package com.eddie.training.service.impl;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
-public class MailService {
+import com.eddie.training.service.MailService;
 
+public class MailServiceImpl implements MailService {
 	
-	public MailService() {
-		
-	}
-	
-	public boolean sendMail(String message, String... to) {
+	@Override
+	public void sendMail(String to,String subject,String message) {
 		
 		Email email = new SimpleEmail();
 		email.setHostName("smtp.googlemail.com");
@@ -20,7 +18,7 @@ public class MailService {
 		email.setAuthenticator(new DefaultAuthenticator("eddietuenti@gmail.com", PASSWORD));
 		email.setSSLOnConnect(true);
 		
-		email.setSubject("Primer mensage");
+		email.setSubject(subject);
 		try {
 			email.setFrom("eddie_taboada@hotmail.com");
 			email.setMsg(message);
@@ -28,12 +26,23 @@ public class MailService {
 			email.send();
 		} catch (EmailException e) {
 			e.printStackTrace();
+			
 		}
-		return true;
 		
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 		
 		
 		
@@ -53,4 +62,8 @@ public class MailService {
 		
 	}
 	public static final String PASSWORD="Hosner1994.";
+	
+
+	
+	
 }
