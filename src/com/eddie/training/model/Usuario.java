@@ -15,7 +15,7 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	private String email=null;
 	private Date fechaNacimiento=null;
 	private String telefono=null;
-	private Character genero=null;
+	private String genero=null;
 	
 	private List<ItemBiblioteca> itemsBiblioteca=null;
 	
@@ -98,6 +98,14 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 		this.telefono = telefono;
 	}
 	
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
 	public boolean equals(Object o) {
 		String otroEmail=((Usuario) o).getEmail();
 		if(this.getEmail()==null && otroEmail==null) {

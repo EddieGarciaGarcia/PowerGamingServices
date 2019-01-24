@@ -55,6 +55,12 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 		return te;
 	}
 	
+	@Override
+	public TipoEdicion findAll() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public TipoEdicion create(TipoEdicion te) 
 	throws Exception{
 		Connection conn=null;
@@ -115,6 +121,8 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 		return te;
 
 	}
+
+	
 
 	
 }

@@ -4,64 +4,81 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.eddie.training.dao.FormatoDAO;
 import com.eddie.training.dao.Utils.ConnectionManager;
 import com.eddie.training.dao.Utils.JDBCUtils;
-import com.eddie.training.exceptions.DataException;
 import com.eddie.training.model.Formato;
 
-public class FormatoDAOImpl implements FormatoDAO{
+public class FormatoDAOImpl {
 	
 	public FormatoDAOImpl() {}
 	
-	public Formato findbyIdFormato(Integer id)
+	public Formato findbyIdFormato(Connection conexion,Integer id)
 		throws Exception{
 			Formato f=null;
-			Connection connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 		try {
-			connection=ConnectionManager.getConnection();
+			conexion=ConnectionManager.getConnection();
 			String sql;
 			sql="select id_formato, nombre from formato where id_formato= ?";
 			
-			pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
-			pst.setLong(i++, id);
+			pst.setInt(i++, id);
 			
 			rs=pst.executeQuery();
 			
 			
-			if(rs.next()){
+			while(rs.next()){
 				f=LoadNext(rs);
 				
-			}else {
-				throw new Exception("Non se encontrou o empleado "+id);
 			}
-			if (rs.next()) {
-				throw new Exception("Empleado "+id+" duplicado");
-			}
-			
+			return f;
 		}catch (SQLException ex) {
-			throw new DataException(ex);
+			throw new Exception(ex);
 		}finally{
-			JDBCUtils.closeConnection(connection);
+			JDBCUtils.closeConnection(conexion);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
 		
-		return f;
+		
 	}
 	
-	public List<Formato> findAll() throws Exception{
+	public List<Formato> findAll(Connection conexion, String idioma) throws Exception{
+		Formato f=null;
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		try {
+			conexion=ConnectionManager.getConnection();
+			String sql;
+			//sql="select f.id_formato, f.nombre from idiomaweb_formato f where id_idioma_web like ?";
+			sql="select id_formato, nombre from formato";
+			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			
+			int i=1;
+			//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
+			pst.setString(i++, idioma);	
+			rs=pst.executeQuery();
+			
+			List<Formato> resultado=new ArrayList<Formato>();
+			while(rs.next()){
+				f=LoadNext(rs);
+				resultado.add(f);
+			}
+			return resultado;
+		}catch (SQLException ex) {
+			throw new Exception(ex);
+		}finally{
+			JDBCUtils.closeConnection(conexion);
+			JDBCUtils.closeResultSet(rs);
+			JDBCUtils.closeStatement(pst);
+		}
 		
-		
-		
-		
-		return null;
 	}
 	
 	
@@ -78,5 +95,4 @@ public class FormatoDAOImpl implements FormatoDAO{
 		return f;
 
 	}
-
 }

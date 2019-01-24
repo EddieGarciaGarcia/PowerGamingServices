@@ -10,9 +10,10 @@ import com.eddie.training.dao.Utils.JDBCUtils;
 import com.eddie.training.dao.impl.UsuarioDAOImpl;
 import com.eddie.training.model.Usuario;
 import com.eddie.training.service.MailService;
-import com.eddie.training.service.UsuarioService;
 
-public class UsuarioServiceImpl implements UsuarioService{
+import com.eddie.training.service.UsuarioServiceDAO;
+
+public class UsuarioServiceImpl implements UsuarioServiceDAO{
 
 	private UsuarioDAO udao=null;
 	private MailService mail=null;
@@ -80,7 +81,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             connection.setAutoCommit(false);
 
             long result = udao.delete(id, connection);            
-            commit = true;            
+                       
             return result;
             
         } catch (SQLException e) {
@@ -93,16 +94,15 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Usuario findById(Integer id) throws Exception {
+	public Usuario findById(String email) throws Exception {
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
-		c.setAutoCommit(true);
+		c.setAutoCommit(false);
 		
-		Usuario u = udao.findById(id,c);
 		
-		commit=true;
+		Usuario u = udao.findById(email,c);
 		
 		return u;
 		
@@ -121,6 +121,28 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		
 		return null;
+	}
+
+	@Override
+	public Usuario login(String email, String password) throws Exception {
+		if(email == null) {
+			return null;
+		}
+		if(password == null){
+			return null;
+		}
+		Connection c=ConnectionManager.getConnection();
+		Usuario u = udao.findById(email, c);
+		if(u==null) {
+			return null;
+		}
+		if(u.getPassword().equals(password)) {
+			System.out.println("Usuario"+u.getEmail()+" autenticado");
+			return u;
+		}
+		return null;
+		
+		
 	}
 
 }

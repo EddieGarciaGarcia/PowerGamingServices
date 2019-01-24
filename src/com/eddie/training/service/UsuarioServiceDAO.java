@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.eddie.training.model.Usuario;
 
-public interface UsuarioService {
+public interface UsuarioServiceDAO {
 	
 	public Usuario create(Usuario u) throws Exception;
 	
@@ -12,7 +12,9 @@ public interface UsuarioService {
 	
 	public long delete(Long id) throws Exception;
 	
-	public Usuario findById(Integer id) throws Exception;
+	public Usuario findById(String email) throws Exception;
+	
+	public Usuario login(String email, String password)throws Exception;
 	
 	public List<Usuario> findById(String idioma, String nombre) throws Exception; 
 }

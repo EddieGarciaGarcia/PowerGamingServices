@@ -12,5 +12,6 @@ public interface UsuarioDAO {
 	
 	public long delete(Long id, Connection connection) throws Exception;
 	
-	public Usuario findById(Integer id, Connection connection) throws Exception;
+	public Usuario findById(String email, Connection connection) throws Exception;
+
 }

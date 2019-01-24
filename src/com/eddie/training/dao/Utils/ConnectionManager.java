@@ -8,13 +8,13 @@ public class ConnectionManager	 {
 
 
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://10.53.124.231:3306/hr?"
+	static final String DB_URL = "jdbc:mysql://localhost/powergaming?"
 			+ "useUnicode=true&useJDBCCompliantTimezoneShift=true"
 			+ "&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
 	//  Database credentials
-	static final String USER = "iago";
-	static final String PASS = "seijas";
+	static final String USER = "root";
+	static final String PASS = "root";
 
 	static {
 

@@ -10,7 +10,9 @@ public interface JuegoDAO {
 	
 	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma, Connection connection) throws Exception;
 	
-	public List<Juego> findAll() throws Exception;
+	public List<Juego> findAllByDate() throws Exception;
+	
+	public List<Juego> findAllByValoración() throws Exception;
 	
 	public Juego findById(Integer id)throws Exception;
 	

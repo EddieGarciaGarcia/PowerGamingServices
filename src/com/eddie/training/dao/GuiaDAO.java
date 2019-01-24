@@ -4,7 +4,7 @@ import com.eddie.training.model.Guia;
 
 public interface GuiaDAO {
 
-	public Guia findbyIdFormato(Integer id) throws Exception;
+	public Guia findbyId(Integer id) throws Exception;
 	
 	public Guia create(Guia g) throws Exception;
 	
