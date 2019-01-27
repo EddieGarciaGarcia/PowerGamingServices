@@ -56,7 +56,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO{
 	try {
 		conexion=ConnectionManager.getConnection();
 		String sql;
-		sql="select id_provincia, nombre from pais where id_pais= ? ";
+		sql="select id_provincia, nombre from provincia where id_pais= ? ";
 		
 		pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		

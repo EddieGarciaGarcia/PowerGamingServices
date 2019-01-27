@@ -11,17 +11,18 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 
 public interface JuegoDAO {
 	
+	
 	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma, Connection connection) throws DataException;
 	
-	public List<Juego> findAllByDate() throws DataException;
+	public List<Juego> findAllByDate(Connection connection) throws DataException;
 	
-	public List<Juego> findAllByValoración() throws DataException;
+	public List<Juego> findAllByValoración(Connection connection) throws DataException;
 	
-	public Juego findById(Integer id)throws InstanceNotFoundException, DataException;
+	public Juego findById(Connection connection,Integer id)throws InstanceNotFoundException, DataException;
 	
-	public Juego create(Juego j) throws DuplicateInstanceException, DataException;
+	public Juego create(Connection connection,Juego j) throws DuplicateInstanceException, DataException;
 	
-	public boolean update(Juego j) throws InstanceNotFoundException, DataException;
+	public boolean update(Connection connection,Juego j) throws InstanceNotFoundException, DataException;
 	
-	public void delete(Juego j) throws DataException;
+	public void delete(Connection connection,Integer id) throws DataException;
 }

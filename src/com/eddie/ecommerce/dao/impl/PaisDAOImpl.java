@@ -49,7 +49,7 @@ public class PaisDAOImpl implements PaisDAO{
 	}
 
 	@Override
-	public List<Pais> findAllBy(Connection conexion) throws DataException {
+	public List<Pais> findAll(Connection conexion) throws DataException {
 		Pais p=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;

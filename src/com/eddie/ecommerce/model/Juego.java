@@ -24,10 +24,10 @@ public class Juego implements ValueObject, Comparable<Juego>{
 		plataformas= new ArrayList<Plataforma>();
 	}
 	
-	public Juego(Integer idJuego, String nombre, String informacion) {
-		setIdJuego(idJuego);
+	public Juego(String nombre, Date fechaLanzamiento,Integer id_creador) {
 		setNombre(nombre);
-		setInformacion(informacion);
+		setFechaLanzamiento(fechaLanzamiento);
+		setId_creador(id_creador);
 	}
 	
 	public Juego(String nombre, String informacion) {

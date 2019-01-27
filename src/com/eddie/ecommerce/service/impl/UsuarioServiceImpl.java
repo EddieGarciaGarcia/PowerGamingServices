@@ -2,12 +2,16 @@ package com.eddie.ecommerce.service.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
 import com.eddie.ecommerce.dao.UsuarioDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
+import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.UsuarioDAOImpl;
+import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.MailService;
 
@@ -17,9 +21,11 @@ public class UsuarioServiceImpl implements UsuarioServiceDAO{
 
 	private UsuarioDAO udao=null;
 	private MailService mail=null;
+	private ItemBibliotecaDAO ibDao=null;
 	
 	public UsuarioServiceImpl() {
 		udao=new UsuarioDAOImpl();
+		ibDao=new ItemBibliotecaDAOImpl();
 	}
 	
 	@Override
@@ -69,7 +75,7 @@ public class UsuarioServiceImpl implements UsuarioServiceDAO{
 	}
 
 	@Override
-	public long delete(Long  id) throws Exception {
+	public long delete(String  email) throws Exception {
 
 	    Connection connection = null;
         boolean commit = false;
@@ -80,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioServiceDAO{
 
             connection.setAutoCommit(false);
 
-            long result = udao.delete(id, connection);            
+            long result = udao.delete(email, connection);            
                        
             return result;
             
@@ -114,12 +120,9 @@ public class UsuarioServiceImpl implements UsuarioServiceDAO{
 		}
 	}
 
+	//Metodo que no se si lo necesito
 	@Override
 	public List<Usuario> findById(String idioma, String nombre) throws Exception {
-		boolean commit=false;
-		Connection c=null;
-		
-		
 		return null;
 	}
 
@@ -143,6 +146,38 @@ public class UsuarioServiceImpl implements UsuarioServiceDAO{
 		return null;
 		
 		
+	}
+
+	@Override
+	public List<ItemBiblioteca> findByUsuario(String email) throws Exception {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<ItemBiblioteca> biblio=ibDao.findByUsuario(c, email);
+		
+		return biblio;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+	}
+
+	@Override
+	public ItemBiblioteca create(ItemBiblioteca b) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long delete(String email, Integer idJuego) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

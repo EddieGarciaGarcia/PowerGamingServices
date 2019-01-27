@@ -1,5 +1,8 @@
 package com.eddie.ecommerce.dao;
 
+import java.sql.Connection;
+import java.util.List;
+
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Pedido;
@@ -7,13 +10,13 @@ import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 
 public interface PedidoDAO {
 	
-	public Pedido findByEmail(String email)throws InstanceNotFoundException, DataException;
+	public List<Pedido> findByEmail(Connection conexion,String email)throws InstanceNotFoundException, DataException;
 	
-	public Pedido findByID(Integer idPedido)throws InstanceNotFoundException, DataException;
+	public Pedido findByID(Connection conexion,Integer idPedido)throws InstanceNotFoundException, DataException;
 	
-	public Pedido create(PedidoDAO p) throws DuplicateInstanceException, DataException;
+	public Pedido create(Connection conexion,Pedido p) throws DuplicateInstanceException, DataException;
 	
-	public boolean update(PedidoDAO p) throws InstanceNotFoundException, DataException;
+	public boolean update(Connection conexion,Pedido p) throws InstanceNotFoundException, DataException;
 	
-	public void delete(PedidoDAO p) throws DataException;
+	public void delete(Connection conexion,Integer idPedido) throws DataException;
 }

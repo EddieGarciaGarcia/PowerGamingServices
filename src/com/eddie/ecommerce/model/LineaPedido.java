@@ -2,7 +2,7 @@ package com.eddie.ecommerce.model;
 
 public class LineaPedido implements ValueObject{
 	private Integer numeroLinea=null;
-	private Integer idJuego=null;
+	private Integer idEdicion=null;
 	private Integer pedido=null;
 	private Integer cantidad=null;
 	private Double precio=null;
@@ -19,11 +19,11 @@ public class LineaPedido implements ValueObject{
 	public void setNumeroLinea(Integer numeroLinea) {
 		this.numeroLinea = numeroLinea;
 	}
-	public Integer getIdJuego() {
-		return idJuego;
+	public Integer getIdEdicion() {
+		return idEdicion;
 	}
-	public void setIdJuego(Integer idJuego) {
-		this.idJuego = idJuego;
+	public void setIdEdicion(Integer idJuego) {
+		this.idEdicion = idJuego;
 	}
 	public Integer getCantidad() {
 		return cantidad;

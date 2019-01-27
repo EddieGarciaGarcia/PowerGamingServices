@@ -31,8 +31,8 @@ public class PlataformaDAOTest {
 			Connection c= ConnectionManager.getConnection();
 			List<Plataforma> plataforma;
 			plataforma = pdao.findAll(c);
-			for(int i=0;i<plataforma.size();i++){
-				System.out.println(plataforma.get(i).getNombre());
+			for(Plataforma p:plataforma){
+				System.out.println(p.getNombre());
 			}
 			
 		} catch (Exception e) {

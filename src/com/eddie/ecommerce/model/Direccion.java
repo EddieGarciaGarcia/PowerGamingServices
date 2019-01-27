@@ -1,10 +1,11 @@
 package com.eddie.ecommerce.model;
 
 public class Direccion implements ValueObject{
+	private Integer idDireccion=null;
 	private String calle=null;
 	private String piso=null;
-	private Integer numero=null;
-	private Integer codigoPostal=null;
+	private String numero=null;
+	private String codigoPostal=null;
 	private Integer idprovincia=null;
 	private String localidad=null;
 	
@@ -13,6 +14,17 @@ public class Direccion implements ValueObject{
 		
 	}
 	
+	
+	public Integer getIdDireccion() {
+		return idDireccion;
+	}
+
+
+	public void setIdDireccion(Integer idDireccion) {
+		this.idDireccion = idDireccion;
+	}
+
+
 	public String getCalle() {
 		return calle;
 	}
@@ -25,16 +37,16 @@ public class Direccion implements ValueObject{
 	public void setPiso(String piso) {
 		this.piso = piso;
 	}
-	public Integer getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	public Integer getCodigoPostal() {
+	public String getCodigoPostal() {
 		return codigoPostal;
 	}
-	public void setCodigoPostal(Integer codigoPostal) {
+	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
 	public Integer getIdprovincia() {

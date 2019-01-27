@@ -16,37 +16,57 @@ public class Edicion implements ValueObject{
 		
 	}
 
+
 	public Integer getId() {
-		return this.id;
+		return id;
 	}
+
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public int getIdFormato() {
+
+
+	public Integer getIdJuego() {
+		return idJuego;
+	}
+
+
+	public void setIdJuego(Integer idJuego) {
+		this.idJuego = idJuego;
+	}
+
+
+	public Integer getIdFormato() {
 		return idFormato;
 	}
 
-	public void setIdFormato(int idFormato2) {
-		this.idFormato = idFormato2;
+
+	public void setIdFormato(Integer idFormato) {
+		this.idFormato = idFormato;
 	}
 
-	public int getIdTipoEdicion() {
+
+	public Integer getIdTipoEdicion() {
 		return idTipoEdicion;
 	}
 
-	public void setIdTipoEdicion(int idTipoEdicion2) {
-		this.idTipoEdicion = idTipoEdicion2;
+
+	public void setIdTipoEdicion(Integer idTipoEdicion) {
+		this.idTipoEdicion = idTipoEdicion;
 	}
+
 
 	public Double getPrecio() {
 		return precio;
 	}
 
+
 	public void setPrecio(Double precio) {
 		this.precio = precio;
 	}
+
+
 	
 	
 	

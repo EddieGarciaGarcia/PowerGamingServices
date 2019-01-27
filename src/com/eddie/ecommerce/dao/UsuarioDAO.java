@@ -14,7 +14,7 @@ public interface UsuarioDAO {
 	
 	public boolean update(Usuario u, Connection connection) throws InstanceNotFoundException, DataException;
 	
-	public long delete(Long id, Connection connection) throws DataException;
+	public long delete(String email, Connection connection) throws DataException;
 	
 	public Usuario findById(String email, Connection connection) throws InstanceNotFoundException, DataException;
 

@@ -1,6 +1,6 @@
 package com.eddie.ecommerce.dao;
 
-import java.util.Date;
+import java.sql.Connection;
 import java.util.List;
 
 import com.eddie.ecommerce.model.ItemBiblioteca;
@@ -10,11 +10,12 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 
 public interface ItemBibliotecaDAO {
 
-	public List<ItemBiblioteca> findByUsuario(String email) throws DataException;
+	public List<ItemBiblioteca> findByUsuario(Connection connection,String email) throws DataException;
 	
-	public ItemBiblioteca create(ItemBiblioteca b) throws DuplicateInstanceException, DataException;
+	public List<ItemBiblioteca> findByJuego(Connection connection,Integer idJuego) throws DataException;
 	
-	public boolean update(ItemBiblioteca b) throws InstanceNotFoundException, DataException;
+	public ItemBiblioteca create(Connection connection,ItemBiblioteca b) throws DuplicateInstanceException, DataException;
 	
-	public void delete(ItemBiblioteca b) throws DataException;
+	public long delete(Connection connection,String email,Integer idJuego) throws InstanceNotFoundException, DataException;
+	
 }

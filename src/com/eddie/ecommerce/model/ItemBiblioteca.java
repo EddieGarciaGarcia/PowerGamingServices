@@ -8,13 +8,21 @@ public class ItemBiblioteca extends AbstractValueObject implements Comparable<It
 	private String email=null;
 	private Integer puntuacion=null;
 	private Integer idJuego=null;
-	private Date fechaCompra=null;
-	
+	private Date fechaComentario=null;
 	private String comentario=null;
+	private String comprado=null;
 	
 	
 	public ItemBiblioteca() {
 		
+	}
+
+	public String getComprado() {
+		return comprado;
+	}
+
+	public void setComprado(String comprado) {
+		this.comprado = comprado;
 	}
 
 	public String getEmail() {
@@ -41,12 +49,12 @@ public class ItemBiblioteca extends AbstractValueObject implements Comparable<It
 		this.puntuacion = puntuacion;
 	}
 
-	public Date getFechaCompra() {
-		return fechaCompra;
+	public Date getFechaComentario() {
+		return fechaComentario;
 	}
 
-	public void setFechaCompra(Date fechaCompra) {
-		this.fechaCompra = fechaCompra;
+	public void setFechaComentario(Date fechaCompra) {
+		this.fechaComentario = fechaCompra;
 	}
 
 	public String getComentario() {

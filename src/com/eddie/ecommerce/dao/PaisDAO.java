@@ -11,5 +11,5 @@ public interface PaisDAO {
 	
 	public Pais findById(Connection conexion,Integer id)throws InstanceNotFoundException, DataException;
 		
-	public List<Pais> findAllBy(Connection conexion)throws DataException;
+	public List<Pais> findAll(Connection conexion)throws DataException;
 }

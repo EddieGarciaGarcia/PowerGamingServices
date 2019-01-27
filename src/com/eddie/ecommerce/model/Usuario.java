@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	
-	private Direccion direccion=null;
+	private Integer direccion=null;
 	private String nombre=null;
 	private String apellido1=null;
 	private String apellido2=null;
@@ -17,36 +17,30 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	private String telefono=null;
 	private String genero=null;
 	
-	private List<ItemBiblioteca> itemsBiblioteca=null;
 	
 	public Usuario() {
-		itemsBiblioteca=new ArrayList<>();
+		
 	}
 	
-	public Usuario(String nombre, String apellido1, String apellido2) {
-		this(nombre,apellido1,apellido2,null,null);
-	}
-	
-	public Usuario(String nombre, String apellido1, String apellido2, String password, String email) {
-		this(nombre,apellido1,apellido2,password,email,null,null);
-	}
-	
-	public Usuario(String nombre, String apellido1, String apellido2, String password, String email, Date fechaNacimiento, Direccion direccion) {
+	public Usuario(String nombre, String apellido1, String apellido2, String password,String telefono, String email, Date fechaNacimiento,String nombreuser,String genero, Integer direccion) {
 		setNombre(nombre);
 		setApellido1(apellido1);
 		setApellido2(apellido2);
 		setPassword(password);
+		setTelefono(telefono);
 		setEmail(email);
 		setFechaNacimiento(fechaNacimiento);
+		setNombreUser(nombreuser);
+		setGenero(genero);
 		setDireccion(direccion);
 		
 	}
 	
 
-	public Direccion getDireccion() {
+	public Integer getDireccion() {
 		return direccion;
 	}
-	public void setDireccion(Direccion direccion) {
+	public void setDireccion(Integer direccion) {
 		this.direccion = direccion;
 	}
 	public String getNombre() {
@@ -70,8 +64,8 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	public String getNombreUser() {
 		return nombreUser;
 	}
-	public void setNombreUser(String nombreUser) {
-		this.nombreUser = nombreUser;
+	public void setNombreUser(String nombreuser) {
+		this.nombreUser = nombreuser;
 	}
 	public String getPassword() {
 		return password;

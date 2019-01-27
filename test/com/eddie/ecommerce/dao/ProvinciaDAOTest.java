@@ -48,7 +48,7 @@ public class ProvinciaDAOTest {
 			List<Provincia> provincias;
 			provincias = pdao.findAllByIdPais(c, 1);
 			for(int i=0;i<provincias.size();i++){
-				System.out.println(provincias.get(i).getNombre());
+				System.out.println(provincias.get(i).getIdProvincia()+" "+provincias.get(i).getNombre());
 			}
 			
 		} catch (Exception e) {
@@ -61,9 +61,9 @@ public class ProvinciaDAOTest {
 	public static void main(String[] args) {
 		ProvinciaDAOTest test = new ProvinciaDAOTest();
 		
-		test.testfindByProvincia();
+		//test.testfindByProvincia();
 		//test.testfindAll();
-		//test.testfindByIDPais();
+		test.testfindByIDPais();
 
 	}
 

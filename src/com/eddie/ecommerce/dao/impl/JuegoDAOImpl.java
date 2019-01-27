@@ -15,9 +15,10 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Edicion;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
+import com.eddie.ecommerce.model.Usuario;
+
 
 public class JuegoDAOImpl implements JuegoDAO{
 	//private EdicionDAOImpl edicionDAO=null;
@@ -99,7 +100,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				List<Juego> juegos = new ArrayList<Juego>();
 				
-				if(rs.next()){
+				while(rs.next()){
 					j=loadNext(rs);
 					juegos.add(j);
 				}
@@ -113,23 +114,22 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		}
 
-		public List<Juego> findAllByDate() 
-			throws DataException{
+		public List<Juego> findAllByDate(Connection connection) throws DataException{
 				Juego j=null;
-				Connection connection=null;
 				PreparedStatement pst=null;
 				ResultSet rs=null;
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select nombre from juego order by fecha_Lanzamiento DESc ";
+				sql="select id_juego, nombre, FECHA_LANZAMIENTO,id_Creador\r\n" + 
+						" from juego order by fecha_Lanzamiento DESc  ";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
 				rs=pst.executeQuery();
 				
 				List <Juego> juegos=new ArrayList<Juego>();
-				if(rs.next()){
+				while(rs.next()){
 					j=loadNext(rs);
 					juegos.add(j);
 					
@@ -146,16 +146,16 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 		}
 		
-		public Juego findById(Integer idJuego) 
+		public Juego findById(Connection connection,Integer idJuego) 
 			throws InstanceNotFoundException, DataException{
 			Juego j=null;
-			Connection connection=null;
+			 connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select id_juego, nombre, id_creador, fecha_lanzamiento ,informacion from juego where id_juego= ?";
+				sql="select id_juego, nombre, id_creador, fecha_lanzamiento from juego where id_juego= ?";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
@@ -165,9 +165,10 @@ public class JuegoDAOImpl implements JuegoDAO{
 		
 				rs=pst.executeQuery();
 				
-				while(rs.next()){
+				if(rs.next()){
 					j=loadNext(rs);
 				}
+
 				return j;
 			}catch (SQLException ex) {
 				throw new DataException(ex);
@@ -180,28 +181,56 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		
 		@Override
-		public List<Juego> findAllByValoración() throws DataException {
-			// TODO Auto-generated method stub
-			return null;
+		public List<Juego> findAllByValoración(Connection connection) throws DataException {
+				Juego j=null;
+				connection=null;
+				PreparedStatement pst=null;
+				ResultSet rs=null;
+			try {
+				connection=ConnectionManager.getConnection();
+				String sql;
+				sql="select j.nombre\r\n" + 
+						"from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego\r\n" + 
+						"group by j.nombre\r\n" + 
+						"order by avg(uj.puntuacion) desc";
+				
+				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+				int i =1;
+				pst.setString(i++, j.getNombre());
+				rs=pst.executeQuery();
+				
+				List <Juego> juegos=new ArrayList<Juego>();
+				while(rs.next()){
+					
+					j=loadNext(rs);
+					juegos.add(j);
+					
+				}
+				return juegos;
+			}catch (SQLException ex) {
+				throw new DataException(ex);
+			}finally{
+				JDBCUtils.closeConnection(connection);
+				JDBCUtils.closeResultSet(rs);
+				JDBCUtils.closeStatement(pst);
+			}
 		}
 		
-		public Juego create(Juego j) 
+		public Juego create(Connection connection,Juego j) 
 			throws DuplicateInstanceException, DataException{
-			Connection conn=null;
+			connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 			try {
-				conn=ConnectionManager.getConnection();
+				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="Insert Into juego(Nombre, fecha_lanzamiento, informacion, id_creador) "
-						+ "values (?,?,?,?,?)";
+				sql="Insert Into juego(Nombre, fecha_lanzamiento, id_creador) "
+						+ "values (?,?,?)";
 				
-				pst=conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				int i=1;
 				pst.setString(i++, j.getNombre());
-				pst.setDate(i++, new java.sql.Date(j.getFechaLanzamiento().getTime()));
-				pst.setString(i++, j.getInformacion());
-				
+				pst.setDate(i++, new java.sql.Date(j.getFechaLanzamiento().getTime()));			
 				pst.setInt(i++, j.getId_creador());
 				
 				
@@ -220,24 +249,20 @@ public class JuegoDAOImpl implements JuegoDAO{
 					throw new DataException("Problemas al autogenerar primary key");
 				}
 				
-				for (Edicion e: j.getEdiciones()) {
-					//edicionDAO.create(e);
-				}
-				
 				return j;
 			}catch (SQLException ex) {
 				throw new DataException(ex);
 			}finally{
-				JDBCUtils.closeConnection(conn);
+				JDBCUtils.closeConnection(connection);
 				JDBCUtils.closeResultSet(rs);
 				JDBCUtils.closeStatement(pst);
 			}
 			
 		}
-		public boolean update(Juego j) throws InstanceNotFoundException, DataException{
+		public boolean update(Connection connection,Juego j) throws InstanceNotFoundException, DataException{
 			
 			PreparedStatement preparedStatement = null;
-			Connection connection=null;
+			connection=null;
 			StringBuilder sqlupdate;
 			try {	
 				connection=ConnectionManager.getConnection();
@@ -252,11 +277,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				if (j.getFechaLanzamiento()!=null) {
 					addUpdate(sqlupdate,first," FECHA_LANZAMIENTO = ?");
-					first=false;
-				}
-				
-				if (j.getInformacion()!=null) {
-					addUpdate(sqlupdate,first," INFORMACION = ?");
 					first=false;
 				}
 						
@@ -276,10 +296,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				if (j.getFechaLanzamiento()!=null) 
 					preparedStatement.setDate(i++,new java.sql.Date(j.getFechaLanzamiento().getTime()));
-				
-				if (j.getInformacion()!=null) 
-					preparedStatement.setString(i++,j.getInformacion());
-				
 				
 				if (j.getId_creador()!=null) 
 					preparedStatement.setInt(i++,j.getId_creador());
@@ -302,7 +318,32 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 			
 
-		public void delete(Juego j) {}
+		public void delete(Connection connection,Integer id) throws DataException {
+			PreparedStatement preparedStatement = null;
+
+			try {
+				String queryString =	
+						  "DELETE FROM Juego WHERE id_juego = ? ";
+				
+				preparedStatement = connection.prepareStatement(queryString);
+
+				int i = 1;
+				preparedStatement.setInt(i++, id);
+
+				int removedRows = preparedStatement.executeUpdate();
+
+				if (removedRows == 0) {
+					throw new InstanceNotFoundException(id,Juego.class.getName());
+				} 
+	
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeStatement(preparedStatement);
+			}
+			
+		}
 				
 		private void addClause(StringBuilder queryString, boolean first, String clause) {
 			queryString.append(first? "WHERE ": " AND ").append(clause);
@@ -319,21 +360,22 @@ public class JuegoDAOImpl implements JuegoDAO{
 				String nombre = rs.getString(i++);
 				Integer idCreador = rs.getInt(i++);
 				Date fechaLanzamiento=rs.getDate(i++);
-				String informacion=rs.getString(i++);
+				
 				
 				Juego j= new Juego();
 				j.setIdJuego(id);
 				j.setNombre(nombre);
 				j.setFechaLanzamiento(fechaLanzamiento);
 				j.setId_creador(idCreador);
-				j.setInformacion(informacion);
+				
+				return j;
+				
+				
 				/*List<Edicion> ediciones = edicionDAO.findByJuego(id);
 				j.setEdiciones(ediciones);
+				Edicion e=EdicionDAO.findById(id);
+				j.setEdiciones(e);
 				*/
-				return j;
-				//Edicion e=EdicionDAO.findById(id);
-				//j.setEdiciones(e);
-			
 		}
 
 		

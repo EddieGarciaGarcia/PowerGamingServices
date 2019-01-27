@@ -6,6 +6,7 @@ import java.util.List;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.FormatoDAOImpl;
 import com.eddie.ecommerce.model.Formato;
+import com.eddie.ecommerce.model.Juego;
 
 
 public class FormatoDAOTest {
@@ -36,8 +37,9 @@ public class FormatoDAOTest {
 					Connection c= ConnectionManager.getConnection();
 					List<Formato> edicionesFormato;
 					edicionesFormato = daoF.findAll(c,"ES");
-					for(int i=0;i<edicionesFormato.size();i++){
-						System.out.println(edicionesFormato.get(i).getNombre());
+					
+					for(Formato f : edicionesFormato){
+					    System.out.println(f.getNombre());
 					}
 					
 				} catch (Exception e) {
@@ -53,7 +55,7 @@ public class FormatoDAOTest {
 				FormatoDAOTest test = new FormatoDAOTest();
 
 					test.testfindAll();
-					test.testfindByFormato();
+					//test.testfindByFormato();
 				
 				
 

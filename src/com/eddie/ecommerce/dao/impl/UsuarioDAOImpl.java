@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 import com.eddie.ecommerce.dao.UsuarioDAO;
@@ -18,23 +19,157 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 	@Override
 	public Usuario create(Usuario u, Connection connection) throws DataException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		try {
+			connection=ConnectionManager.getConnection();
+			String sql;
+			sql="Insert Into usuario(email,nombre,apellido1,apellido2,telefono,password, fecha_nacimiento, genero,nombre_user,id_direccion) "
+					+ "values (?,?,?,?,?,?,?,?,?,?)";
+			
+			pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			int i=1;
+			if(u.getEmail()==null || u.getEmail().equals("")) {
+				System.out.println("fallo email null o vacio");
+			}else {
+				pst.setString(i++,u.getEmail());
+			}
+			pst.setString(i++, u.getNombre());
+			pst.setString(i++, u.getApellido1());
+			pst.setString(i++, u.getApellido2());
+			pst.setString(i++, u.getTelefono());
+			pst.setString(i++, u.getPassword());
+			pst.setDate(i++, new java.sql.Date(u.getFechaNacimiento().getTime()));
+			pst.setString(i++, u.getGenero());
+			pst.setString(i++, u.getNombreUser());
+			pst.setInt(i++, u.getDireccion());
+			
+			int insertRow=pst.executeUpdate();
+			
+			if(insertRow == 0) {
+				throw new SQLException(" No se pudo insertar");
+			}
+			
+			return u;
+		}catch (SQLException ex) {
+			throw new DataException(ex);
+		}finally{
+			JDBCUtils.closeConnection(connection);
+			JDBCUtils.closeResultSet(rs);
+			JDBCUtils.closeStatement(pst);
+		}
 	}
 
 	@Override
 	public boolean update(Usuario u, Connection connection) throws InstanceNotFoundException, DataException{
-		// TODO Auto-generated method stub
-		return false;
+		PreparedStatement preparedStatement = null;
+		connection=null;
+		StringBuilder sqlupdate;
+		try {	
+			connection=ConnectionManager.getConnection();
+			sqlupdate = new StringBuilder(" UPDATE Usuario");
+			
+			boolean first = true;
+			
+			if (u.getNombre()!=null) {
+				addUpdate(sqlupdate,first," nombre = ?");
+				first=false;
+			}
+			
+			if (u.getApellido1()!=null) {
+				addUpdate(sqlupdate,first," apellido1 = ?");
+				first=false;
+			}
+			
+			if (u.getApellido2()!=null) {
+				addUpdate(sqlupdate,first," apellido2 = ?");
+				first=false;
+			}
+			
+			if (u.getTelefono()!=null) {
+				addUpdate(sqlupdate,first," telefono = ?");
+				first=false;
+			}
+					
+			if (u.getNombreUser()!=null) {
+				addUpdate(sqlupdate,first," nombre_user = ?");
+				first=false;
+			}
+			
+			if (u.getDireccion()!=null) {
+				addUpdate(sqlupdate,first," id_direccion = ?");
+				first=false;
+			}
+			
+			sqlupdate.append("WHERE email = ?");
+			
+			preparedStatement = connection.prepareStatement(sqlupdate.toString());
+			
+
+			int i = 1;
+			if (u.getNombre()!=null) 
+				preparedStatement.setString(i++,u.getNombre());
+			
+			if (u.getApellido1()!=null) 
+				preparedStatement.setString(i++,u.getApellido1());
+			if (u.getApellido2()!=null) 
+				preparedStatement.setString(i++,u.getApellido2());
+			if (u.getTelefono()!=null) 
+				preparedStatement.setString(i++,u.getTelefono());
+			
+			if (u.getNombreUser()!=null) 
+				preparedStatement.setString(i++,u.getNombreUser());
+			
+			if (u.getDireccion()!=null) 
+				preparedStatement.setInt(i++,u.getDireccion());
+			
+			preparedStatement.setString(i++, u.getEmail());
+
+			int updatedRows = preparedStatement.executeUpdate();
+
+			if (updatedRows > 1) {
+				throw new SQLException();
+			}     
+			return true;
+		} catch (SQLException e) {
+			throw new DataException(e);    
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}              		
 	}
 	
 	@Override
-	public long delete(Long id, Connection connection) throws DataException{
-		return id;
-		// TODO Auto-generated method stub
+	public long delete(String email, Connection connection) throws DataException{
+		PreparedStatement preparedStatement = null;
+
+		try {
+			String queryString =	
+					  "DELETE FROM Usuario " 
+					+ "WHERE email = ? ";
+			
+			preparedStatement = connection.prepareStatement(queryString);
+
+			int i = 1;
+			preparedStatement.setString(i++, email);
+
+			int removedRows = preparedStatement.executeUpdate();
+
+			if (removedRows == 0) {
+				throw new InstanceNotFoundException(email,Usuario.class.getName());
+			} 
+			
+
+			return removedRows;
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}
 		
 	}
 
+	
 	@Override
 	public Usuario findById(String email, Connection connection) throws InstanceNotFoundException, DataException {
 		Usuario u=null;
@@ -103,4 +238,11 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			//j.setEdiciones(e);
 		
 	}
+	
+	
+	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
+		queryString.append(first? " SET ": " , ").append(clause);
+	}
+
+	
 }

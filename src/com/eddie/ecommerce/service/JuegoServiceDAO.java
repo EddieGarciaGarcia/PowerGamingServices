@@ -1,18 +1,26 @@
 package com.eddie.ecommerce.service;
 
+import java.util.List;
 import com.eddie.ecommerce.model.Juego;
+import com.eddie.ecommerce.model.JuegoCriteria;
 
 public interface JuegoServiceDAO {
 	
-	public Juego addComent(Integer idJuego, String email, String comentario) throws Exception;
+	//Buscador
+	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma) throws Exception;
 	
-	public Juego updateComent(Integer idJuego, String email) throws Exception;
+	//Buscador del index.html todos los juegos por data 
+	public List<Juego> findAllByDate() throws Exception;
 	
-	public Juego puntuacion(Integer idJuego, String email, Double puntuacion) throws Exception;
+	//Buscador del index.html todos por puntuacion
+	public List<Juego> findAllByValoración() throws Exception;
 	
-	public Juego addJuegoBiblioteca(Integer idJuego, String email) throws Exception;
+	//Buscar un juego en concreto
+	public Juego findById(Integer id)throws Exception;
 	
-	public Juego deleteJuegoBiblioteca(Integer idJuego, String email) throws Exception;
+	public Juego create(Juego j) throws Exception;
 	
-	public Juego findAllBiblioteca(Integer idJuego, String email) throws Exception;
+	public boolean update(Juego j) throws Exception;
+	
+	public void delete(Integer id) throws Exception;
 }
