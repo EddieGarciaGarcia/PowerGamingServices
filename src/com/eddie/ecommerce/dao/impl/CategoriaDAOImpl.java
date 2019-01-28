@@ -82,6 +82,50 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 		}
 	}
 	
+	@Override
+	public List<Categoria> findByJuego(Connection conexion, Integer idJuego, String idioma) throws DataException {
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+
+		try {
+
+			String queryString = (
+									"select jc.id_categoria, ciw.nombre " +
+									"from juego_categoria jc " +
+									"inner join categoria c on jc.id_categoria=c.id_categoria " +
+									"inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria " +
+									"where jc.id_juego = ? AND ciw.id_idioma_web like ? ");
+
+
+			preparedStatement = conexion.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			int i = 1;
+			preparedStatement.setInt(i++, idJuego);
+			preparedStatement.setString(i++, idioma);
+
+			rs = preparedStatement.executeQuery();
+
+			// Recupera la pagina de resultados
+			List<Categoria> categorias = new ArrayList<Categoria>();                        
+			Categoria c = null;
+
+			
+			while(rs.next()){
+					c = loadNext(rs);
+					categorias.add(c);               	
+			}
+
+			return categorias;
+	
+			} catch (SQLException e) {
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(rs);
+				JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+	
 	public Categoria loadNext(ResultSet rs)throws DataException,SQLException{
 		int i=1;
 		int idCategoria = rs.getInt(i++);
@@ -94,4 +138,6 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 		return c;
 
 	}
+
+	
 }

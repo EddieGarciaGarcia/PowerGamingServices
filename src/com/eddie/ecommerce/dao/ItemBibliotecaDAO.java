@@ -16,6 +16,8 @@ public interface ItemBibliotecaDAO {
 	
 	public ItemBiblioteca create(Connection connection,ItemBiblioteca b) throws DuplicateInstanceException, DataException;
 	
+	public ItemBiblioteca update (Connection connection,ItemBiblioteca b) throws DuplicateInstanceException, DataException;
+	
 	public long delete(Connection connection,String email,Integer idJuego) throws InstanceNotFoundException, DataException;
 	
 }

@@ -16,7 +16,5 @@ public interface PedidoDAO {
 	
 	public Pedido create(Connection conexion,Pedido p) throws DuplicateInstanceException, DataException;
 	
-	public boolean update(Connection conexion,Pedido p) throws InstanceNotFoundException, DataException;
-	
 	public void delete(Connection conexion,Integer idPedido) throws DataException;
 }

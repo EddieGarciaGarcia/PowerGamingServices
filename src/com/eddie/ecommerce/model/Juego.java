@@ -9,17 +9,15 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	private String nombre = null;
 	private Date fechaLanzamiento = null;
 	private String informacion = null;
-	private Integer id_creador = null;
+	private Integer idCreador = null;
 	
-	private List<Edicion> ediciones = null;	
-	private List<Categoria> categorias=null;
+	private List<Categoria> categoria = null;	
 	private List<Idioma> idiomas=null;
 	private List<Plataforma> plataformas=null;
 
 	
 	public Juego() {
-		ediciones= new ArrayList<Edicion>();
-		categorias = new ArrayList<Categoria>();
+		categoria= new ArrayList<Categoria>();
 		idiomas=new ArrayList<Idioma>();
 		plataformas= new ArrayList<Plataforma>();
 	}
@@ -27,7 +25,7 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	public Juego(String nombre, Date fechaLanzamiento,Integer id_creador) {
 		setNombre(nombre);
 		setFechaLanzamiento(fechaLanzamiento);
-		setId_creador(id_creador);
+		setIdCreador(id_creador);
 	}
 	
 	public Juego(String nombre, String informacion) {
@@ -70,21 +68,12 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	}
 
 
-
-	public List<Edicion> getEdiciones() {
-		return ediciones;
+	public Integer getIdCreador() {
+		return idCreador;
 	}
 
-	public void setEdiciones(List<Edicion> ediciones) {
-		this.ediciones = ediciones;
-	}
-
-	public Integer getId_creador() {
-		return id_creador;
-	}
-
-	public void setId_creador(Integer id_creador) {
-		this.id_creador = id_creador;
+	public void setIdCreador(Integer id_creador) {
+		this.idCreador = id_creador;
 	}
 
 	@Override
@@ -95,14 +84,6 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	
 	public int compareTo2(Juego j) {
 		return this.getNombre().compareTo(j.getNombre());
-	}
-
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
 	}
 
 	public List<Idioma> getIdiomas() {
@@ -119,6 +100,14 @@ public class Juego implements ValueObject, Comparable<Juego>{
 
 	public void setPlataformas(List<Plataforma> plataformas) {
 		this.plataformas = plataformas;
+	}
+
+	public List<Categoria> getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(List<Categoria> categoria) {
+		this.categoria = categoria;
 	}
 
 

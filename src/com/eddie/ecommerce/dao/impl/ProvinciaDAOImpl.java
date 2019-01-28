@@ -15,7 +15,6 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Provincia;
 
 public class ProvinciaDAOImpl implements ProvinciaDAO{
-
 	@Override
 	public Provincia findById(Connection conexion, Integer id) throws InstanceNotFoundException,DataException {
 		Provincia p=null;
@@ -24,7 +23,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO{
 	try {
 		conexion=ConnectionManager.getConnection();
 		String sql;
-		sql="select id_provincia, nombre from provincia where id_provincia= ? ";
+		sql="select id_provincia, id_pais, nombre from provincia where id_provincia= ? ";
 		
 		pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		
@@ -56,7 +55,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO{
 	try {
 		conexion=ConnectionManager.getConnection();
 		String sql;
-		sql="select id_provincia, nombre from provincia where id_pais= ? ";
+		sql="select id_provincia, id_pais, nombre from provincia where id_pais= ? ";
 		
 		pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		
@@ -88,7 +87,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO{
 		try {
 			conexion=ConnectionManager.getConnection();
 			String sql;
-			sql="select id_provincia, nombre from provincia";
+			sql="select id_provincia, id_pais, nombre from provincia";
 
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			

@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Plataforma;
 
 public class PlataformaDAOImpl implements PlataformaDAO{
@@ -77,6 +78,47 @@ public class PlataformaDAOImpl implements PlataformaDAO{
 		}
 	}
 	
+	@Override
+	public List<Plataforma> findByJuego(Connection conexion, Integer idJuego) throws DataException {
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+
+		try {
+
+			String queryString = (
+									"select jp.id_plataforma, p.nombre " +
+									"from juego_plataforma jp " +
+									"inner join plataforma p on jp.id_plataforma=p.id_plataforma " +
+									"where jp.id_juego = ?");
+
+
+			preparedStatement = conexion.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			int i = 1;
+			preparedStatement.setInt(i++, idJuego);
+
+			rs = preparedStatement.executeQuery();
+
+			// Recupera la pagina de resultados
+			List<Plataforma> plataformas = new ArrayList<Plataforma>();                        
+			Plataforma p = null;
+
+			
+			while(rs.next()){
+					p = loadNext(rs);
+					plataformas.add(p);               	
+			}
+
+			return plataformas;
+	
+			} catch (SQLException e) {
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(rs);
+				JDBCUtils.closeStatement(preparedStatement);
+			}
+	}
 	
 	public Plataforma loadNext(ResultSet rs) 
 			throws DataException,SQLException{
@@ -93,4 +135,6 @@ public class PlataformaDAOImpl implements PlataformaDAO{
 				return p;
 			
 		}
+
+	
 }

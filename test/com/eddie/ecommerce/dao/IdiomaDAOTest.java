@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.IdiomaDAOImpl;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Idioma;
 
 public class IdiomaDAOTest {
@@ -44,14 +45,27 @@ public class IdiomaDAOTest {
 			}
 			
 		}
-		
+		public void findByJuego() {
+			try {
+				Connection c= ConnectionManager.getConnection();
+				List<Idioma> idiomas;
+				idiomas = daoI.findByJuego(c, 2, "ES");
+				for(int i=0;i<idiomas.size();i++){
+					System.out.println(idiomas.get(i).getNombre());
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	public static void main(String[] args) {
 		
 		IdiomaDAOTest test = new IdiomaDAOTest();
-
-				test.testfindAll();
-				test.testfindByIdioma();
+				test.findByJuego();
+				//test.testfindAll();
+				//test.testfindByIdioma();
 			
 
 	}

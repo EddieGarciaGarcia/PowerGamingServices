@@ -7,7 +7,7 @@ import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.impl.UsuarioServiceImpl;
 
 public class UsuarioServiceImplTest {
-	private UsuarioServiceDAO daoU=null;
+	private UsuarioService daoU=null;
 	public UsuarioServiceImplTest() {
 		daoU=new UsuarioServiceImpl();
 	}
@@ -30,10 +30,36 @@ public class UsuarioServiceImplTest {
 		}
 		
 	}
+	public void testeCreateServiceBiblio() {
+		try {
+			
+			ItemBiblioteca biblio=new ItemBiblioteca();
+			biblio.setEmail("eddie_garcia@gmail.com");
+			biblio.setIdJuego(5);
+			biblio.setComprado("N");
+			daoU.addJuegoBiblioteca(biblio);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
+	public void testServiceDeleteBiblio() {
+		try {
+			daoU.borrarJuegoBiblioteca("eddie_garcia@gmail.com", 5);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public static void main(String[] args) {
 		UsuarioServiceImplTest test = new UsuarioServiceImplTest();
-		test.testeServiceBiblio();
+		//test.testeServiceBiblio();
+		//test.testeCreateServiceBiblio();
+		test.testServiceDeleteBiblio();
 	}
 }

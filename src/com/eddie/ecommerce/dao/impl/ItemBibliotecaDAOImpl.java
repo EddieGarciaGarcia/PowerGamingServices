@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -102,12 +103,22 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			}else {
 				pst.setString(i++,b.getEmail());
 			}
+			
 			pst.setInt(i++, b.getIdJuego());
-			pst.setInt(i++, b.getPuntuacion());
+			
+			pst.setInt(i++,b.getPuntuacion());
 			pst.setString(i++, b.getComprado());
-			pst.setString(i++, b.getComentario());
-			pst.setDate(i++, new java.sql.Date(b.getFechaComentario().getTime()));
-		
+			if(b.getComentario()==null) {
+				pst.setNull(i++, Types.NULL);
+			}else {
+				pst.setString(i++,b.getComentario());
+			}
+			
+			if(b.getFechaComentario()==null) {
+				pst.setNull(i++, Types.NULL);
+			}else {
+				pst.setDate(i++, new java.sql.Date(b.getFechaComentario().getTime()));
+			}
 			
 			
 			int insertRow=pst.executeUpdate();
@@ -159,6 +170,69 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		}
 	}
 	
+	@Override
+	public ItemBiblioteca update(Connection connection, ItemBiblioteca b) throws DuplicateInstanceException, DataException {
+		PreparedStatement preparedStatement = null;
+		connection=null;
+		StringBuilder sqlupdate;
+		try {	
+			connection=ConnectionManager.getConnection();
+			sqlupdate = new StringBuilder(" UPDATE usuarios_juego");
+			
+			boolean first = true;
+			
+			if (b.getPuntuacion()!=null) {
+				addUpdate(sqlupdate,first," puntuacion = ?");
+				first=false;
+			}
+			
+			if (b.getComprado()!=null) {
+				addUpdate(sqlupdate,first," comprado = ?");
+				first=false;
+			}
+			
+			if (b.getComentario()==null) {
+				addUpdate(sqlupdate,first," comentario = ?");
+				first=false;
+			}
+			
+			if (b.getFechaComentario()==null) {
+				addUpdate(sqlupdate,first," fecha_comentario = ?");
+				first=false;
+			}
+			
+			sqlupdate.append("WHERE email like ? and id_juego = ?");
+			
+			preparedStatement = connection.prepareStatement(sqlupdate.toString());
+			
+
+			int i = 1;
+			if (b.getPuntuacion()!=null) 
+				preparedStatement.setInt(i++,b.getPuntuacion());
+			
+			if (b.getComprado()!=null) 
+				preparedStatement.setString(i++,b.getComprado());
+			if (b.getComentario()!=null) 
+				preparedStatement.setString(i++,b.getComentario());
+			if (b.getFechaComentario()!=null) 
+				preparedStatement.setDate(i++,(java.sql.Date)b.getFechaComentario());
+		
+			preparedStatement.setString(i++, b.getEmail());
+			preparedStatement.setInt(i++, b.getIdJuego());
+
+			int updatedRows = preparedStatement.executeUpdate();
+
+			if (updatedRows > 1) {
+				throw new SQLException();
+			}     
+		} catch (SQLException e) {
+			throw new DataException(e);    
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+		return b;              		
+	}
+	
 	public ItemBiblioteca loadNext(ResultSet rs) 
 			throws SQLException,DataException{
 				int i=1;
@@ -185,4 +259,6 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		private void addUpdate(StringBuilder queryString, boolean first, String clause) {
 			queryString.append(first? " SET ": " , ").append(clause);
 		}
+
+		
 }

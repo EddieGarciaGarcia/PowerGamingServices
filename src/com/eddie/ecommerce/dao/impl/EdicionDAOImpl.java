@@ -20,7 +20,7 @@ import com.eddie.ecommerce.model.Juego;
 public class EdicionDAOImpl implements EdicionDAO{
 
 	@Override
-	public List<Edicion> findByIdEdicion(Connection conexion,Integer id) throws DataException {
+	public Edicion findByIdEdicion(Connection conexion,Integer id) throws DataException {
 		Edicion e=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -35,12 +35,12 @@ public class EdicionDAOImpl implements EdicionDAO{
 			pst.setInt(i++, id);	
 			rs=pst.executeQuery();
 			
-			List<Edicion> resultado=new ArrayList<Edicion>();
+			
 			while(rs.next()){
 				e=loadNext(rs);
-				resultado.add(e);
+				
 			}
-			return resultado;
+			return e;
 		}catch (SQLException ex) {
 			throw new DataException(ex);
 		}finally{

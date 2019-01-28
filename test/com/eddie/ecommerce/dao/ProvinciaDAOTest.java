@@ -20,7 +20,7 @@ public class ProvinciaDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			Provincia p= pdao.findById(c,7);
-			System.out.println(p);
+			System.out.println(p.getIdProvincia()+" "+p.getNombre());
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -32,8 +32,8 @@ public class ProvinciaDAOTest {
 			Connection c= ConnectionManager.getConnection();
 			List<Provincia> provincias;
 			provincias = pdao.findAll(c);
-			for(int i=0;i<provincias.size();i++){
-				System.out.println(provincias.get(i).getNombre());
+			for(Provincia p:provincias){
+				System.out.println(p.getNombre());
 			}
 			
 		} catch (Exception e) {
@@ -47,8 +47,8 @@ public class ProvinciaDAOTest {
 			Connection c= ConnectionManager.getConnection();
 			List<Provincia> provincias;
 			provincias = pdao.findAllByIdPais(c, 1);
-			for(int i=0;i<provincias.size();i++){
-				System.out.println(provincias.get(i).getIdProvincia()+" "+provincias.get(i).getNombre());
+			for(Provincia p:provincias){
+				System.out.println(p.getIdProvincia()+" "+p.getNombre());
 			}
 			
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ public class ProvinciaDAOTest {
 		
 		//test.testfindByProvincia();
 		//test.testfindAll();
-		test.testfindByIDPais();
+		//test.testfindByIDPais();
 
 	}
 

@@ -45,13 +45,28 @@ public class CategoriaDAOTest {
 			
 		}
 		
+		public void findByJuego() {
+			try {
+				Connection c= ConnectionManager.getConnection();
+				List<Categoria> categorias;
+				categorias = daoC.findByJuego(c, 2, "ES");
+				for(int i=0;i<categorias.size();i++){
+					System.out.println(categorias.get(i).getNombre());
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 
 	public static void main(String[] args) {
 		
 			CategoriaDAOTest test = new CategoriaDAOTest();
-
-				test.testfindAll();
-				test.testfindByCategoria();
+				test.findByJuego();
+				//test.testfindAll();
+				//test.testfindByCategoria();
 	}
 
 }

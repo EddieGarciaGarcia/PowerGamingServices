@@ -14,5 +14,5 @@ public interface PlataformaDAO {
 	
 	public List<Plataforma>  findAll(Connection conexion) throws DataException; 
 	
-	
+	public List<Plataforma>  findByJuego(Connection conexion,Integer idJuego) throws DataException;
 }

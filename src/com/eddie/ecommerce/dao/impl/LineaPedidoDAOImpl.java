@@ -16,7 +16,7 @@ import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.LineaPedido;
 
-public class LineaPedidoImpl implements LineaPedidoDAO{
+public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 
 	@Override
 	public List<LineaPedido> findByPedido(Connection conexion,Integer idPedido) throws DataException {

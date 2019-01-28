@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.PlataformaDAOImpl;
+import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Plataforma;
 
 public class PlataformaDAOTest {
@@ -41,12 +42,25 @@ public class PlataformaDAOTest {
 		}
 		
 	}
-	
+	public void findByJuego() {
+		try {
+			Connection c= ConnectionManager.getConnection();
+			List<Plataforma> p;
+			p = pdao.findByJuego(c, 2);
+			for(int i=0;i<p.size();i++){
+				System.out.println(p.get(i).getNombre());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public static void main(String[] args) {
 		PlataformaDAOTest test = new PlataformaDAOTest();
-
-		test.testfindAll();
-		test.testfindByPlataforma();
+		test.findByJuego();
+		//test.testfindAll();
+		//test.testfindByPlataforma();
 
 	}
 

@@ -14,10 +14,10 @@ import com.eddie.ecommerce.dao.impl.UsuarioDAOImpl;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.MailService;
+import com.eddie.ecommerce.service.UsuarioService;
 
-import com.eddie.ecommerce.service.UsuarioServiceDAO;
 
-public class UsuarioServiceImpl implements UsuarioServiceDAO{
+public class UsuarioServiceImpl implements UsuarioService{
 
 	private UsuarioDAO udao=null;
 	private MailService mail=null;
@@ -120,12 +120,6 @@ public class UsuarioServiceImpl implements UsuarioServiceDAO{
 		}
 	}
 
-	//Metodo que no se si lo necesito
-	@Override
-	public List<Usuario> findById(String idioma, String nombre) throws Exception {
-		return null;
-	}
-
 	@Override
 	public Usuario login(String email, String password) throws Exception {
 		if(email == null) {
@@ -169,15 +163,52 @@ public class UsuarioServiceImpl implements UsuarioServiceDAO{
 	}
 
 	@Override
-	public ItemBiblioteca create(ItemBiblioteca b) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b) throws Exception {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		b.setFechaComentario(null);
+		b.setComentario(null);
+		b.setPuntuacion(0);
+		b = ibDao.create(c, b);
+		
+		commit=true;
+		
+		return b;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override
-	public long delete(String email, Integer idJuego) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public long borrarJuegoBiblioteca(String email, Integer idJuego) throws Exception {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		
+		ibDao.delete(c, email, idJuego);
+		
+		commit=true;
+		
+		return idJuego;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		
 	}
 
 }

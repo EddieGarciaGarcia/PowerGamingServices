@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Idioma;
 
 public class IdiomaDAOImpl implements IdiomaDAO{
@@ -80,6 +81,51 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		}
 	}
 	
+	
+	@Override
+	public List<Idioma> findByJuego(Connection conexion, Integer idJuego, String idioma) throws DataException {
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+
+		try {
+
+			String queryString = (
+									"select ji.id_idioma, iiw.nombre " +
+									"from juego_idioma ji " +
+									"inner join idioma i on ji.id_idioma=i.id_idioma " +
+									"inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma " +
+									"where ji.id_juego = ? AND iiw.id_idioma_web like ? ");
+
+
+			preparedStatement = conexion.prepareStatement(queryString,
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+			int i = 1;
+			preparedStatement.setInt(i++, idJuego);
+			preparedStatement.setString(i++, idioma);
+
+			rs = preparedStatement.executeQuery();
+
+			// Recupera la pagina de resultados
+			List<Idioma> idiomas = new ArrayList<Idioma>();                        
+			Idioma idio = null;
+
+			
+			while(rs.next()){
+					idio = loadNext(rs);
+					idiomas.add(idio);               	
+			}
+
+			return idiomas;
+	
+			} catch (SQLException e) {
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(rs);
+				JDBCUtils.closeStatement(preparedStatement);
+			}
+	}
+	
 	public Idioma loadNext(ResultSet rs)throws DataException,SQLException{
 		int i=1;
 		String idIdioma = rs.getString(i++);
@@ -92,4 +138,6 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		return id;
 
 	}
+
+	
 }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +16,17 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
+import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
-import com.eddie.ecommerce.model.Usuario;
+import com.eddie.ecommerce.model.Plataforma;
+import com.eddie.ecommerce.service.CategoriaService;
+import com.eddie.ecommerce.service.IdiomaService;
+import com.eddie.ecommerce.service.PlataformaService;
+import com.eddie.ecommerce.service.impl.CategoriaServiceImpl;
+import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
+import com.eddie.ecommerce.service.impl.PlataformaServiceImpl;
 
 
 public class JuegoDAOImpl implements JuegoDAO{
@@ -27,70 +36,74 @@ public class JuegoDAOImpl implements JuegoDAO{
 			//edicionDAO= new EdicionDAOImpl();
 		}
 		
-		public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma, Connection connection) throws DataException {
+		public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, Connection connection) throws DataException {
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 			StringBuilder strb=null;
-			Juego j=null;
 			try {
-				strb=new StringBuilder("select j.nombre from juego j " );
+				strb=new StringBuilder("select j.id_juego, j.nombre, j.fecha_lanzamiento, j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego" );
 				
 				boolean first=true;
 				
-				if(!c.getCategoria().isEmpty()) {
+			
+				if(!jc.getCategoria().isEmpty()) {
 					strb.append("inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria");
 				}
 				
-				//Falta Fecha Lanzamiento
-				
-				if(!c.getIdioma().isEmpty()) {
+				if(!jc.getIdioma().isEmpty()) {
 					strb.append("inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma");
 				}
 				
-				if(!c.getPlataforma().isEmpty()) {
+				if(!jc.getPlataforma().isEmpty()) {
 					strb.append("inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma");
 				}
-				if(!c.getCreador().isEmpty()) {
-					strb.append("inner join creador c on j.id_creador=c.id_creador");
-				}
 				
-				if(c.getCategoria()!=null) {
-					addClause(strb,first,"c.id_categoria = ?");
+				if(jc.getNombre()!=null) {
+					addClause(strb,first,"j.nombre = ?");
 					first=false;
 				}
 				
-				//Falta Fecha Lanzamiento
-				
-				if(c.getIdioma()!=null) {
-					addClause(strb,first,"i.id_idioma LIKE ?");
+				if(jc.getFechaLanzamiento()!=null) {
+					addClause(strb,first,"j.fecha_lanzamiento = ?");
 					first=false;
 				}
-				if(c.getPlataforma()!=null) {
-					addClause(strb,first,"p.id_plataforma = ?");
-					first=false;
-				}
-				
-				if(c.getCreador()!=null) {
+			
+				if(jc.getIdCreador()!=null) {
 					addClause(strb,first,"c.id_creador = ?");
 					first=false;
+				}
+				
+				if(idioma!=null) {
+					addClause(strb,first,"jiw.id_idioma_web like ?");
+					first=false;
+				}
+				
+				if (!jc.getCategoria().isEmpty()) {
+					addClause(strb, first,addCategoria(jc.getCategoria()).toString());	
+					first = false;
+				}
+				
+				if (!jc.getIdioma().isEmpty()) {
+					addClause(strb, first,addIdioma(jc.getIdioma()).toString());	
+					first = false;
+				}
+				
+				if (!jc.getPlataforma().isEmpty()) {
+					addClause(strb, first,addPlataforma(jc.getPlataforma()).toString());	
+					first = false;
 				}
 				
 				pst = connection.prepareStatement(strb.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				
 				int i = 1;
-				
-				if(c.getCategoria()!=null) {
-					pst.setString(i++, "%"+ c.getCategoria() +"%");
+				if(jc.getNombre()!=null) {
+					pst.setString(i++, jc.getNombre());
 				}
-				// Falta Fecha Lanzamiento
-				if(c.getIdioma()!=null) {
-					pst.setString(i++, "%"+ c.getIdioma() +"%");
+				if(jc.getFechaLanzamiento()!=null) {
+					pst.setDate(i++, (java.sql.Date) jc.getFechaLanzamiento());
 				}
-				if(c.getPlataforma()!=null) {
-					pst.setString(i++, "%"+ c.getPlataforma() +"%");
-				}
-				if(c.getCreador()!=null) {
-					pst.setString(i++, "%"+ c.getCreador() +"%");
+				if(jc.getIdCreador()!=null) {
+					pst.setString(i++, "%"+ jc.getIdCreador() +"%");
 				}
 				if (idioma!=null) { 
 					pst.setString(i++,idioma);
@@ -99,7 +112,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				rs = pst.executeQuery();
 				
 				List<Juego> juegos = new ArrayList<Juego>();
-				
+				Juego j=null;
 				while(rs.next()){
 					j=loadNext(rs);
 					juegos.add(j);
@@ -121,8 +134,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select id_juego, nombre, FECHA_LANZAMIENTO,id_Creador\r\n" + 
-						" from juego order by fecha_Lanzamiento DESc  ";
+				sql="select id_juego, nombre,fecha_lanzamiento, id_creador\r\n" + 
+						" from juego order by fecha_lanzamiento DESc  ";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
@@ -146,29 +159,48 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 		}
 		
-		public Juego findById(Connection connection,Integer idJuego) 
+		public Juego findById(Connection connection,Integer idJuego,String idioma) 
 			throws InstanceNotFoundException, DataException{
 			Juego j=null;
 			 connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
+			
+			CategoriaService categoriaServicio=new CategoriaServiceImpl();
+			IdiomaService idiomaServicio=new IdiomaServiceImpl();
+			PlataformaService plataformaServicio=new PlataformaServiceImpl();
+			
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select id_juego, nombre, id_creador, fecha_lanzamiento from juego where id_juego= ?";
+				sql="select j.id_juego, j.nombre, j.id_creador, j.fecha_lanzamiento, ji.informacion from juego j inner join juego_idiomaweb ji on j.id_juego=ji.id_juego where j.id_juego= ? and ji.id_idioma_web like ?";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
 				int i=1;
 				//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
 				pst.setInt(i++, idJuego);
-		
+				pst.setString(i++, idioma);
 				rs=pst.executeQuery();
 				
 				if(rs.next()){
 					j=loadNext(rs);
 				}
-
+				
+				List<Categoria> categoria = categoriaServicio.findByJuego(idJuego,idioma);
+				if (!categoria.isEmpty())
+					j.setCategoria(categoria);
+				
+				List<Plataforma> plataforma = plataformaServicio.findByJuego(idJuego);
+				if (!plataforma.isEmpty())
+					j.setPlataformas(plataforma);
+				
+				List<Idioma> idiomas = idiomaServicio.findByJuego(idJuego, idioma);
+				if (!idiomas.isEmpty())
+					j.setIdiomas(idiomas);
+				
+				
+				
 				return j;
 			}catch (SQLException ex) {
 				throw new DataException(ex);
@@ -189,14 +221,13 @@ public class JuegoDAOImpl implements JuegoDAO{
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select j.nombre\r\n" + 
+				sql="select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador\r\n" + 
 						"from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego\r\n" + 
 						"group by j.nombre\r\n" + 
 						"order by avg(uj.puntuacion) desc";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-				int i =1;
-				pst.setString(i++, j.getNombre());
+
 				rs=pst.executeQuery();
 				
 				List <Juego> juegos=new ArrayList<Juego>();
@@ -231,7 +262,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				int i=1;
 				pst.setString(i++, j.getNombre());
 				pst.setDate(i++, new java.sql.Date(j.getFechaLanzamiento().getTime()));			
-				pst.setInt(i++, j.getId_creador());
+				pst.setInt(i++, j.getIdCreador());
 				
 				
 				int insertRow=pst.executeUpdate();
@@ -280,7 +311,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 					first=false;
 				}
 						
-				if (j.getId_creador()!=null) {
+				if (j.getIdCreador()!=null) {
 					addUpdate(sqlupdate,first," ID_CREADOR = ?");
 					first=false;
 				}
@@ -297,8 +328,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 				if (j.getFechaLanzamiento()!=null) 
 					preparedStatement.setDate(i++,new java.sql.Date(j.getFechaLanzamiento().getTime()));
 				
-				if (j.getId_creador()!=null) 
-					preparedStatement.setInt(i++,j.getId_creador());
+				if (j.getIdCreador()!=null) 
+					preparedStatement.setInt(i++,j.getIdCreador());
 				
 
 				preparedStatement.setInt(i++, j.getIdJuego());
@@ -365,8 +396,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 				Juego j= new Juego();
 				j.setIdJuego(id);
 				j.setNombre(nombre);
-				j.setFechaLanzamiento(fechaLanzamiento);
-				j.setId_creador(idCreador);
+				j.setFechaLanzamiento((java.sql.Date)fechaLanzamiento);
+				j.setIdCreador(idCreador);
 				
 				return j;
 				
@@ -377,6 +408,38 @@ public class JuegoDAOImpl implements JuegoDAO{
 				j.setEdiciones(e);
 				*/
 		}
-
+		private StringBuilder addCategoria(List<Categoria> categorias) {
+			//Creamos la query en base al número de categorias que haya marcado el usuario
+			boolean inner = true;
+			StringBuilder lista = new StringBuilder();
+			for (Categoria c : categorias) {
+				lista.append(inner ? " (c.id_categoria LIKE "+c.getIdCategria() : " OR " + c.getIdCategria());
+				inner=false;	
+			}
+			lista.append(" ) ");
+			return lista;
+		}
+		private StringBuilder addPlataforma(List<Plataforma> plataforma) {
+			//Creamos la query en base plataforma que haya marcado el usuario
+			boolean inner = true;
+			StringBuilder lista = new StringBuilder();
+			for (Plataforma p : plataforma) {
+				lista.append(inner ? " (n.id_nJugadores LIKE "+p.getIdPlatadorma() : " OR " + p.getIdPlatadorma());
+				inner=false;	
+			}
+			lista.append(" ) ");
+			return lista;
+		}
+		private StringBuilder addIdioma(List<Idioma> idioma) {
+			//Creamos la query en base al número de idioma que haya marcado el usuario
+			boolean inner = true;
+			StringBuilder lista = new StringBuilder();
+			for (Idioma i : idioma) {
+				lista.append(inner ? " (i.id_idioma LIKE "+ i.getIdIdioma() : " OR " + i.getIdIdioma());
+				inner=false;	
+			}
+			lista.append(" ) ");
+			return lista;
+		}
 		
 }

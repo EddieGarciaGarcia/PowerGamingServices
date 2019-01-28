@@ -12,5 +12,5 @@ public interface IdiomaDAO {
 	
 	public List<Idioma> findAll(Connection conexion, String idioma) throws DataException;
 	
-	
+	public List<Idioma> findByJuego(Connection conexion,Integer idJuego, String idioma) throws DataException;
 }
