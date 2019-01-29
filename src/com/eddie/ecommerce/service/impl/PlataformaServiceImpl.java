@@ -22,15 +22,44 @@ public class PlataformaServiceImpl implements PlataformaService{
 	}
 	
 	@Override
-	public Plataforma findbyIdPlataforma(Integer id) throws InstanceNotFoundException, DataException {
-		// TODO Auto-generated method stub
-		return null;
+	public Plataforma findbyIdPlataforma(Integer id) throws InstanceNotFoundException, DataException, SQLException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		
+		Plataforma p = pdao.findbyIdPlataforma(c, id);		
+				
+		return p;
+		
+		}catch(DataException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override
-	public List<Plataforma> findAll() throws DataException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Plataforma> findAll() throws SQLException,DataException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<Plataforma> plataforma=pdao.findAll(c);
+		
+		return plataforma;
+		
+		}catch(DataException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override

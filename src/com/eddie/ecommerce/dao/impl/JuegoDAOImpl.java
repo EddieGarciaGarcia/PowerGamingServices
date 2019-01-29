@@ -30,12 +30,8 @@ import com.eddie.ecommerce.service.impl.PlataformaServiceImpl;
 
 
 public class JuegoDAOImpl implements JuegoDAO{
-	//private EdicionDAOImpl edicionDAO=null;
 	
-		public JuegoDAOImpl() {
-			//edicionDAO= new EdicionDAOImpl();
-		}
-		
+
 		public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, Connection connection) throws DataException {
 			PreparedStatement pst=null;
 			ResultSet rs=null;
@@ -47,34 +43,34 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 			
 				if(!jc.getCategoria().isEmpty()) {
-					strb.append("inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria");
+					strb.append(" inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria ");
 				}
 				
 				if(!jc.getIdioma().isEmpty()) {
-					strb.append("inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma");
+					strb.append(" inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma ");
 				}
 				
 				if(!jc.getPlataforma().isEmpty()) {
-					strb.append("inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma");
+					strb.append(" inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma ");
 				}
 				
 				if(jc.getNombre()!=null) {
-					addClause(strb,first,"j.nombre = ?");
+					addClause(strb,first," j.nombre = ?");
 					first=false;
 				}
 				
 				if(jc.getFechaLanzamiento()!=null) {
-					addClause(strb,first,"j.fecha_lanzamiento = ?");
+					addClause(strb,first," j.fecha_lanzamiento = ?");
 					first=false;
 				}
 			
 				if(jc.getIdCreador()!=null) {
-					addClause(strb,first,"c.id_creador = ?");
+					addClause(strb,first," c.id_creador = ?");
 					first=false;
 				}
 				
 				if(idioma!=null) {
-					addClause(strb,first,"jiw.id_idioma_web like ?");
+					addClause(strb,first," jiw.id_idioma_web like ?");
 					first=false;
 				}
 				
@@ -93,6 +89,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 					first = false;
 				}
 				
+				System.out.println(strb);
+				
 				pst = connection.prepareStatement(strb.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				
 				int i = 1;
@@ -103,7 +101,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 					pst.setDate(i++, (java.sql.Date) jc.getFechaLanzamiento());
 				}
 				if(jc.getIdCreador()!=null) {
-					pst.setString(i++, "%"+ jc.getIdCreador() +"%");
+					pst.setInt(i++, jc.getIdCreador());
 				}
 				if (idioma!=null) { 
 					pst.setString(i++,idioma);
@@ -134,8 +132,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select id_juego, nombre,fecha_lanzamiento, id_creador\r\n" + 
-						" from juego order by fecha_lanzamiento DESc  ";
+				sql="select id_juego, nombre,fecha_lanzamiento, id_creador from juego order by fecha_lanzamiento desc  ";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
@@ -173,7 +170,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			try {
 				connection=ConnectionManager.getConnection();
 				String sql;
-				sql="select j.id_juego, j.nombre, j.id_creador, j.fecha_lanzamiento, ji.informacion from juego j inner join juego_idiomaweb ji on j.id_juego=ji.id_juego where j.id_juego= ? and ji.id_idioma_web like ?";
+				sql="select j.id_juego, j.nombre, j.fecha_lanzamiento, j.id_creador, ji.informacion from juego j inner join juego_idiomaweb ji on j.id_juego=ji.id_juego where j.id_juego= ? and ji.id_idioma_web like ?";
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
@@ -261,7 +258,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				int i=1;
 				pst.setString(i++, j.getNombre());
-				pst.setDate(i++, new java.sql.Date(j.getFechaLanzamiento().getTime()));			
+				pst.setDate(i++, (java.sql.Date) j.getFechaLanzamiento());			
 				pst.setInt(i++, j.getIdCreador());
 				
 				
@@ -326,7 +323,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 					preparedStatement.setString(i++,j.getNombre());
 				
 				if (j.getFechaLanzamiento()!=null) 
-					preparedStatement.setDate(i++,new java.sql.Date(j.getFechaLanzamiento().getTime()));
+					preparedStatement.setDate(i++, (java.sql.Date) j.getFechaLanzamiento());
 				
 				if (j.getIdCreador()!=null) 
 					preparedStatement.setInt(i++,j.getIdCreador());
@@ -375,39 +372,27 @@ public class JuegoDAOImpl implements JuegoDAO{
 			}
 			
 		}
-				
-		private void addClause(StringBuilder queryString, boolean first, String clause) {
-			queryString.append(first? "WHERE ": " AND ").append(clause);
-		}
-		
-		private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-			queryString.append(first? " SET ": " , ").append(clause);
-		}
 		
 		public Juego loadNext(ResultSet rs) 
 			throws DataException,SQLException{
 				int i=1;
 				Integer id  = rs.getInt(i++);
 				String nombre = rs.getString(i++);
-				Integer idCreador = rs.getInt(i++);
 				Date fechaLanzamiento=rs.getDate(i++);
+				Integer idCreador = rs.getInt(i++);
+				
 				
 				
 				Juego j= new Juego();
 				j.setIdJuego(id);
 				j.setNombre(nombre);
-				j.setFechaLanzamiento((java.sql.Date)fechaLanzamiento);
+				j.setFechaLanzamiento(fechaLanzamiento);
 				j.setIdCreador(idCreador);
 				
 				return j;
 				
-				
-				/*List<Edicion> ediciones = edicionDAO.findByJuego(id);
-				j.setEdiciones(ediciones);
-				Edicion e=EdicionDAO.findById(id);
-				j.setEdiciones(e);
-				*/
 		}
+		
 		private StringBuilder addCategoria(List<Categoria> categorias) {
 			//Creamos la query en base al número de categorias que haya marcado el usuario
 			boolean inner = true;
@@ -442,4 +427,11 @@ public class JuegoDAOImpl implements JuegoDAO{
 			return lista;
 		}
 		
+		private void addClause(StringBuilder queryString, boolean first, String clause) {
+			queryString.append(first? "WHERE ": " AND ").append(clause);
+		}
+		
+		private void addUpdate(StringBuilder queryString, boolean first, String clause) {
+			queryString.append(first? " SET ": " , ").append(clause);
+		}
 }

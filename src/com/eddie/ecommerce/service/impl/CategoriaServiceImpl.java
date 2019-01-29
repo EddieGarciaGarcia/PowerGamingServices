@@ -11,6 +11,7 @@ import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Categoria;
+import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.service.CategoriaService;
 
 public class CategoriaServiceImpl implements CategoriaService{
@@ -22,15 +23,44 @@ public class CategoriaServiceImpl implements CategoriaService{
 	}
 	
 	@Override
-	public Categoria findById(Integer id, String idioma) throws InstanceNotFoundException, DataException {
-		// TODO Auto-generated method stub
-		return null;
+	public Categoria findById(Integer id, String idioma) throws SQLException, InstanceNotFoundException, DataException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		
+		Categoria cate = cdao.findById(c, id, idioma);		
+				
+		return cate;
+		
+		}catch(DataException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override
-	public List<Categoria> findAll(String idioma) throws DataException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Categoria> findAll(String idioma) throws SQLException, DataException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<Categoria> categoria=cdao.findAll(c, idioma);
+		
+		return categoria;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override

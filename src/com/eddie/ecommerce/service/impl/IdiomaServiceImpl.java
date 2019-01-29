@@ -10,7 +10,6 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.IdiomaDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.service.IdiomaService;
 
@@ -23,15 +22,44 @@ public class IdiomaServiceImpl implements IdiomaService{
 	}
 	
 	@Override
-	public Idioma findById(String id, String idioma) throws InstanceNotFoundException, DataException {
-		// TODO Auto-generated method stub
-		return null;
+	public Idioma findById(String id, String idioma) throws InstanceNotFoundException, DataException, SQLException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		
+		Idioma i = idao.findById(c, id, idioma);		
+				
+		return i;
+		
+		}catch(DataException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override
-	public List<Idioma> findAll(String idioma) throws DataException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Idioma> findAll(String idioma) throws DataException, SQLException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<Idioma> idiomas=idao.findAll(c, idioma);
+		
+		return idiomas;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override

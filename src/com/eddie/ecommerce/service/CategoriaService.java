@@ -10,10 +10,10 @@ import com.eddie.ecommerce.model.Categoria;
 
 public interface CategoriaService {
 	
-	public Categoria findById(Integer id, String idioma) throws InstanceNotFoundException, DataException;
+	public Categoria findById(Integer id, String idioma) throws SQLException,InstanceNotFoundException, DataException;
 	
 	//listado de Categorias
-	public List<Categoria>  findAll( String idioma) throws DataException;
+	public List<Categoria>  findAll( String idioma) throws SQLException,DataException;
 	
 	public List<Categoria>  findByJuego(Integer idJuego,String idioma) throws DataException,SQLException; 
 

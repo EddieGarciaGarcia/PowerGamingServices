@@ -1,5 +1,6 @@
 package com.eddie.ecommerce.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.eddie.ecommerce.exceptions.DataException;
@@ -10,14 +11,14 @@ import com.eddie.ecommerce.model.LineaPedido;
 public interface LineaPedidoService {
 	
 	//Listado de Lineas de pedido de un Pedido
-	public List<LineaPedido> findByPedido(Integer idPedido)throws DataException;
+	public List<LineaPedido> findByPedido(Integer idPedido)throws DataException,SQLException;
 	
 	//Linea de Pedido de la ecommerce
-	public LineaPedido findById(Integer numeroLinea)throws InstanceNotFoundException, DataException;
+	public LineaPedido findById(Integer numeroLinea)throws SQLException,InstanceNotFoundException, DataException;
 	
 	//Crear Lineas
-	public LineaPedido create(LineaPedido lp) throws DuplicateInstanceException, DataException;
+	public LineaPedido create(LineaPedido lp) throws SQLException,DuplicateInstanceException, DataException;
 	
 	//Cancelar Linea de pedido
-	public long delete(LineaPedido lp) throws DataException;
+	public void delete(LineaPedido lp) throws SQLException,DataException;
 }

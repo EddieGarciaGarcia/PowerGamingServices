@@ -2,7 +2,6 @@ package com.eddie.ecommerce.service.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
@@ -11,6 +10,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.UsuarioDAOImpl;
+import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.MailService;
@@ -75,7 +75,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public long delete(String  email) throws Exception {
+	public long delete(String  email) throws DataException {
 
 	    Connection connection = null;
         boolean commit = false;
@@ -91,7 +91,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             return result;
             
         } catch (SQLException e) {
-            throw new Exception(e);
+            throw new DataException(e);
 
         } finally {
         	JDBCUtils.closeConnection(connection, commit);
@@ -100,7 +100,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Usuario findById(String email) throws Exception {
+	public Usuario findById(String email) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -112,7 +112,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		return u;
 		
-		}catch(SQLException e) {
+		}catch(DataException e) {
 			e.printStackTrace();
 			throw e;
 		}finally {
@@ -121,7 +121,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Usuario login(String email, String password) throws Exception {
+	public Usuario login(String email, String password) throws DataException, SQLException {
 		if(email == null) {
 			return null;
 		}
@@ -143,7 +143,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public List<ItemBiblioteca> findByUsuario(String email) throws Exception {
+	public List<ItemBiblioteca> findByUsuario(String email) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -163,7 +163,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b) throws Exception {
+	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -188,7 +188,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public long borrarJuegoBiblioteca(String email, Integer idJuego) throws Exception {
+	public long borrarJuegoBiblioteca(String email, Integer idJuego) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {

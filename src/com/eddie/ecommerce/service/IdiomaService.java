@@ -10,10 +10,10 @@ import com.eddie.ecommerce.model.Idioma;
 
 public interface IdiomaService {
 	
-	public Idioma findById(String id, String idioma) throws  InstanceNotFoundException, DataException;;
+	public Idioma findById(String id, String idioma) throws  SQLException,InstanceNotFoundException, DataException;;
 	
 	//Listado de idiomas
-	public List<Idioma> findAll( String idioma) throws DataException;
+	public List<Idioma> findAll( String idioma) throws SQLException,DataException;
 	
 	public List<Idioma> findByJuego(Integer idJuego, String idioma) throws DataException,SQLException;
 

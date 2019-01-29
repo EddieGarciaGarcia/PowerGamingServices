@@ -10,6 +10,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.JuegoDAOImpl;
+import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
@@ -26,25 +27,67 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 	
 	@Override
-	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma) throws DataException, SQLException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<Juego> juegos=jdao.findByJuegoCriteria(jc, idioma, c);
+		
+		return juegos;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override
-	public List<Juego> findAllByDate() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Juego> findAllByDate() throws DataException, SQLException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<Juego> juegos=jdao.findAllByDate(c);
+		
+		return juegos;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override
-	public List<Juego> findAllByValoración() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Juego> findAllByValoración() throws DataException, SQLException {
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<Juego> juegos=jdao.findAllByValoración(c);
+		
+		return juegos;
+		
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 	@Override
-	public Juego findById(Integer id,String idioma) throws Exception {
+	public Juego findById(Integer id,String idioma) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -65,7 +108,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public Juego create(Juego j) throws Exception {
+	public Juego create(Juego j) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -87,7 +130,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public boolean update(Juego j) throws Exception {
+	public boolean update(Juego j) throws DataException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -100,7 +143,7 @@ public class JuegoServiceImpl implements JuegoService{
             commit = true;
             
         } catch (SQLException e) {
-            throw new Exception(e);
+            throw new DataException(e);
 
         } finally {
         	JDBCUtils.closeConnection(c, commit);
@@ -109,7 +152,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public void delete(Integer id) throws Exception {
+	public void delete(Integer id) throws DataException {
 		Connection connection = null;
         boolean commit = false;
 
@@ -122,7 +165,7 @@ public class JuegoServiceImpl implements JuegoService{
             jdao.delete(connection, id);          
                        
         } catch (SQLException e) {
-            throw new Exception(e);
+            throw new DataException(e);
 
         } finally {
         	JDBCUtils.closeConnection(connection, commit);
@@ -131,7 +174,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public boolean addComent(ItemBiblioteca it) throws Exception {
+	public boolean addComent(ItemBiblioteca it) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -154,7 +197,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public boolean borrarComent(ItemBiblioteca it) throws Exception {
+	public boolean borrarComent(ItemBiblioteca it) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {

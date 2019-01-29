@@ -4,20 +4,27 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
+import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
 import com.eddie.ecommerce.dao.impl.JuegoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.model.Categoria;
+import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
+import com.eddie.ecommerce.model.Plataforma;
 
 public class JuegoDAOTest {
 	private JuegoDAOImpl daoJ=null;
+	private CategoriaDAOImpl daoC=null;
 	public JuegoDAOTest() {
 		daoJ=new JuegoDAOImpl();
+		daoC=new CategoriaDAOImpl();
 	}
 	
 	public void testfindAllJuego() {
@@ -42,20 +49,33 @@ public class JuegoDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			JuegoCriteria ju=new JuegoCriteria();
+			
+			Categoria ca=new Categoria();
 			Categoria cate=new Categoria();
-			List<Integer> ca=new ArrayList();
-			ca.add(1);
-			ca.add(2);
-			for(int i=0; i<ca.size();i++) {
-				//ju.setCategoria(ca);
-			}
+			List<Categoria> cat=new ArrayList();
+			ca.setIdCategria(3);
+			cat.add(ca);
+			cat.add(cate);
+			
+			List<Idioma>idiomas=new ArrayList();
+			List<Plataforma> plataforma=new ArrayList();
+			
+			ju.setCategoria(cat);
+			ju.setIdioma(idiomas);
+			ju.setPlataforma(plataforma);
 			
 			List<Juego> juegos;
 			juegos =daoJ.findByJuegoCriteria(ju, "ES", c);
-			for(Juego j : juegos){
-			    System.out.println(j.getNombre());
+			for(Juego j:juegos) {
+				for(Categoria categoria: j.getCategoria()) {
+					categoria.getNombre();
+				}
 			}
-			
+			for(int i =0;i<juegos.size();i++) {
+				System.out.println(juegos.get(i).getNombre());
+			}
+				    
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,10 +86,11 @@ public class JuegoDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			Juego juegos;
-			juegos =daoJ.findById(c,5, "ES");
-			System.out.println(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre());
+			juegos =daoJ.findById(c,1, "ES");
+			System.out.println(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -95,7 +116,8 @@ public class JuegoDAOTest {
 			juegos =daoJ.findAllByValoración(c);
 			
 			for(Juego j : juegos){
-			    System.out.println(j.getIdJuego());
+			    System.out.println(j.getIdJuego()+",Fecha "
+			    		+ ""+j.getFechaLanzamiento());
 			}
 			
 		} catch (Exception e) {
@@ -111,7 +133,7 @@ public class JuegoDAOTest {
 			juegos =daoJ.findAllByDate(c);
 			
 			for(Juego j : juegos){
-			    System.out.println(j.getIdJuego());
+			    System.out.println(j.getIdJuego()+","+j.getFechaLanzamiento());
 			}
 			
 		} catch (Exception e) {
@@ -124,7 +146,7 @@ public class JuegoDAOTest {
 	
 	public static void main(String[] args) {
 		JuegoDAOTest test = new JuegoDAOTest();
-		//test.testFindByDate();
+		test.testFindByDate();
 		//test.testfindValoracion();
 		//test.testfindbyCriteria();
 		/*
@@ -138,7 +160,7 @@ public class JuegoDAOTest {
 		}
 		*/
 		//test.testfindAllJuego();
-		test.testfindid();
+		//test.testfindid();
 	}
 
 }

@@ -117,7 +117,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			if(b.getFechaComentario()==null) {
 				pst.setNull(i++, Types.NULL);
 			}else {
-				pst.setDate(i++, new java.sql.Date(b.getFechaComentario().getTime()));
+				pst.setDate(i++, (java.sql.Date) b.getFechaComentario());
 			}
 			
 			

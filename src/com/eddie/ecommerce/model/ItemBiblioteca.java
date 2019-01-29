@@ -62,7 +62,7 @@ public class ItemBiblioteca extends AbstractValueObject implements Comparable<It
 	}
 
 	public void setComentario(String comentario) {
-		comentario = comentario;
+		this.comentario = comentario;
 	}
 
 	@Override

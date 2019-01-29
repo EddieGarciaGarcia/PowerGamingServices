@@ -22,7 +22,7 @@ public class ItemBibliotecaDAOTest {
 			biblio =daoIB.findByUsuario(c, "eddie_garcia@gmail.com");
 			
 			for(ItemBiblioteca ib : biblio){
-			    System.out.println(ib.getIdJuego());
+			    System.out.println(ib.getIdJuego()+","+ib.getFechaComentario());
 			}
 			
 		} catch (Exception e) {
