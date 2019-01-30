@@ -61,7 +61,7 @@ public class MailServiceImpl implements MailService {
 		
 		
 	}
-	public static final String PASSWORD="Hosner1994.";
+	public static final String PASSWORD="";
 	
 
 	
