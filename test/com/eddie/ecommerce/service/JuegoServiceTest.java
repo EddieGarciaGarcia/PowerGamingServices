@@ -149,7 +149,7 @@ public class JuegoServiceTest {
 		}
 		*/
 		//test.testfindAllJuego();
-		//test.testfindid();
+		test.testfindid();
 
 	}
 

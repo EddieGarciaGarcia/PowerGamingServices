@@ -8,7 +8,7 @@ public class ConnectionManager	 {
 
 
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost/powergaming?"
+	static final String DB_URL = "jdbc:mysql://10.53.124.212:3306/powergaming?"
 			+ "useUnicode=true&useJDBCCompliantTimezoneShift=true"
 			+ "&useLegacyDatetimeCode=false&serverTimezone=UTC";
 

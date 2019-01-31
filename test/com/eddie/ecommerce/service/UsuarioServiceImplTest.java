@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
+import com.eddie.ecommerce.model.Direccion;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.impl.UsuarioServiceImpl;
@@ -72,10 +73,10 @@ public class UsuarioServiceImplTest {
 			}
 		
 	}
-	
+	   
 	public void create() {
 		try {
-			Usuario prueba=new Usuario("prueba1","hasd","asda","root","123134241","eddietuenti@gmail.com", new Date(), "has","H", 1);
+			Usuario prueba=new Usuario("prueba1","hasd","asda","root","123134241","eddietuenti@gmail.com", new Date(), "has","H", 11);
 			prueba=daoU.create(prueba);
 			System.out.println(prueba.toString());
 			
@@ -92,8 +93,6 @@ public class UsuarioServiceImplTest {
 	}
 	
 	public void delete() {
-		
-			
 				try {
 					System.out.println(daoU.delete("eddietuenti@gmail.com"));
 				} catch (DataException e) {
@@ -104,12 +103,39 @@ public class UsuarioServiceImplTest {
 	
 	}
 	
+	public void createdireccion() {
+		try {
+			Direccion prueba=new Direccion();
+			prueba.setCalle("avenida del paraiso");
+			prueba.setNumero("34");
+			prueba.setPiso("1A");
+			prueba.setCodigoPostal("25679");
+			prueba.setIdprovincia(23);
+			prueba.setLocalidad("Ordes");
+			prueba=daoU.createDireccion(prueba);
+			System.out.println(prueba.toString());
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DuplicateInstanceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public static void main(String[] args) {
 		UsuarioServiceImplTest test = new UsuarioServiceImplTest();
 		//test.testeServiceBiblio();
 		//test.testeCreateServiceBiblio();
 		//test.testServiceDeleteBiblio();
 		//test.create();
-		test.delete();
+		//test.delete();
+		//test.createdireccion();
+		test.testLogin();
 	}
 }
