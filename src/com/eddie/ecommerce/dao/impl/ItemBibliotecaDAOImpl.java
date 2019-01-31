@@ -48,7 +48,6 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(connection);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
@@ -81,7 +80,6 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(connection);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
@@ -134,7 +132,6 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(connection);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}

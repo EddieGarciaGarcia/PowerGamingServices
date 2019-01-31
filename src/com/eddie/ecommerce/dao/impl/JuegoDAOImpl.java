@@ -122,7 +122,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}finally {
 				JDBCUtils.closeResultSet(rs);
 				JDBCUtils.closeStatement(pst);
-				JDBCUtils.closeConnection(connection);
 		}
 		}
 
@@ -150,7 +149,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
-				JDBCUtils.closeConnection(connection);
 				JDBCUtils.closeResultSet(rs);
 				JDBCUtils.closeStatement(pst);
 			}
@@ -207,7 +205,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
-				JDBCUtils.closeConnection(connection);
 				JDBCUtils.closeResultSet(rs);
 				JDBCUtils.closeStatement(pst);
 			}
@@ -244,7 +241,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
-				JDBCUtils.closeConnection(connection);
 				JDBCUtils.closeResultSet(rs);
 				JDBCUtils.closeStatement(pst);
 			}
@@ -288,7 +284,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
-				JDBCUtils.closeConnection(connection);
 				JDBCUtils.closeResultSet(rs);
 				JDBCUtils.closeStatement(pst);
 			}

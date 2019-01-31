@@ -46,7 +46,6 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(conexion);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
@@ -80,7 +79,6 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(conexion);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
@@ -115,7 +113,6 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(conexion);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}

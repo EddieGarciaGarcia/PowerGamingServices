@@ -13,6 +13,7 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.Utils.PasswordEncryptionUtil;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Direccion;
 import com.eddie.ecommerce.model.Usuario;
 
 public class UsuarioDAOImpl implements UsuarioDAO{
@@ -25,7 +26,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		try {
 			connection=ConnectionManager.getConnection();
 			String sql;
-			sql="Insert Into usuario(email,nombre,apellido1,apellido2,telefono,password, fecha_nacimiento, genero,nombre_user,id_direccion) "
+			sql="Insert Into usuario(email,nombre,apellido1,apellido2,telefono,password, fecha_nacimiento, genero,nombre_user) "
 					+ "values (?,?,?,?,?,?,?,?,?,?)";
 			
 			pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -43,12 +44,11 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			pst.setDate(i++, new java.sql.Date(u.getFechaNacimiento().getTime()));
 			pst.setString(i++, u.getGenero());
 			pst.setString(i++, u.getNombreUser());
-			pst.setInt(i++, u.getDireccion());
 			
 			int insertRow=pst.executeUpdate();
-			
 			if(insertRow == 0) {
 				throw new SQLException(" No se pudo insertar");
+				
 			}
 			
 			return u;
@@ -56,7 +56,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(connection);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
@@ -98,11 +97,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 				first=false;
 			}
 			
-			if (u.getDireccion()!=null) {
-				addUpdate(sqlupdate,first," id_direccion = ?");
-				first=false;
-			}
-			
 			sqlupdate.append("WHERE email = ?");
 			
 			preparedStatement = connection.prepareStatement(sqlupdate.toString());
@@ -121,9 +115,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			
 			if (u.getNombreUser()!=null) 
 				preparedStatement.setString(i++,u.getNombreUser());
-			
-			if (u.getDireccion()!=null) 
-				preparedStatement.setInt(i++,u.getDireccion());
 			
 			preparedStatement.setString(i++, u.getEmail());
 
@@ -182,7 +173,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		try {
 			connection=ConnectionManager.getConnection();
 			String sql;
-			sql="select email,nombre,apellido1,apellido2,telefono,password,fecha_nacimiento,genero,nombre_user,id_direccion from usuario where email=?";
+			sql="select email,nombre,apellido1,apellido2,telefono,password,fecha_nacimiento,genero,nombre_user from usuario where email=?";
 			
 			pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
@@ -201,7 +192,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeConnection(connection);
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
@@ -221,7 +211,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			Date fechaNacimiento=rs.getDate(i++);
 			String genero=rs.getString(i++);
 			String nombreUser=rs.getString(i++);
-			Integer idDireccion=rs.getInt(i++);
 			
 			Usuario u= new Usuario();
 			
@@ -235,14 +224,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			u.setNombreUser(nombreUser);
 			u.setGenero(genero);
 			
-			//u.setDireccion(idDireccion);
 			
-			/*List<Edicion> ediciones = edicionDAO.findByJuego(id);
-			j.setEdiciones(ediciones);
-			*/
 			return u;
-			//Edicion e=EdicionDAO.findById(id);
-			//j.setEdiciones(e);
 		
 	}
 	
