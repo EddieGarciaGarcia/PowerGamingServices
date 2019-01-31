@@ -28,24 +28,24 @@ public class ObjectInstaciationTest {
 		arrayjuegos[0]=juego1;
 		arrayjuegos[1]=juego2;
 		*/
-		Usuario u1=new Usuario("Eddie", "Garcia","Garcia");
-		u1.setFechaNacimiento(new Date(1998,1,1));
-		Usuario u3=new Usuario("Andreas", "Garcia","Garcia");
-		u3.setFechaNacimiento(new Date());
-		//Administrador u2=new Administrador("Jorge","piñe","vice", null, null, null, null, null, null, null, null);
-		u2.setFechaNacimiento(new Date(1990,1,1));
-		
-		List<Usuario> usuarios=new ArrayList<Usuario>();
-		usuarios.add(u1);
-		usuarios.add(u2);
-		usuarios.add(u3);
-		
-		Collections.sort(usuarios, new UsuarioComparator().getInstance());
-		
-		
-		for(Usuario u: usuarios) {
-			System.out.println(u.getNombre());
-		}
+//		Usuario u1=new Usuario("Eddie", "Garcia","Garcia");
+//		u1.setFechaNacimiento(new Date(1998,1,1));
+//		Usuario u3=new Usuario("Andreas", "Garcia","Garcia");
+//		u3.setFechaNacimiento(new Date());
+//		//Administrador u2=new Administrador("Jorge","piñe","vice", null, null, null, null, null, null, null, null);
+//		u2.setFechaNacimiento(new Date(1990,1,1));
+//		
+//		List<Usuario> usuarios=new ArrayList<Usuario>();
+//		usuarios.add(u1);
+//		usuarios.add(u2);
+//		usuarios.add(u3);
+//		
+//		Collections.sort(usuarios, new UsuarioComparator().getInstance());
+//		
+//		
+//		for(Usuario u: usuarios) {
+//			System.out.println(u.getNombre());
+//		}
 		/*
 		Usuario m=null;
 		m=usuarios.get(0);

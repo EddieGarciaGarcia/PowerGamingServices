@@ -10,7 +10,7 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 
 public interface EdicionDAO {
 	
-	public Edicion findByIdEdicion(Connection conexion,Integer id) throws DataException;
+	public Edicion findByIdEdicion(Connection conexion,Integer id) throws InstanceNotFoundException,DataException;
 	
 	public List<Edicion> findByIdJuego(Connection conexion,Integer id) throws DataException;
 	

@@ -14,13 +14,14 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Edicion;
 import com.eddie.ecommerce.model.Juego;
 
 public class EdicionDAOImpl implements EdicionDAO{
 
 	@Override
-	public Edicion findByIdEdicion(Connection conexion,Integer id) throws DataException {
+	public Edicion findByIdEdicion(Connection conexion,Integer id) throws InstanceNotFoundException,DataException {
 		Edicion e=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -36,12 +37,15 @@ public class EdicionDAOImpl implements EdicionDAO{
 			rs=pst.executeQuery();
 			
 			
-			while(rs.next()){
+			if(rs.next()){
 				e=loadNext(rs);
 				
+			}else {
+				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Edicion.class.getName());
 			}
 			return e;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -73,6 +77,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -115,6 +120,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			}
 			return e;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -181,6 +187,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			}     
 			return true;
 		} catch (SQLException se) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(se);    
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);

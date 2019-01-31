@@ -16,5 +16,5 @@ public interface LineaPedidoDAO {
 	
 	public LineaPedido create(Connection conexion,LineaPedido lp) throws DuplicateInstanceException, DataException;
 	
-	public long delete(Connection conexion,LineaPedido lp) throws DataException;
+	public long delete(Connection conexion,Integer id) throws DataException;
 }

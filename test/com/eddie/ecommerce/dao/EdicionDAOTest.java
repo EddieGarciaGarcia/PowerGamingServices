@@ -20,14 +20,30 @@ private EdicionDAOImpl daoE=null;
 		
 	}
 
-		public void testfindAllByEdicion() {
+		public void testfindAllByJuego() {
 			try {
 				Connection c= ConnectionManager.getConnection();
 				List<Edicion> edicion;
-				edicion = daoE.findByIdEdicion(c, 1);
+				edicion = daoE.findByIdJuego(c, 1);
 				for(int i=0;i<edicion.size();i++){
-					System.out.println(edicion.get(i).getPrecio());
+					System.out.println(edicion.get(i).getIdFormato());
 				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public void testfindAllByEdicion() {
+			try {
+				Connection c= ConnectionManager.getConnection();
+				Edicion edicion;
+				edicion = daoE.findByIdEdicion(c, 1);
+	
+					System.out.println(edicion.getIdFormato());
+				
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -41,6 +57,7 @@ private EdicionDAOImpl daoE=null;
 		
 		EdicionDAOTest test = new EdicionDAOTest();
 
+				test.testfindAllByJuego();
 				test.testfindAllByEdicion();
 	}
 

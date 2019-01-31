@@ -14,6 +14,7 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.LineaPedido;
 
 public class LineaPedidoDAOImpl implements LineaPedidoDAO{
@@ -42,6 +43,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			}
 			return lineas;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -68,12 +70,14 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			rs=pst.executeQuery();
 			
 			
-			while(rs.next()){
+			if(rs.next()){
 				lp=loadNext(rs);
-	
+			}else {
+				throw new InstanceNotFoundException("Error "+numeroLinea+" id introducido incorrecto", LineaPedido.class.getName());
 			}
 			return lp;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -108,6 +112,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			
 			return lp;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -117,7 +122,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 	}
 
 	@Override
-	public long delete(Connection conexion,LineaPedido lp) throws DataException {
+	public long delete(Connection conexion,Integer id) throws DataException {
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -128,17 +133,18 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			preparedStatement = conexion.prepareStatement(queryString);
 
 			int i = 1;
-			preparedStatement.setInt(i++, lp.getNumeroLinea());
+			preparedStatement.setInt(i++, id);
 			
 
 			int removedRows = preparedStatement.executeUpdate();
 
 			if (removedRows == 0) {
-				throw new InstanceNotFoundException(lp.getNumeroLinea(),"No se elimino el pedido correctamente");
+				throw new InstanceNotFoundException(id,"No se elimino el pedido correctamente");
 			} 
 
 			return removedRows;
 		} catch (SQLException e) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);

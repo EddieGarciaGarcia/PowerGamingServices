@@ -117,6 +117,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				return juegos;
 				}catch (SQLException e) {
+					System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 					throw new DataException(e);
 				}finally {
 				JDBCUtils.closeResultSet(rs);
@@ -146,6 +147,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				return juegos;
 			}catch (SQLException ex) {
+				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeConnection(connection);
@@ -182,6 +184,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				if(rs.next()){
 					j=loadNext(rs);
+				}else {
+					throw new InstanceNotFoundException("Error "+idJuego+" id introducido incorrecto", Juego.class.getName());
 				}
 				
 				List<Categoria> categoria = categoriaServicio.findByJuego(idJuego,idioma);
@@ -200,6 +204,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				return j;
 			}catch (SQLException ex) {
+				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeConnection(connection);
@@ -236,6 +241,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				return juegos;
 			}catch (SQLException ex) {
+				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeConnection(connection);
@@ -279,6 +285,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				return j;
 			}catch (SQLException ex) {
+				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeConnection(connection);

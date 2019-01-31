@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.TipoEdicion;
 
 public class TipoEdicionDAOImpl implements TipoEdicionDAO{
@@ -41,11 +42,11 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 				te=loadNext(rs);
 				
 			}else {
-				throw new InstanceNotFoundException(i, sql);
+				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", TipoEdicionDAOImpl.class.getName());
 			}
-			
 			return te;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(connection);
@@ -80,6 +81,7 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);

@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Plataforma;
 
@@ -35,12 +36,15 @@ public class PlataformaDAOImpl implements PlataformaDAO{
 		rs=pst.executeQuery();
 		
 		
-		while(rs.next()){
+		if(rs.next()){
 			p=loadNext(rs);
 			
+		}else {
+			throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Plataforma.class.getName());
 		}
 		return p;
 	}catch (SQLException ex) {
+		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeConnection(conexion);
@@ -70,6 +74,7 @@ public class PlataformaDAOImpl implements PlataformaDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -113,6 +118,7 @@ public class PlataformaDAOImpl implements PlataformaDAO{
 			return plataformas;
 	
 			} catch (SQLException e) {
+				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(e);
 			} finally {
 				JDBCUtils.closeResultSet(rs);

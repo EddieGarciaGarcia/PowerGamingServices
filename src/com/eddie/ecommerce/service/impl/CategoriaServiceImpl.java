@@ -31,12 +31,13 @@ public class CategoriaServiceImpl implements CategoriaService{
 		c.setAutoCommit(false);
 		
 		
+		
 		Categoria cate = cdao.findById(c, id, idioma);		
-				
+		
 		return cate;
 		
 		}catch(DataException e) {
-			e.printStackTrace();
+			System.out.println("No existe tal categooria");
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);

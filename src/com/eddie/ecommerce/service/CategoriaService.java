@@ -15,6 +15,7 @@ public interface CategoriaService {
 	//listado de Categorias
 	public List<Categoria>  findAll( String idioma) throws SQLException,DataException;
 	
+	//listado de Categorias para cuando se enseñe el juego
 	public List<Categoria>  findByJuego(Integer idJuego,String idioma) throws DataException,SQLException; 
 
 }

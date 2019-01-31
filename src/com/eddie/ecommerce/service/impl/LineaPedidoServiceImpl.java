@@ -89,7 +89,7 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 	}
 
 	@Override
-	public void delete(LineaPedido lp) throws DataException {
+	public void delete(Integer id) throws DataException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -98,7 +98,7 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 
             c.setAutoCommit(false);
 
-            lpdao.delete(c,lp);
+            lpdao.delete(c,id);
             commit = true;
             
         } catch (SQLException ed) {

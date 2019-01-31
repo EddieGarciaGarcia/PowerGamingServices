@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Creador;
 
 public class CreadorDAOImpl implements CreadorDAO{
@@ -34,12 +35,15 @@ public class CreadorDAOImpl implements CreadorDAO{
 		rs=pst.executeQuery();
 		
 		
-		while(rs.next()){
+		if(rs.next()){
 			c=loadNext(rs);
 			
+		}else {
+			throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Creador.class.getName());
 		}
 		return c;
 	}catch (SQLException ex) {
+		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeConnection(conexion);
@@ -69,6 +73,7 @@ public class CreadorDAOImpl implements CreadorDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);

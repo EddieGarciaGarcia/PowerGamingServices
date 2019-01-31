@@ -15,6 +15,7 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Pedido;
 
 public class PedidoDAOImpl implements PedidoDAO{
@@ -43,6 +44,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 			}
 			return pedidos;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -69,12 +71,16 @@ public class PedidoDAOImpl implements PedidoDAO{
 			rs=pst.executeQuery();
 			
 			
-			while(rs.next()){
+			if(rs.next()){
 				p=loadNext(rs);
 	
 			}
+			else {
+				throw new InstanceNotFoundException("Error "+idPedido+" id introducido incorrecto", Pedido.class.getName());
+			}
 			return p;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -109,6 +115,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 			
 			return p;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -141,6 +148,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 
 
 		} catch (SQLException e) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);

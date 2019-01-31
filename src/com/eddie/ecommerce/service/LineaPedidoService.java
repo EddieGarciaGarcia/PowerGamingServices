@@ -20,5 +20,5 @@ public interface LineaPedidoService {
 	public LineaPedido create(LineaPedido lp) throws SQLException,DuplicateInstanceException, DataException;
 	
 	//Cancelar Linea de pedido
-	public void delete(LineaPedido lp) throws SQLException,DataException;
+	public void delete(Integer id) throws SQLException,DataException;
 }

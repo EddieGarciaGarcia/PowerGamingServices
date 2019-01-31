@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Direccion;
 
 
@@ -34,11 +35,14 @@ public class DireccionDAOImpl implements DireccionDAO{
 			pst.setInt(i++, id);	
 			rs=pst.executeQuery();
 			
-			while(rs.next()){
+			if(rs.next()){
 				d=loadNext(rs);
+			}else {
+				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Direccion.class.getName());
 			}
 			return d;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -75,6 +79,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			
 			return d;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -155,6 +160,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			}     
 			return true;
 		} catch (SQLException e) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(e);    
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -183,6 +189,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			
 
 		} catch (SQLException e) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);

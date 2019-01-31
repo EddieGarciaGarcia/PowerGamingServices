@@ -35,12 +35,16 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		rs=pst.executeQuery();
 		
 		
-		while(rs.next()){
+		if(rs.next()){
 			idi=loadNext(rs);
 			
 		}
+		else {
+			throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Idioma.class.getName());
+		}
 		return idi;
 	}catch (SQLException ex) {
+		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeConnection(conexion);
@@ -73,6 +77,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			}
 			return idiomas;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -119,6 +124,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			return idiomas;
 	
 			} catch (SQLException e) {
+				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(e);
 			} finally {
 				JDBCUtils.closeResultSet(rs);

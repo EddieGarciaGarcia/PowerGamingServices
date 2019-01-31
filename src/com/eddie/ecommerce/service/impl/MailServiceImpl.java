@@ -15,7 +15,7 @@ public class MailServiceImpl implements MailService {
 		Email email = new SimpleEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(465);
-		email.setAuthenticator(new DefaultAuthenticator("eddietuenti@gmail.com", PASSWORD));
+		email.setAuthenticator(new DefaultAuthenticator("powergaming2019@gmail.com", PASSWORD));
 		email.setSSLOnConnect(true);
 		
 		email.setSubject(subject);
@@ -29,41 +29,10 @@ public class MailServiceImpl implements MailService {
 			
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-	public static final String PASSWORD="";
+	public static final String PASSWORD="eddiegg1";
 	
 
-	
 	
 }

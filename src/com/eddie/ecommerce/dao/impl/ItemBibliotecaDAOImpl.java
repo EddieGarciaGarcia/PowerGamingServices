@@ -45,6 +45,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			}
 			return biblioteca;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(connection);
@@ -77,6 +78,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			}
 			return biblioteca;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(connection);
@@ -129,6 +131,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			
 			return b;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(connection);
@@ -164,6 +167,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			return removedRows;
 
 		} catch (SQLException e) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -226,6 +230,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 				throw new SQLException();
 			}     
 		} catch (SQLException e) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(e);    
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);

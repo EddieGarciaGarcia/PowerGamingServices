@@ -29,7 +29,7 @@ public class PaisDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			List<Pais> pais;
-			pais = pdao.findAllBy(c);
+			pais = pdao.findAll(c);
 			for(int i=0;i<pais.size();i++){
 				System.out.println(pais.get(i).getNombre());
 			}

@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Formato;
 
 public class FormatoDAOImpl implements FormatoDAO{
@@ -36,12 +37,15 @@ public class FormatoDAOImpl implements FormatoDAO{
 			rs=pst.executeQuery();
 			
 			
-			while(rs.next()){
+			if(rs.next()){
 				f=loadNext(rs);
 				
+			}else {
+				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Formato.class.getName());
 			}
 			return f;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -75,6 +79,7 @@ public class FormatoDAOImpl implements FormatoDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);

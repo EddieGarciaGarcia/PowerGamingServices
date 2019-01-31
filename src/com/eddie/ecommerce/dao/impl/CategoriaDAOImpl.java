@@ -36,12 +36,17 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 		rs=pst.executeQuery();
 		
 		
-		while(rs.next()){
+		if(rs.next()){
 			c=loadNext(rs);
 			
+		}else {
+			throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Categoria.class.getName());
 		}
+		
+
 		return c;
 	}catch (SQLException ex) {
+		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeConnection(conexion);
@@ -74,6 +79,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 			}
 			return categorias;
 		}catch (SQLException ex) {
+			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeConnection(conexion);
@@ -119,6 +125,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 			return categorias;
 	
 			} catch (SQLException e) {
+				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
 				throw new DataException(e);
 			} finally {
 				JDBCUtils.closeResultSet(rs);
