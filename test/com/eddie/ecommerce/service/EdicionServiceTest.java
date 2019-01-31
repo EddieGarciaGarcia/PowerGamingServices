@@ -1,7 +1,9 @@
 package com.eddie.ecommerce.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Edicion;
 import com.eddie.ecommerce.service.impl.EdicionServiceImpl;
 
@@ -18,17 +20,20 @@ public class EdicionServiceTest {
 	}
 
 		public void testfindAllByJuego() {
-			try {
+			
 				List<Edicion> edicion;
-				edicion = serviceE.findByIdJuego(1);
-				for(int i=0;i<edicion.size();i++){
-					System.out.println(edicion.get(i).getIdFormato());
+				try {
+					edicion = serviceE.findByIdJuego(1);
+					for(int i=0;i<edicion.size();i++){
+						System.out.println(edicion.get(i).getIdFormato());
+					}
+				} catch (DataException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				
+			
 			
 		}
 		

@@ -1,6 +1,9 @@
 package com.eddie.ecommerce.service;
 
+import java.sql.SQLException;
 import java.util.List;
+
+import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Formato;
 import com.eddie.ecommerce.service.impl.FormatoServiceImpl;
 
@@ -16,29 +19,35 @@ public class FormatoServiceTest {
 	}
 
 		public void testfindByFormato() { 
-			try {
-				Formato edicionesFormato= serviceF.findbyIdFormato(2,"ES");
-				System.out.println(edicionesFormato.getNombre());
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		public void testfindAll() {
-			try {
-
-				List<Formato> edicionesFormato;
-				edicionesFormato = serviceF.findAll("ES");
-				
-				for(Formato f : edicionesFormato){
-				    System.out.println(f.getNombre());
+			
+				Formato edicionesFormato;
+				try {
+					edicionesFormato = serviceF.findbyIdFormato(2,"ES");
+					System.out.println(edicionesFormato.getNombre());
+				} catch (DataException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				
+			
+		}
+		public void testfindAll() {
+			
+
+				List<Formato> edicionesFormato;
+				try {
+					edicionesFormato = serviceF.findAll("ES");
+					for(Formato f : edicionesFormato){
+					    System.out.println(f.getNombre());
+					}
+				} catch (DataException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+			
 			
 		}
 	public static void main(String[] args) {

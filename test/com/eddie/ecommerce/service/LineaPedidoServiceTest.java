@@ -18,28 +18,30 @@ public class LineaPedidoServiceTest {
 	}
 
 		public void testfindById() { 
-			try {
-				LineaPedido lp= serviceLP.findById(4);
-				System.out.println(lp.getIdEdicion());
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+				LineaPedido lp;
+				try {
+					lp = serviceLP.findById(4);
+					System.out.println(lp.getIdEdicion());
+				} catch (SQLException | DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 		}
 		public void testfindByPedido() {
-			try {
-				List<LineaPedido> lineapedido;
-				lineapedido = serviceLP.findByPedido(2);
-				for(LineaPedido lp : lineapedido){
-					System.out.println(lp.getIdEdicion()+" "+lp.getPrecio());
-				}
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
+				List<LineaPedido> lineapedido;
+				try {
+					lineapedido = serviceLP.findByPedido(2);
+					for(LineaPedido lp : lineapedido){
+						System.out.println(lp.getIdEdicion()+" "+lp.getPrecio());
+					}
+				} catch (DataException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
 		}
 		
 		public void create() {

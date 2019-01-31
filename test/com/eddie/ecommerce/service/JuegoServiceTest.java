@@ -25,25 +25,24 @@ public class JuegoServiceTest {
 	}
 	
 	public void testfindAllJuego() {
-		try {
-			Connection c= ConnectionManager.getConnection();
-			List<Juego> juegos;
-			juegos =serviceJ.findAllByDate();
-			for(Juego j : juegos){
-			    System.out.println(j.getNombre());
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+			
+			List<Juego> juegos;
+			try {
+				juegos =serviceJ.findAllByDate();
+				for(Juego j : juegos){
+				    System.out.println(j.getNombre());
+				}
+			} catch (DataException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 
 	
 	public void testfindbyCriteria() {
-		try {
+		
 			JuegoCriteria ju=new JuegoCriteria();
 			
 			Categoria ca=new Categoria();
@@ -61,78 +60,78 @@ public class JuegoServiceTest {
 			ju.setPlataforma(plataforma);
 			
 			List<Juego> juegos;
-			juegos =serviceJ.findByJuegoCriteria(ju, "ES");
-			for(Juego j:juegos) {
-				for(Categoria categoria: j.getCategoria()) {
-					categoria.getNombre();
+			try {
+				juegos =serviceJ.findByJuegoCriteria(ju, "ES");
+				for(Juego j:juegos) {
+					for(Categoria categoria: j.getCategoria()) {
+						categoria.getNombre();
+					}
 				}
+				for(int i =0;i<juegos.size();i++) {
+					System.out.println(juegos.get(i).getNombre());
+				}
+			} catch (DataException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			for(int i =0;i<juegos.size();i++) {
-				System.out.println(juegos.get(i).getNombre());
-			}
-				    
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	
 	}
 	public void testfindid() {
-		try {
-			Juego juegos;
-			juegos =serviceJ.findById(1, "ES");
-			System.out.println(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
-		}
 		
+			Juego juegos;
+			try {
+				juegos =serviceJ.findById(1, "ES");
+				System.out.println(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
+				
+			} catch (DataException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 	}
 	
 	public void create() throws DuplicateInstanceException, DataException {
-		try {
-			Juego juegos=new Juego("prueba",new Date(),2);
-			juegos =serviceJ.create(juegos);
-			System.out.println("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
 		
+			Juego juegos=new Juego("prueba",new Date(),2);
+			try {
+				juegos =serviceJ.create(juegos);
+				System.out.println("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 	}
 	
 	public void testfindValoracion() {
-		try {
-			List<Juego> juegos;
-			juegos =serviceJ.findAllByValoración();
-			
-			for(Juego j : juegos){
-			    System.out.println(j.getIdJuego()+",Fecha "
-			    		+ ""+j.getFechaLanzamiento());
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+			List<Juego> juegos;
+			try {
+				juegos =serviceJ.findAllByValoración();
+				for(Juego j : juegos){
+				    System.out.println(j.getIdJuego()+",Fecha "
+				    		+ ""+j.getFechaLanzamiento());
+				}
+			} catch (DataException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 	}
 	public void testFindByDate() {
-		try {
-			List<Juego> juegos;
-			juegos =serviceJ.findAllByDate();
-			
-			for(Juego j : juegos){
-			    System.out.println(j.getIdJuego()+","+j.getFechaLanzamiento());
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+			List<Juego> juegos;
+			try {
+				juegos =serviceJ.findAllByDate();
+				for(Juego j : juegos){
+				    System.out.println(j.getIdJuego()+","+j.getFechaLanzamiento());
+				}
+			} catch (DataException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
 	}
 	public static void main(String[] args) {
 		JuegoServiceTest test = new JuegoServiceTest();

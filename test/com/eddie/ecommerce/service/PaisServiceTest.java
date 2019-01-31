@@ -1,6 +1,9 @@
 package com.eddie.ecommerce.service;
 
+import java.sql.SQLException;
 import java.util.List;
+
+import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Pais;
 import com.eddie.ecommerce.service.impl.PaisServiceImpl;
 
@@ -14,16 +17,18 @@ public class PaisServiceTest {
 	
 
 	public void testfindAll() {
-		try {
+		
 			List<Pais> pais;
-			pais = serviceP.findAll();
-			for(int i=0;i<pais.size();i++){
-				System.out.println(pais.get(i).getNombre());
+			try {
+				pais = serviceP.findAll();
+				for(int i=0;i<pais.size();i++){
+					System.out.println(pais.get(i).getNombre());
+				}
+			} catch (DataException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 	}
 	

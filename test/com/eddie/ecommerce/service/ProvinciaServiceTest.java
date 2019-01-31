@@ -1,8 +1,8 @@
 package com.eddie.ecommerce.service;
 
-import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
+import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Provincia;
 import com.eddie.ecommerce.service.impl.ProvinciaServiceImpl;
 
@@ -15,18 +15,21 @@ public class ProvinciaServiceTest {
 	}
 	
 	public void testfindByIDPais() {
-		try {
-			Connection c= ConnectionManager.getConnection();
+		
+			
 			List<Provincia> provincias;
-			provincias = serviceP.findAllByIdPais(1);
-			for(Provincia p:provincias){
-				System.out.println(p.getIdProvincia()+" "+p.getNombre());
+			try {
+				provincias = serviceP.findAllByIdPais(1);
+				for(Provincia p:provincias){
+					System.out.println(p.getIdProvincia()+" "+p.getNombre());
+				}
+			} catch (DataException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
+		
 		
 	}
 	public static void main(String[] args) {

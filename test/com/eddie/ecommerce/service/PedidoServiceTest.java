@@ -19,27 +19,29 @@ public class PedidoServiceTest {
 	}
 
 		public void testFindById() { 
-			try {
-				Pedido p= serviceP.findByID(2);
-				System.out.println(p.getEmail());
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+				Pedido p;
+				try {
+					p = serviceP.findByID(2);
+					System.out.println(p.getEmail());
+				} catch (DataException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}			
+			
 		}
 		public void testfindEmail() {
-			try {
+			
 				List<Pedido> pedido;
-				pedido = serviceP.findByEmail("corralciclo@gmail.com");
-				for(Pedido p:pedido){
-					System.out.println(p.getFecha_pedido());
-				}
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				try {
+					pedido = serviceP.findByEmail("corralciclo@gmail.com");
+					for(Pedido p:pedido){
+						System.out.println(p.getFecha_pedido());
+					}
+				} catch (SQLException | DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}		
 			
 		}
 		public void create() {

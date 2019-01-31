@@ -21,54 +21,56 @@ public class UsuarioServiceImplTest {
 	
 	
 	public void testeServiceBiblio() {
-		try {
+		
 			List<ItemBiblioteca> biblio;
 			Usuario u =new Usuario();
 			u.setEmail("eddie_garcia@gmail.com");
-			biblio =daoU.findByUsuario(u.getEmail());
-			
-			for(ItemBiblioteca ib : biblio){
-			    System.out.println(ib.getIdJuego());
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				biblio =daoU.findByUsuario(u.getEmail());
+				for(ItemBiblioteca ib : biblio){
+				    System.out.println(ib.getIdJuego());
+				}
+			} catch (SQLException | DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		
 	}
 	public void testeCreateServiceBiblio() {
-		try {
-			
+
 			ItemBiblioteca biblio=new ItemBiblioteca();
 			biblio.setEmail("eddie_garcia@gmail.com");
 			biblio.setIdJuego(5);
 			biblio.setComprado("N");
-			daoU.addJuegoBiblioteca(biblio);
-			
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				daoU.addJuegoBiblioteca(biblio);
+			} catch (SQLException | DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 	}
 	
 	public void testServiceDeleteBiblio() {
-		try {
-			daoU.borrarJuegoBiblioteca("eddietuenti@gmail.com", 5);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+			try {
+				daoU.borrarJuegoBiblioteca("eddietuenti@gmail.com", 5);
+			} catch (SQLException | DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 	}
 	
 	public void testLogin() {
-		try {
-			Usuario u=daoU.login("eddie_garcia@gmail.com", "root");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+			try {
+				Usuario u=daoU.login("eddie_garcia@gmail.com", "root");
+			} catch (SQLException | DataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 	}
 	
 	public void create() {
@@ -91,12 +93,14 @@ public class UsuarioServiceImplTest {
 	
 	public void delete() {
 		
-			try {
-				System.out.println(daoU.delete("eddietuenti@gmail.com"));
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
+				try {
+					System.out.println(daoU.delete("eddietuenti@gmail.com"));
+				} catch (DataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
 	
 	}
 	
