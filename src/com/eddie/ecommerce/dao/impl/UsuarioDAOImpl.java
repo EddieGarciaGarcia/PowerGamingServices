@@ -10,10 +10,9 @@ import java.util.Date;
 import com.eddie.ecommerce.dao.UsuarioDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
+import com.eddie.ecommerce.dao.Utils.PasswordEncryptionUtil;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
-import com.eddie.ecommerce.model.Direccion;
 import com.eddie.ecommerce.model.Usuario;
 
 public class UsuarioDAOImpl implements UsuarioDAO{
@@ -22,6 +21,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	public Usuario create(Usuario u, Connection connection) throws DataException {
 		PreparedStatement pst=null;
 		ResultSet rs=null;
+		
 		try {
 			connection=ConnectionManager.getConnection();
 			String sql;
@@ -39,7 +39,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			pst.setString(i++, u.getApellido1());
 			pst.setString(i++, u.getApellido2());
 			pst.setString(i++, u.getTelefono());
-			pst.setString(i++, u.getPassword());
+			pst.setString(i++, PasswordEncryptionUtil.encryptPassword(u.getPassword()));
 			pst.setDate(i++, new java.sql.Date(u.getFechaNacimiento().getTime()));
 			pst.setString(i++, u.getGenero());
 			pst.setString(i++, u.getNombreUser());
