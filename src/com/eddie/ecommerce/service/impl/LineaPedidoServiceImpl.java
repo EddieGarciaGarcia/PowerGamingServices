@@ -11,8 +11,6 @@ import com.eddie.ecommerce.dao.impl.LineaPedidoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Edicion;
-import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.LineaPedido;
 import com.eddie.ecommerce.service.LineaPedidoService;
 

@@ -12,8 +12,6 @@ import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
-import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Plataforma;
 
 public class PlataformaDAOImpl implements PlataformaDAO{

@@ -13,7 +13,6 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.Utils.PasswordEncryptionUtil;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Direccion;
 import com.eddie.ecommerce.model.Usuario;
 
 public class UsuarioDAOImpl implements UsuarioDAO{

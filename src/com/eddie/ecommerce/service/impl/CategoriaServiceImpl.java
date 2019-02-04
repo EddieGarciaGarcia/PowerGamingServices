@@ -11,7 +11,6 @@ import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Categoria;
-import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.service.CategoriaService;
 
 public class CategoriaServiceImpl implements CategoriaService{

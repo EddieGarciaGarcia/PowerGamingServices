@@ -14,9 +14,7 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Edicion;
-import com.eddie.ecommerce.model.Juego;
 
 public class EdicionDAOImpl implements EdicionDAO{
 
