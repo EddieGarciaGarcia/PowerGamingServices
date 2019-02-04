@@ -55,22 +55,22 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				
 				if(jc.getNombre()!=null) {
-					addClause(strb,first," j.nombre = ?");
+					addClause(strb,first," j.nombre like ? ");
 					first=false;
 				}
 				
 				if(jc.getFechaLanzamiento()!=null) {
-					addClause(strb,first," j.fecha_lanzamiento = ?");
+					addClause(strb,first," j.fecha_lanzamiento = ? ");
 					first=false;
 				}
 			
 				if(jc.getIdCreador()!=null) {
-					addClause(strb,first," c.id_creador = ?");
+					addClause(strb,first," c.id_creador = ? ");
 					first=false;
 				}
 				
 				if(idioma!=null) {
-					addClause(strb,first," jiw.id_idioma_web like ?");
+					addClause(strb,first," jiw.id_idioma_web like ? ");
 					first=false;
 				}
 				
@@ -89,24 +89,25 @@ public class JuegoDAOImpl implements JuegoDAO{
 					first = false;
 				}
 				
-				System.out.println(strb);
+				
 				
 				pst = connection.prepareStatement(strb.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				
 				int i = 1;
 				if(jc.getNombre()!=null) {
-					pst.setString(i++, jc.getNombre());
+					pst.setString(i++, "%" +jc.getNombre()+"%");
 				}
 				if(jc.getFechaLanzamiento()!=null) {
-					pst.setDate(i++, (java.sql.Date) jc.getFechaLanzamiento());
+					pst.setDate(i++, (java.sql.Date) jc.getFechaLanzamiento() );
 				}
 				if(jc.getIdCreador()!=null) {
-					pst.setInt(i++, jc.getIdCreador());
+					pst.setInt(i++, jc.getIdCreador() );
 				}
 				if (idioma!=null) { 
 					pst.setString(i++,idioma);
 				}
 				
+				System.out.println(strb);
 				rs = pst.executeQuery();
 				
 				List<Juego> juegos = new ArrayList<Juego>();
@@ -400,7 +401,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Categoria c : categorias) {
-				lista.append(inner ? " (c.id_categoria LIKE "+c.getIdCategria() : " OR " + c.getIdCategria());
+				lista.append(inner ? " (c.id_categoria = "+c.getIdCategria() : " OR " + c.getIdCategria());
 				inner=false;	
 			}
 			lista.append(" ) ");
@@ -411,7 +412,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Plataforma p : plataforma) {
-				lista.append(inner ? " (n.id_nJugadores LIKE "+p.getIdPlatadorma() : " OR " + p.getIdPlatadorma());
+				lista.append(inner ? " (p.id_plataforma = "+p.getIdPlatadorma() : " OR " + p.getIdPlatadorma());
 				inner=false;	
 			}
 			lista.append(" ) ");
@@ -422,7 +423,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Idioma i : idioma) {
-				lista.append(inner ? " (i.id_idioma LIKE "+ i.getIdIdioma() : " OR " + i.getIdIdioma());
+				lista.append(inner ? " (i.id_idioma LIKE '"+ i.getIdIdioma()+"'" : " OR '" + i.getIdIdioma()+"'");
 				inner=false;	
 			}
 			lista.append(" ) ");
@@ -430,7 +431,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		
 		private void addClause(StringBuilder queryString, boolean first, String clause) {
-			queryString.append(first? "WHERE ": " AND ").append(clause);
+			queryString.append(first? " WHERE ": " AND ").append(clause);
 		}
 		
 		private void addUpdate(StringBuilder queryString, boolean first, String clause) {

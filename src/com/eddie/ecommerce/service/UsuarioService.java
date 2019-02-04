@@ -31,12 +31,12 @@ public interface UsuarioService {
 	//Eliminar de la Biblioteca
 	public long borrarJuegoBiblioteca(String email,Integer idJuego)throws InstanceNotFoundException,SQLException, DataException;
 	
-	public Direccion findById(Integer id) throws SQLException,InstanceNotFoundException, DataException;
+	public Direccion findByIdDireccion(String email) throws SQLException,InstanceNotFoundException, DataException;
 	
 	public Direccion createDireccion(Direccion d) throws SQLException,DuplicateInstanceException, DataException;
 	
 	public boolean updateDireccion(Direccion d) throws SQLException,InstanceNotFoundException, DataException;
 	
-	public void deleteDireccion(Direccion d) throws SQLException,DataException;
+	public void deleteDireccion(String email) throws SQLException,DataException;
 
 }

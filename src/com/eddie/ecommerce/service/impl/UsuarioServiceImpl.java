@@ -219,7 +219,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Direccion findById(Integer id) throws SQLException, InstanceNotFoundException, DataException {
+	public Direccion findByIdDireccion(String email) throws SQLException, InstanceNotFoundException, DataException {
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -227,7 +227,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		c.setAutoCommit(false);
 		
 		
-		Direccion d = ddao.findById(c,id);
+		Direccion d = ddao.findById(c,email);
 		
 		
 		return d;
@@ -286,14 +286,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public void deleteDireccion(Direccion d) throws SQLException, DataException {
+	public void deleteDireccion(String email) throws SQLException, DataException {
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 
-		ddao.delete(c, d);
+		ddao.delete(c, email);
 		
 		commit=true;
 		}catch(SQLException e) {
@@ -304,5 +304,6 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}
 		
 	}
+
 
 }

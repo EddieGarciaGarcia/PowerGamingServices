@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 	
-	private Direccion direccion=null;
 	private String nombre=null;
 	private String apellido1=null;
 	private String apellido2=null;
@@ -21,7 +20,7 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 		
 	}
 	
-	public Usuario(String nombre, String apellido1, String apellido2, String password,String telefono, String email, Date fechaNacimiento,String nombreuser,String genero, Direccion direccion) {
+	public Usuario(String nombre, String apellido1, String apellido2, String password,String telefono, String email, Date fechaNacimiento,String nombreuser,String genero) {
 		setNombre(nombre);
 		setApellido1(apellido1);
 		setApellido2(apellido2);
@@ -31,17 +30,10 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
 		setFechaNacimiento(fechaNacimiento);
 		setNombreUser(nombreuser);
 		setGenero(genero);
-		setDireccion(direccion);
+		
 		
 	}
 	
-
-	public Direccion getDireccion() {
-		return direccion;
-	}
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
 	public String getNombre() {
 		return nombre;
 	}

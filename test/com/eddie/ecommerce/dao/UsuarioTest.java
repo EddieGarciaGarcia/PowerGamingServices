@@ -36,9 +36,9 @@ public class UsuarioTest {
 	public void create() throws DataException {
 		try {
 			Connection c=ConnectionManager.getConnection();
-			Usuario prueba=new Usuario("prueba1","hasd","asda","root","123134241","", new Date(), "has","H", 1);
-			prueba=usuarioDAO.create(prueba,c);
-			System.out.println(prueba.toString());
+			//Usuario prueba=new Usuario("prueba1","","hasd","asda","root","123134241","", new Date(), "has","H");
+			//prueba=usuarioDAO.create(prueba,c);
+			//System.out.println(prueba.toString());
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -49,7 +49,7 @@ public class UsuarioTest {
 	public void update() throws DataException {
 		try {
 			Connection c=ConnectionManager.getConnection();
-			Usuario prueba=new Usuario(null,null,null,null,"546364356","prueba1@gmail.com", null, null,null, null);
+			Usuario prueba=new Usuario(null,null,null,null,"546364356","prueba1@gmail.com", null, null,null);
 			System.out.println(usuarioDAO.update(prueba,c));
 			
 		} catch (SQLException e) {

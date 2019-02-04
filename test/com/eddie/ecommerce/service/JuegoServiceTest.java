@@ -1,11 +1,9 @@
 package com.eddie.ecommerce.service;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.model.Categoria;
@@ -48,13 +46,20 @@ public class JuegoServiceTest {
 			Categoria ca=new Categoria();
 			Categoria cate=new Categoria();
 			List<Categoria> cat=new ArrayList();
-			ca.setIdCategria(3);
-			cat.add(ca);
-			cat.add(cate);
+//			ca.setIdCategria(3);
+//			cat.add(ca);
+		
 			
+			Idioma idiom=new Idioma();
+//			idiom.setIdIdioma("ESP");
 			List<Idioma>idiomas=new ArrayList();
+//			idiomas.add(idiom);
+			Plataforma plataf=new Plataforma();
+//			plataf.setIdPlatadorma(1);
 			List<Plataforma> plataforma=new ArrayList();
+//			plataforma.add(plataf);
 			
+			ju.setNombre("dia");
 			ju.setCategoria(cat);
 			ju.setIdioma(idiomas);
 			ju.setPlataforma(plataforma);
@@ -67,8 +72,8 @@ public class JuegoServiceTest {
 						categoria.getNombre();
 					}
 				}
-				for(int i =0;i<juegos.size();i++) {
-					System.out.println(juegos.get(i).getNombre());
+				for(Juego j:juegos) {
+					System.out.println(j.getNombre());
 				}
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block
@@ -80,7 +85,7 @@ public class JuegoServiceTest {
 		
 			Juego juegos;
 			try {
-				juegos =serviceJ.findById(1, "ES");
+				juegos =serviceJ.findById(12, "ES");
 				System.out.println(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
 				
 			} catch (DataException | SQLException e) {
@@ -135,9 +140,9 @@ public class JuegoServiceTest {
 	}
 	public static void main(String[] args) {
 		JuegoServiceTest test = new JuegoServiceTest();
-		test.testFindByDate();
+		//test.testFindByDate();
 		//test.testfindValoracion();
-		//test.testfindbyCriteria();
+		test.testfindbyCriteria();
 		/*
 		try {
 			
@@ -149,7 +154,7 @@ public class JuegoServiceTest {
 		}
 		*/
 		//test.testfindAllJuego();
-		test.testfindid();
+		//test.testfindid();
 
 	}
 

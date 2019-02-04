@@ -19,26 +19,26 @@ import com.eddie.ecommerce.model.Direccion;
 public class DireccionDAOImpl implements DireccionDAO{
 
 	@Override
-	public Direccion findById(Connection conexion,Integer id) throws InstanceNotFoundException, DataException {
+	public Direccion findById(Connection conexion,String email) throws InstanceNotFoundException, DataException {
 		Direccion d=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
 			conexion=ConnectionManager.getConnection();
 			String sql;
-			sql="select id_direccion,id_provincia,codigo_postal,calle,numero,piso,localidad from direccion where id_direccion=?";
+			sql="select id_direccion,id_provincia,email,codigo_postal,calle,numero,piso,localidad from direccion where email=?";
 			
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
 			//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
-			pst.setInt(i++, id);	
+			pst.setString(i++, email);	
 			rs=pst.executeQuery();
 			
 			if(rs.next()){
 				d=loadNext(rs);
 			}else {
-				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Direccion.class.getName());
+				throw new InstanceNotFoundException("Error "+email+" id introducido incorrecto", Direccion.class.getName());
 			}
 			return d;
 		}catch (SQLException ex) {
@@ -57,7 +57,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 		try {
 			conexion=ConnectionManager.getConnection();
 			String sql;
-			sql="Insert Into direccion(id_provincia,codigo_postal,calle,numero,piso,localidad) "
+			sql="Insert Into direccion(id_provincia,email,codigo_postal,calle,numero,piso,localidad) "
 					+ "values (?,?,?,?,?,?)";
 			
 			pst=conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -127,7 +127,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 				first=false;
 			}
 			
-			sqlupdate.append("WHERE id_direccion = ?");
+			sqlupdate.append("WHERE email = ?");
 			
 			preparedStatement = conexion.prepareStatement(sqlupdate.toString());
 			
@@ -149,7 +149,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			if (d.getLocalidad()!=null) 
 				preparedStatement.setString(i++,d.getLocalidad());
 			
-			preparedStatement.setInt(i++, d.getIdDireccion());
+			preparedStatement.setString(i++, d.getEmail());
 
 			int updatedRows = preparedStatement.executeUpdate();
 
@@ -166,23 +166,23 @@ public class DireccionDAOImpl implements DireccionDAO{
 	}
 
 	@Override
-	public void delete(Connection conexion,Direccion d) throws DataException {
+	public void delete(Connection conexion,String email) throws DataException {
 		PreparedStatement preparedStatement = null;
 
 		try {
 			String queryString =	
 					  "DELETE FROM direccion " 
-					+ "WHERE id_direccion = ? ";
+					+ "WHERE email = ? ";
 			
 			preparedStatement = conexion.prepareStatement(queryString);
 
 			int i = 1;
-			preparedStatement.setInt(i++, d.getIdDireccion());
+			preparedStatement.setString(i++, email);
 
 			int removedRows = preparedStatement.executeUpdate();
 
 			if (removedRows == 0) {
-				throw new InstanceNotFoundException(d.getIdDireccion(), "fallo al eliminar direccion");
+				throw new InstanceNotFoundException(email, "fallo al eliminar direccion");
 			} 
 			
 
@@ -199,6 +199,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			throws SQLException,DataException{
 				int i=1;
 				Integer idDireccion  = rs.getInt(i++);
+				String email=rs.getString(i++);
 				Integer idProvincia = rs.getInt(i++);
 				String codigoPostal=rs.getString(i++);
 				String calle=rs.getString(i++);
@@ -208,6 +209,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 				
 				Direccion d= new Direccion();
 				d.setIdDireccion(idDireccion);
+				d.setEmail(email);
 				d.setIdprovincia(idProvincia);
 				d.setCodigoPostal(codigoPostal);
 				d.setCalle(calle);

@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class ConnectionManager	 {
 
-
+	//IP clase:10.53.124.212:3306
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://10.53.124.212:3306/powergaming?"
+	static final String DB_URL = "jdbc:mysql://localhost/powergaming?"
 			+ "useUnicode=true&useJDBCCompliantTimezoneShift=true"
 			+ "&useLegacyDatetimeCode=false&serverTimezone=UTC";
 

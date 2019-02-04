@@ -3,6 +3,7 @@ package com.eddie.ecommerce.model;
 public class Direccion implements ValueObject{
 	private Integer idDireccion=null;
 	private String calle=null;
+	private String email=null;
 	private String piso=null;
 	private String numero=null;
 	private String codigoPostal=null;
@@ -14,7 +15,13 @@ public class Direccion implements ValueObject{
 		
 	}
 	
-	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public Integer getIdDireccion() {
 		return idDireccion;
 	}
@@ -23,7 +30,6 @@ public class Direccion implements ValueObject{
 	public void setIdDireccion(Integer idDireccion) {
 		this.idDireccion = idDireccion;
 	}
-
 
 	public String getCalle() {
 		return calle;
