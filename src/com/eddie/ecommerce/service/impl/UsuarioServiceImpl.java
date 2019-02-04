@@ -21,7 +21,6 @@ import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.MailService;
 import com.eddie.ecommerce.service.UsuarioService;
 
-
 public class UsuarioServiceImpl implements UsuarioService{
 
 	private UsuarioDAO udao=null;
@@ -304,6 +303,5 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}
 		
 	}
-
 
 }
