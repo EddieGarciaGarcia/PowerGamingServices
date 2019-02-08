@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.EdicionDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -18,8 +21,15 @@ import com.eddie.ecommerce.model.Edicion;
 
 public class EdicionDAOImpl implements EdicionDAO{
 
+	private static Logger logger=LogManager.getLogger(EdicionDAOImpl.class);
+	
 	@Override
 	public Edicion findByIdEdicion(Connection conexion,Integer id) throws InstanceNotFoundException,DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id = "+id);
+		}
+		
 		Edicion e=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -33,7 +43,8 @@ public class EdicionDAOImpl implements EdicionDAO{
 			int i=1;
 			pst.setInt(i++, id);	
 			rs=pst.executeQuery();
-			
+
+			logger.debug(sql);
 			
 			if(rs.next()){
 				e=loadNext(rs);
@@ -43,7 +54,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			}
 			return e;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -53,6 +64,11 @@ public class EdicionDAOImpl implements EdicionDAO{
 	
 	@Override
 	public List<Edicion> findByIdJuego(Connection conexion, Integer id) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id = "+id);
+		}
+		
 		Edicion e=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -62,6 +78,8 @@ public class EdicionDAOImpl implements EdicionDAO{
 			sql="select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?";
 
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			
+			logger.debug(sql);
 			
 			int i=1;
 			pst.setInt(i++, id);	
@@ -74,7 +92,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -84,6 +102,11 @@ public class EdicionDAOImpl implements EdicionDAO{
 	
 	@Override
 	public Edicion create(Connection conexion,Edicion e) throws DuplicateInstanceException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("e = "+e.toString());
+		}
+		
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
@@ -100,7 +123,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			pst.setInt(i++, e.getIdTipoEdicion());
 			pst.setDouble(i++, e.getPrecio());
 
-
+			logger.debug(sql);
 			
 			int insertRow=pst.executeUpdate();
 			
@@ -116,7 +139,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			}
 			return e;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -126,6 +149,11 @@ public class EdicionDAOImpl implements EdicionDAO{
 
 	@Override
 	public boolean update(Connection conexion,Edicion e) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("e = "+e.toString());
+		}
+		
 		PreparedStatement preparedStatement = null;
 		conexion=null;
 		StringBuilder sqlupdate;
@@ -136,22 +164,22 @@ public class EdicionDAOImpl implements EdicionDAO{
 			boolean first = true;
 			
 			if (e.getIdJuego()!=null) {
-				addUpdate(sqlupdate,first," id_juego = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," id_juego = ?");
 				first=false;
 			}
 			
 			if (e.getIdFormato()!=null) {
-				addUpdate(sqlupdate,first," id_formato = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," id_formato = ?");
 				first=false;
 			}
 			
 			if (e.getIdTipoEdicion()!=null) {
-				addUpdate(sqlupdate,first," id_tipo_edicion = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," id_tipo_edicion = ?");
 				first=false;
 			}
 			
 			if (e.getPrecio()!=null) {
-				addUpdate(sqlupdate,first," precio = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," precio = ?");
 				first=false;
 			}
 					
@@ -172,6 +200,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			if (e.getPrecio()!=null) 
 				preparedStatement.setDouble(i++,e.getPrecio());
 			
+			logger.debug(sqlupdate);
 			
 			preparedStatement.setInt(i++, e.getId());
 
@@ -182,7 +211,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 			}     
 			return true;
 		} catch (SQLException se) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(se.getMessage(),se);
 			throw new DataException(se);    
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -208,14 +237,5 @@ public class EdicionDAOImpl implements EdicionDAO{
 		return e;
 
 	}
-
-	private void addClause(StringBuilder queryString, boolean first, String clause) {
-		queryString.append(first? "WHERE ": " AND ").append(clause);
-	}
-	
-	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-		queryString.append(first? " SET ": " , ").append(clause);
-	}
-
 	
 }

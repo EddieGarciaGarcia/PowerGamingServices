@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.PaisDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -13,6 +16,8 @@ import com.eddie.ecommerce.model.Pais;
 import com.eddie.ecommerce.service.PaisService;
 
 public class PaisServiceImpl implements PaisService{
+	
+	private static Logger logger=LogManager.getLogger(PaisServiceImpl.class);
 	
 	 PaisDAO pdao=null;
 	 
@@ -32,7 +37,7 @@ public class PaisServiceImpl implements PaisService{
 		return pais;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);

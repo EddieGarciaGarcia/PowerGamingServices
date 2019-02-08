@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
 import com.eddie.ecommerce.dao.JuegoDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
@@ -18,6 +21,8 @@ import com.eddie.ecommerce.service.JuegoService;
 
 public class JuegoServiceImpl implements JuegoService{
 
+	private static Logger logger=LogManager.getLogger(JuegoServiceImpl.class);
+	
 	private JuegoDAO jdao=null;
 	private ItemBibliotecaDAO ibDao=null;
 	
@@ -28,6 +33,11 @@ public class JuegoServiceImpl implements JuegoService{
 	
 	@Override
 	public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Juego Criteria = "+jc.toString()+" , idioma = "+idioma);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -39,7 +49,7 @@ public class JuegoServiceImpl implements JuegoService{
 		return juegos;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -59,7 +69,7 @@ public class JuegoServiceImpl implements JuegoService{
 		return juegos;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -79,7 +89,7 @@ public class JuegoServiceImpl implements JuegoService{
 		return juegos;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -88,6 +98,11 @@ public class JuegoServiceImpl implements JuegoService{
 
 	@Override
 	public Juego findById(Integer id,String idioma) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id+" , idioma = "+idioma);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -100,7 +115,7 @@ public class JuegoServiceImpl implements JuegoService{
 		return j;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -109,6 +124,11 @@ public class JuegoServiceImpl implements JuegoService{
 
 	@Override
 	public Juego create(Juego j) throws DataException, SQLException {
+
+		if(logger.isDebugEnabled()) {
+			logger.debug("Juego = "+j.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -122,7 +142,7 @@ public class JuegoServiceImpl implements JuegoService{
 		return j;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -131,6 +151,11 @@ public class JuegoServiceImpl implements JuegoService{
 
 	@Override
 	public boolean update(Juego j) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Juego = "+j.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -143,6 +168,7 @@ public class JuegoServiceImpl implements JuegoService{
             commit = true;
             
         } catch (SQLException e) {
+        	logger.error(e.getMessage(),e);
             throw new DataException(e);
 
         } finally {
@@ -153,6 +179,11 @@ public class JuegoServiceImpl implements JuegoService{
 
 	@Override
 	public void delete(Integer id) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id = "+id);
+		}
+		
 		Connection connection = null;
         boolean commit = false;
 
@@ -165,6 +196,7 @@ public class JuegoServiceImpl implements JuegoService{
             jdao.delete(connection, id);          
                        
         } catch (SQLException e) {
+        	logger.error(e.getMessage(),e);
             throw new DataException(e);
 
         } finally {
@@ -175,6 +207,11 @@ public class JuegoServiceImpl implements JuegoService{
 
 	@Override
 	public boolean addComent(ItemBiblioteca it) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("ItemBiblioteca = "+it.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -188,7 +225,7 @@ public class JuegoServiceImpl implements JuegoService{
 		commit=true;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -198,6 +235,11 @@ public class JuegoServiceImpl implements JuegoService{
 
 	@Override
 	public boolean borrarComent(ItemBiblioteca it) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("ItemBiblioteca = "+it.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -213,7 +255,7 @@ public class JuegoServiceImpl implements JuegoService{
 		commit=true;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);

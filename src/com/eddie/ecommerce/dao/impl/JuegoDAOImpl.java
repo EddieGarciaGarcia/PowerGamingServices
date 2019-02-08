@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.JuegoDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
@@ -30,14 +32,21 @@ import com.eddie.ecommerce.service.impl.PlataformaServiceImpl;
 
 
 public class JuegoDAOImpl implements JuegoDAO{
-	
+		
+		private static Logger logger=LogManager.getLogger(JuegoDAOImpl.class);
 
 		public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, Connection connection) throws DataException {
+			
+			if(logger.isDebugEnabled()) {
+				logger.debug("JuegoCriteria = "+jc.toString()+" ,idioma = "+idioma);
+			}
+			
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 			StringBuilder strb=null;
 			try {
-				strb=new StringBuilder("select j.id_juego, j.nombre, j.fecha_lanzamiento, j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego" );
+				
+				strb=new StringBuilder("select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego" );
 				
 				boolean first=true;
 				
@@ -55,41 +64,39 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				
 				if(jc.getNombre()!=null) {
-					addClause(strb,first," j.nombre like ? ");
+					JDBCUtils.addClause(strb,first," j.nombre like ? ");
 					first=false;
 				}
 				
 				if(jc.getFechaLanzamiento()!=null) {
-					addClause(strb,first," j.fecha_lanzamiento = ? ");
+					JDBCUtils.addClause(strb,first," YEAR(j.fecha_lanzamiento) = ? ");
 					first=false;
 				}
 			
 				if(jc.getIdCreador()!=null) {
-					addClause(strb,first," c.id_creador = ? ");
+					JDBCUtils.addClause(strb,first," c.id_creador = ? ");
 					first=false;
 				}
 				
 				if(idioma!=null) {
-					addClause(strb,first," jiw.id_idioma_web like ? ");
+					JDBCUtils.addClause(strb,first," jiw.id_idioma_web like ? ");
 					first=false;
 				}
 				
 				if (!jc.getCategoria().isEmpty()) {
-					addClause(strb, first,addCategoria(jc.getCategoria()).toString());	
+					JDBCUtils.addClause(strb, first,addCategoria(jc.getCategoria()).toString());	
 					first = false;
 				}
 				
 				if (!jc.getIdioma().isEmpty()) {
-					addClause(strb, first,addIdioma(jc.getIdioma()).toString());	
+					JDBCUtils.addClause(strb, first,addIdioma(jc.getIdioma()).toString());	
 					first = false;
 				}
 				
 				if (!jc.getPlataforma().isEmpty()) {
-					addClause(strb, first,addPlataforma(jc.getPlataforma()).toString());	
+					JDBCUtils.addClause(strb, first,addPlataforma(jc.getPlataforma()).toString());	
 					first = false;
 				}
-				
-				
 				
 				pst = connection.prepareStatement(strb.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				
@@ -107,7 +114,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 					pst.setString(i++,idioma);
 				}
 				
-				System.out.println(strb);
+				logger.debug(strb);
+			
 				rs = pst.executeQuery();
 				
 				List<Juego> juegos = new ArrayList<Juego>();
@@ -118,7 +126,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				return juegos;
 				}catch (SQLException e) {
-					System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+					logger.error(e.getMessage(),e);
 					throw new DataException(e);
 				}finally {
 				JDBCUtils.closeResultSet(rs);
@@ -127,6 +135,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 
 		public List<Juego> findAllByDate(Connection connection) throws DataException{
+			
 				Juego j=null;
 				PreparedStatement pst=null;
 				ResultSet rs=null;
@@ -134,6 +143,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 				connection=ConnectionManager.getConnection();
 				String sql;
 				sql="select id_juego, nombre,fecha_lanzamiento, id_creador from juego order by fecha_lanzamiento desc  ";
+				
+				logger.debug(sql);
 				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
@@ -147,7 +158,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				return juegos;
 			}catch (SQLException ex) {
-				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+				logger.error(ex.getMessage(),ex);
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeResultSet(rs);
@@ -157,8 +168,13 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 		}
 		
-		public Juego findById(Connection connection,Integer idJuego,String idioma) 
-			throws InstanceNotFoundException, DataException{
+		public Juego findById(Connection connection,Integer idJuego,String idioma) throws InstanceNotFoundException, DataException{
+			
+			if(logger.isDebugEnabled()) {
+				logger.debug("Id= "+idJuego+" , idioma= "+idioma);
+			}
+			
+			
 			Juego j=null;
 			 connection=null;
 			PreparedStatement pst=null;
@@ -180,6 +196,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 				pst.setInt(i++, idJuego);
 				pst.setString(i++, idioma);
 				rs=pst.executeQuery();
+				
+				logger.debug(sql);
 				
 				if(rs.next()){
 					j=loadNext(rs);
@@ -203,7 +221,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				return j;
 			}catch (SQLException ex) {
-				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+				logger.error(ex.getMessage(),ex);
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeResultSet(rs);
@@ -226,6 +244,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 						"group by j.nombre\r\n" + 
 						"order by avg(uj.puntuacion) desc";
 				
+				logger.debug(sql);
+				
 				pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 
 				rs=pst.executeQuery();
@@ -239,7 +259,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				return juegos;
 			}catch (SQLException ex) {
-				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+				logger.error(ex.getMessage(),ex);
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeResultSet(rs);
@@ -247,8 +267,12 @@ public class JuegoDAOImpl implements JuegoDAO{
 			}
 		}
 		
-		public Juego create(Connection connection,Juego j) 
-			throws DuplicateInstanceException, DataException{
+		public Juego create(Connection connection,Juego j) throws DuplicateInstanceException, DataException{
+			
+			if(logger.isDebugEnabled()) {
+				logger.debug("Juego = "+j.toString());
+			}
+			
 			connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
@@ -264,6 +288,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 				pst.setDate(i++, (java.sql.Date) j.getFechaLanzamiento());			
 				pst.setInt(i++, j.getIdCreador());
 				
+				
+				logger.debug(sql);
 				
 				int insertRow=pst.executeUpdate();
 				
@@ -282,7 +308,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				return j;
 			}catch (SQLException ex) {
-				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+				logger.error(ex.getMessage(),ex);
 				throw new DataException(ex);
 			}finally{
 				JDBCUtils.closeResultSet(rs);
@@ -291,6 +317,10 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 		}
 		public boolean update(Connection connection,Juego j) throws InstanceNotFoundException, DataException{
+			
+			if(logger.isDebugEnabled()) {
+				logger.debug("Juego = "+j.toString());
+			}
 			
 			PreparedStatement preparedStatement = null;
 			connection=null;
@@ -302,21 +332,23 @@ public class JuegoDAOImpl implements JuegoDAO{
 				boolean first = true;
 				
 				if (j.getNombre()!=null) {
-					addUpdate(sqlupdate,first," nombre = ?");
+					JDBCUtils.addUpdate(sqlupdate,first," nombre = ?");
 					first=false;
 				}
 				
 				if (j.getFechaLanzamiento()!=null) {
-					addUpdate(sqlupdate,first," FECHA_LANZAMIENTO = ?");
+					JDBCUtils.addUpdate(sqlupdate,first," FECHA_LANZAMIENTO = ?");
 					first=false;
 				}
 						
 				if (j.getIdCreador()!=null) {
-					addUpdate(sqlupdate,first," ID_CREADOR = ?");
+					JDBCUtils.addUpdate(sqlupdate,first," ID_CREADOR = ?");
 					first=false;
 				}
 				
 				sqlupdate.append("WHERE id_juego = ?");
+				
+				logger.debug(sqlupdate);
 				
 				preparedStatement = connection.prepareStatement(sqlupdate.toString());
 				
@@ -341,6 +373,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}     
 				return true;
 			} catch (SQLException e) {
+				logger.error(e.getMessage(),e);
 				throw new DataException(e);    
 			} finally {
 				JDBCUtils.closeStatement(preparedStatement);
@@ -350,6 +383,11 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 
 		public void delete(Connection connection,Integer id) throws DataException {
+			
+			if(logger.isDebugEnabled()) {
+				logger.debug("Id= "+id);
+			}
+			
 			PreparedStatement preparedStatement = null;
 
 			try {
@@ -357,7 +395,9 @@ public class JuegoDAOImpl implements JuegoDAO{
 						  "DELETE FROM Juego WHERE id_juego = ? ";
 				
 				preparedStatement = connection.prepareStatement(queryString);
-
+				
+				logger.debug(queryString);
+				
 				int i = 1;
 				preparedStatement.setInt(i++, id);
 
@@ -369,6 +409,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 	
 
 			} catch (SQLException e) {
+				logger.error(e.getMessage(),e);
 				throw new DataException(e);
 			} finally {
 				JDBCUtils.closeStatement(preparedStatement);
@@ -397,7 +438,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		
 		private StringBuilder addCategoria(List<Categoria> categorias) {
-			//Creamos la query en base al número de categorias que haya marcado el usuario
+		
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Categoria c : categorias) {
@@ -408,7 +449,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			return lista;
 		}
 		private StringBuilder addPlataforma(List<Plataforma> plataforma) {
-			//Creamos la query en base plataforma que haya marcado el usuario
+		
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Plataforma p : plataforma) {
@@ -419,7 +460,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			return lista;
 		}
 		private StringBuilder addIdioma(List<Idioma> idioma) {
-			//Creamos la query en base al número de idioma que haya marcado el usuario
+			
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Idioma i : idioma) {
@@ -430,11 +471,5 @@ public class JuegoDAOImpl implements JuegoDAO{
 			return lista;
 		}
 		
-		private void addClause(StringBuilder queryString, boolean first, String clause) {
-			queryString.append(first? " WHERE ": " AND ").append(clause);
-		}
 		
-		private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-			queryString.append(first? " SET ": " , ").append(clause);
-		}
 }

@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.PedidoDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -18,9 +21,16 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Pedido;
 
 public class PedidoDAOImpl implements PedidoDAO{
+	
+	private static Logger logger=LogManager.getLogger(PedidoDAOImpl.class);
 
 	@Override
 	public List<Pedido> findByEmail(Connection conexion,String email) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		Pedido p=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -36,6 +46,8 @@ public class PedidoDAOImpl implements PedidoDAO{
 			pst.setString(i++, email);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			List<Pedido> pedidos = new ArrayList<Pedido>();
 			while(rs.next()){
 				p=loadNext(rs);
@@ -43,7 +55,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 			}
 			return pedidos;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -53,6 +65,11 @@ public class PedidoDAOImpl implements PedidoDAO{
 
 	@Override
 	public Pedido findByID(Connection conexion,Integer idPedido) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id = "+idPedido);
+		}
+		
 		Pedido p=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -68,6 +85,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 			pst.setInt(i++, idPedido);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
 			
 			if(rs.next()){
 				p=loadNext(rs);
@@ -78,7 +96,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 			}
 			return p;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -88,6 +106,11 @@ public class PedidoDAOImpl implements PedidoDAO{
 
 	@Override
 	public Pedido create(Connection conexion,Pedido p) throws DuplicateInstanceException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Pedido = "+p.toString());
+		}
+		
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
@@ -104,6 +127,8 @@ public class PedidoDAOImpl implements PedidoDAO{
 			pst.setDouble(i++, p.getTotal());
 			pst.setDate(i++, new java.sql.Date(p.getFecha_pedido().getTime()));
 		
+			logger.debug(sql);
+			
 			int insertRow=pst.executeUpdate();
 			
 			if(insertRow == 0) {
@@ -112,7 +137,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 			
 			return p;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -123,6 +148,11 @@ public class PedidoDAOImpl implements PedidoDAO{
 	
 	@Override
 	public void delete(Connection conexion,Integer idPedido) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id = "+idPedido);
+		}
+		
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -135,7 +165,8 @@ public class PedidoDAOImpl implements PedidoDAO{
 			int i = 1;
 			preparedStatement.setInt(i++, idPedido);
 			
-
+			logger.debug(queryString);
+			
 			int removedRows = preparedStatement.executeUpdate();
 
 			if (removedRows == 0) {
@@ -144,7 +175,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 
 
 		} catch (SQLException e) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(e.getMessage(),e);
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -174,8 +205,4 @@ public class PedidoDAOImpl implements PedidoDAO{
 			
 		}
 		
-		
-		private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-			queryString.append(first? " SET ": " , ").append(clause);
-		}
 }

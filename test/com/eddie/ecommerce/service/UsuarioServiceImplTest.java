@@ -3,6 +3,8 @@ package com.eddie.ecommerce.service;
 
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import com.eddie.ecommerce.exceptions.DataException;
@@ -76,9 +78,20 @@ public class UsuarioServiceImplTest {
 	   
 	public void create() {
 		try {
-			Usuario prueba=new Usuario("prueba1","hasd","asda","root","123134241","eddietuenti@gmail.com", new Date(), "has","H", 11);
-			prueba=daoU.create(prueba);
-			System.out.println(prueba.toString());
+			Usuario prueba=new Usuario();
+			prueba.setEmail("asda@asda.com");
+			prueba.setNombre("asdada");
+			prueba.setApellido1("asdadasda");
+			prueba.setApellido2(null);
+			prueba.setTelefono(null);
+			prueba.setPassword("root");
+			DateFormat dF= new SimpleDateFormat("dd/MM/yyyy");
+			Date fechaNacimiento=dF.parse("21/06/1994");
+			prueba.setFechaNacimiento(fechaNacimiento);
+			prueba.setGenero("H");
+			prueba.setNombreUser(prueba.getNombre().concat(prueba.getApellido1()));
+			
+			daoU.create(prueba);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -94,7 +107,7 @@ public class UsuarioServiceImplTest {
 	
 	public void delete() {
 				try {
-					System.out.println(daoU.delete("eddietuenti@gmail.com"));
+					System.out.println(daoU.delete("asda@asda.com"));
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -134,8 +147,8 @@ public class UsuarioServiceImplTest {
 		//test.testeCreateServiceBiblio();
 		//test.testServiceDeleteBiblio();
 		//test.create();
-		//test.delete();
+		test.delete();
 		//test.createdireccion();
-		test.testLogin();
+		//test.testLogin();
 	}
 }

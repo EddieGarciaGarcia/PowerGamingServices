@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.DireccionDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -17,8 +20,15 @@ import com.eddie.ecommerce.model.Direccion;
 
 public class DireccionDAOImpl implements DireccionDAO{
 
+	private static Logger logger=LogManager.getLogger(DireccionDAOImpl.class);
+	
 	@Override
 	public Direccion findById(Connection conexion,String email) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		Direccion d=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -27,6 +37,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			String sql;
 			sql="select id_direccion,id_provincia,email,codigo_postal,calle,numero,piso,localidad from direccion where email=?";
 			
+			logger.debug(sql);
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
@@ -41,7 +52,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			}
 			return d;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -51,6 +62,10 @@ public class DireccionDAOImpl implements DireccionDAO{
 
 	@Override
 	public Direccion create(Connection conexion,Direccion d) throws DuplicateInstanceException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Direccion = "+d.toString());
+		}
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
@@ -68,6 +83,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			pst.setString(i++, d.getPiso());
 			pst.setString(i++, d.getLocalidad());
 
+			logger.debug(sql);
 			
 			int insertRow=pst.executeUpdate();
 			
@@ -77,7 +93,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			
 			return d;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -87,6 +103,11 @@ public class DireccionDAOImpl implements DireccionDAO{
 
 	@Override
 	public boolean update(Connection conexion,Direccion d) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()){
+			logger.debug("Direccion = "+d.toString());
+		}
+		
 		PreparedStatement preparedStatement = null;
 		conexion=null;
 		StringBuilder sqlupdate;
@@ -97,32 +118,32 @@ public class DireccionDAOImpl implements DireccionDAO{
 			boolean first = true;
 			
 			if (d.getIdprovincia()!=null) {
-				addUpdate(sqlupdate,first," id_provincia = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," id_provincia = ?");
 				first=false;
 			}
 			
 			if (d.getCodigoPostal()!=null) {
-				addUpdate(sqlupdate,first," codigo_postal = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," codigo_postal = ?");
 				first=false;
 			}
 			
 			if (d.getCalle()!=null) {
-				addUpdate(sqlupdate,first," calle = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," calle = ?");
 				first=false;
 			}
 			
 			if (d.getNumero()!=null) {
-				addUpdate(sqlupdate,first," numero = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," numero = ?");
 				first=false;
 			}
 					
 			if (d.getPiso()!=null) {
-				addUpdate(sqlupdate,first," piso = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," piso = ?");
 				first=false;
 			}
 			
 			if (d.getLocalidad()!=null) {
-				addUpdate(sqlupdate,first," localidad = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," localidad = ?");
 				first=false;
 			}
 			
@@ -150,6 +171,8 @@ public class DireccionDAOImpl implements DireccionDAO{
 			
 			preparedStatement.setString(i++, d.getEmail());
 
+			logger.debug(sqlupdate);
+			
 			int updatedRows = preparedStatement.executeUpdate();
 
 			if (updatedRows > 1) {
@@ -157,7 +180,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			}     
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(e.getMessage(),e);
 			throw new DataException(e);    
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -166,6 +189,11 @@ public class DireccionDAOImpl implements DireccionDAO{
 
 	@Override
 	public void delete(Connection conexion,String email) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -178,6 +206,8 @@ public class DireccionDAOImpl implements DireccionDAO{
 			int i = 1;
 			preparedStatement.setString(i++, email);
 
+			logger.debug(queryString);
+			
 			int removedRows = preparedStatement.executeUpdate();
 
 			if (removedRows == 0) {
@@ -186,7 +216,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 			
 
 		} catch (SQLException e) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(e.getMessage(),e);
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -220,8 +250,4 @@ public class DireccionDAOImpl implements DireccionDAO{
 			
 		}
 
-	
-	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-		queryString.append(first? " SET ": " , ").append(clause);
-	}
 }

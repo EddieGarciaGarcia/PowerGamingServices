@@ -126,5 +126,15 @@ public final class JDBCUtils {
             throw new DataException(e);
         }
 	}
+	
+	//Añadir Where y and segun corresponda
+	public static void addClause(StringBuilder queryString, boolean first, String clause) {
+		queryString.append(first? " WHERE ": " AND ").append(clause);
+	}
+	
+	//Añadir set o coma segun corresponda
+	public static void addUpdate(StringBuilder queryString, boolean first, String clause) {
+		queryString.append(first? " SET ": " , ").append(clause);
+	}
 
 }

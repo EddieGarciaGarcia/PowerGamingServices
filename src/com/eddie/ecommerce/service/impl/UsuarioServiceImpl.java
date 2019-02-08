@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.DireccionDAO;
 import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
 import com.eddie.ecommerce.dao.UsuarioDAO;
@@ -22,6 +25,8 @@ import com.eddie.ecommerce.service.MailService;
 import com.eddie.ecommerce.service.UsuarioService;
 
 public class UsuarioServiceImpl implements UsuarioService{
+	
+	private static Logger logger=LogManager.getLogger(UsuarioServiceImpl.class);
 
 	private UsuarioDAO udao=null;
 	private ItemBibliotecaDAO ibDao=null;
@@ -35,6 +40,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	
 	@Override
 	public Usuario create(Usuario u) throws Exception {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Usuario = "+u.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -46,11 +56,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 		mail.sendMail(u.getEmail(), "Bienvenido a mi página web","Hola muy buenas te has registrado correctamente");
 		
 		commit=true;
-		
 		return u2;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -58,7 +67,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public void update(Usuario u) throws Exception {
+	public void update(Usuario u) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Usuario = "+u.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -71,8 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             commit = true;
             
         } catch (SQLException e) {
-            throw new Exception(e);
-
+        	logger.error(e.getMessage(),e);
         } finally {
         	JDBCUtils.closeConnection(c, commit);
         }
@@ -82,6 +95,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	@Override
 	public long delete(String  email) throws DataException {
 
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 	    Connection connection = null;
         boolean commit = false;
 
@@ -96,8 +113,8 @@ public class UsuarioServiceImpl implements UsuarioService{
             return result;
             
         } catch (SQLException e) {
+        	logger.error(e.getMessage(),e);
             throw new DataException(e);
-
         } finally {
         	JDBCUtils.closeConnection(connection, commit);
         }		
@@ -106,6 +123,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario findById(String email) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -119,7 +141,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return u;
 		
 		}catch(DataException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -128,6 +150,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Usuario login(String email, String password) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		if(email == null) {
 			return null;
 		}
@@ -140,7 +167,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 			return null;
 		}
 		if(u.getPassword().equals(password)) {
-			System.out.println("Usuario"+u.getEmail()+" autenticado");
+			if(logger.isDebugEnabled()) {
+				logger.debug("Usuario"+u.getEmail()+" autenticado");
+			}
 			return u;
 		}
 		return null;
@@ -150,6 +179,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public List<ItemBiblioteca> findByUsuario(String email) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -161,7 +195,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return biblio;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -170,6 +204,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Biblioteca = "+b.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -186,7 +225,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return b;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -195,6 +234,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public long borrarJuegoBiblioteca(String email, Integer idJuego) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+idJuego+" , email = "+email);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -209,7 +253,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return idJuego;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -219,6 +263,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Direccion findByIdDireccion(String email) throws SQLException, InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -232,7 +281,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return d;
 		
 		}catch(DataException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -241,6 +290,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public Direccion createDireccion(Direccion d) throws SQLException, DuplicateInstanceException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Direccion = "+d.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -255,7 +309,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return d;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -264,6 +318,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public boolean updateDireccion(Direccion d) throws SQLException, InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Direccion = "+d.toString());
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -276,6 +335,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             commit = true;
             
         } catch (SQLException e) {
+        	logger.error(e.getMessage(),e);
             throw new DataException(e);
 
         } finally {
@@ -286,6 +346,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public void deleteDireccion(String email) throws SQLException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -296,7 +361,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		commit=true;
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);

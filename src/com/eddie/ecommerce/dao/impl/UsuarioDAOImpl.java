@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.UsuarioDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -16,9 +19,16 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Usuario;
 
 public class UsuarioDAOImpl implements UsuarioDAO{
+	
+	private static Logger logger=LogManager.getLogger(UsuarioDAOImpl.class);
 
 	@Override
 	public Usuario create(Usuario u, Connection connection) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Usuario = "+u.toString());
+		}
+		
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		
@@ -26,7 +36,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			connection=ConnectionManager.getConnection();
 			String sql;
 			sql="Insert Into usuario(email,nombre,apellido1,apellido2,telefono,password, fecha_nacimiento, genero,nombre_user) "
-					+ "values (?,?,?,?,?,?,?,?,?,?)";
+					+ "values (?,?,?,?,?,?,?,?,?)";
 			
 			pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			int i=1;
@@ -44,15 +54,16 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			pst.setString(i++, u.getGenero());
 			pst.setString(i++, u.getNombreUser());
 			
+			logger.debug(sql);
+			
 			int insertRow=pst.executeUpdate();
 			if(insertRow == 0) {
-				throw new SQLException(" No se pudo insertar");
-				
+				throw new SQLException(" No se pudo insertar");	
 			}
-			
+		
 			return u;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -62,6 +73,11 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 	@Override
 	public boolean update(Usuario u, Connection connection) throws InstanceNotFoundException, DataException{
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Usuario = "+u.toString());
+		}
+		
 		PreparedStatement preparedStatement = null;
 		connection=null;
 		StringBuilder sqlupdate;
@@ -72,27 +88,27 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			boolean first = true;
 			
 			if (u.getNombre()!=null) {
-				addUpdate(sqlupdate,first," nombre = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," nombre = ?");
 				first=false;
 			}
 			
 			if (u.getApellido1()!=null) {
-				addUpdate(sqlupdate,first," apellido1 = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," apellido1 = ?");
 				first=false;
 			}
 			
 			if (u.getApellido2()!=null) {
-				addUpdate(sqlupdate,first," apellido2 = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," apellido2 = ?");
 				first=false;
 			}
 			
 			if (u.getTelefono()!=null) {
-				addUpdate(sqlupdate,first," telefono = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," telefono = ?");
 				first=false;
 			}
 					
 			if (u.getNombreUser()!=null) {
-				addUpdate(sqlupdate,first," nombre_user = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," nombre_user = ?");
 				first=false;
 			}
 			
@@ -119,12 +135,14 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 			int updatedRows = preparedStatement.executeUpdate();
 
+			logger.debug(sqlupdate);
+			
 			if (updatedRows > 1) {
 				throw new SQLException();
 			}     
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(e.getMessage(),e);
 			throw new DataException(e);    
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -133,6 +151,11 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	
 	@Override
 	public long delete(String email, Connection connection) throws DataException{
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -142,6 +165,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			
 			preparedStatement = connection.prepareStatement(queryString);
 
+			logger.debug(queryString);
+			
 			int i = 1;
 			preparedStatement.setString(i++, email);
 
@@ -155,7 +180,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			return removedRows;
 
 		} catch (SQLException e) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(e.getMessage(),e);
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -166,6 +191,11 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 	
 	@Override
 	public Usuario findById(String email, Connection connection) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		Usuario u=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -181,6 +211,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			pst.setString(i++, email);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			if(rs.next()){
 				u=loadNext(rs);
 			}else {
@@ -188,7 +220,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			}
 			return u;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -227,11 +259,4 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			return u;
 		
 	}
-	
-	
-	private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-		queryString.append(first? " SET ": " , ").append(clause);
-	}
-
-	
 }

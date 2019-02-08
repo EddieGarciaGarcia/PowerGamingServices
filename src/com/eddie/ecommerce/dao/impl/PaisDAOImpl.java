@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.PaisDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -15,9 +18,16 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Pais;
 
 public class PaisDAOImpl implements PaisDAO{
+	
+	private static Logger logger=LogManager.getLogger(PaisDAOImpl.class);
 
 	@Override
 	public Pais findById(Connection conexion, Integer id) throws InstanceNotFoundException,DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id);
+		}
+		
 		Pais p=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -33,6 +43,7 @@ public class PaisDAOImpl implements PaisDAO{
 		
 		rs=pst.executeQuery();
 		
+		logger.debug(sql);
 		
 		if(rs.next()){
 			p=loadNext(rs);
@@ -42,7 +53,7 @@ public class PaisDAOImpl implements PaisDAO{
 		}
 		return p;
 	}catch (SQLException ex) {
-		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+		logger.error(ex.getMessage(),ex);
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeResultSet(rs);
@@ -64,6 +75,8 @@ public class PaisDAOImpl implements PaisDAO{
 			
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			List<Pais> resultado=new ArrayList<Pais>();
 			while(rs.next()){
 				p=loadNext(rs);
@@ -71,7 +84,7 @@ public class PaisDAOImpl implements PaisDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);

@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.IdiomaDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -15,6 +18,8 @@ import com.eddie.ecommerce.service.IdiomaService;
 
 public class IdiomaServiceImpl implements IdiomaService{
 	
+	private static Logger logger=LogManager.getLogger(IdiomaServiceImpl.class);
+	
 	IdiomaDAO idao=null;
 	
 	public IdiomaServiceImpl() {
@@ -23,6 +28,11 @@ public class IdiomaServiceImpl implements IdiomaService{
 	
 	@Override
 	public Idioma findById(String id, String idioma) throws InstanceNotFoundException, DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id+" , idioma = "+idioma);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -35,7 +45,7 @@ public class IdiomaServiceImpl implements IdiomaService{
 		return i;
 		
 		}catch(DataException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -44,6 +54,11 @@ public class IdiomaServiceImpl implements IdiomaService{
 
 	@Override
 	public List<Idioma> findAll(String idioma) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Idioma = "+idioma);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -55,7 +70,7 @@ public class IdiomaServiceImpl implements IdiomaService{
 		return idiomas;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -64,6 +79,11 @@ public class IdiomaServiceImpl implements IdiomaService{
 
 	@Override
 	public List<Idioma> findByJuego(Integer idJuego, String idioma) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+idJuego+" , idioma = "+idioma);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -75,7 +95,7 @@ public class IdiomaServiceImpl implements IdiomaService{
 		return i;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);

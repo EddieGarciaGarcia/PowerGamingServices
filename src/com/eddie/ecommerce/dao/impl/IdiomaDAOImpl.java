@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.IdiomaDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -15,9 +18,16 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Idioma;
 
 public class IdiomaDAOImpl implements IdiomaDAO{
+	
+	private static Logger logger=LogManager.getLogger(IdiomaDAOImpl.class);
 
 	@Override
 	public Idioma findById(Connection conexion, String id, String idioma) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id+" , idioma = "+idioma);
+		}
+		
 		Idioma idi=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -33,6 +43,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		
 		rs=pst.executeQuery();
 		
+		logger.debug(sql);
 		
 		if(rs.next()){
 			idi=loadNext(rs);
@@ -43,7 +54,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		}
 		return idi;
 	}catch (SQLException ex) {
-		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+		logger.error(ex.getMessage(),ex);
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeResultSet(rs);
@@ -53,6 +64,11 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 
 	@Override
 	public List<Idioma> findAll(Connection conexion, String idioma) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Idioma = "+idioma);
+		}
+		
 		Idioma idi=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -68,6 +84,8 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			pst.setString(i++, idioma);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			List<Idioma> idiomas=new ArrayList<Idioma>();
 			while(rs.next()){
 				idi=loadNext(rs);
@@ -75,7 +93,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			}
 			return idiomas;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -86,6 +104,11 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 	
 	@Override
 	public List<Idioma> findByJuego(Connection conexion, Integer idJuego, String idioma) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+idJuego+" , idioma = "+idioma);
+		}
+		
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 
@@ -113,6 +136,8 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			Idioma idio = null;
 
 			
+			logger.debug(queryString);
+			
 			while(rs.next()){
 					idio = loadNext(rs);
 					idiomas.add(idio);               	
@@ -121,7 +146,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 			return idiomas;
 	
 			} catch (SQLException e) {
-				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+				logger.error(e.getMessage(),e);
 				throw new DataException(e);
 			} finally {
 				JDBCUtils.closeResultSet(rs);

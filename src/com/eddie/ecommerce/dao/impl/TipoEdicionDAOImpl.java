@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.TipoEdicionDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -16,11 +19,15 @@ import com.eddie.ecommerce.model.TipoEdicion;
 
 public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 	
-	public TipoEdicionDAOImpl() {}
+	private static Logger logger=LogManager.getLogger(TipoEdicionDAOImpl.class);
 	
-	public TipoEdicion findbyIdTipoEdicion(Connection conexion, Integer id,String idioma)
-			throws InstanceNotFoundException, DataException{
-			TipoEdicion te=null;
+	public TipoEdicion findbyIdTipoEdicion(Connection conexion, Integer id,String idioma) throws InstanceNotFoundException, DataException{
+			
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id+" , idioma = "+idioma);
+		}
+		
+		TipoEdicion te=null;
 			Connection connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
@@ -36,6 +43,7 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 			
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
 			
 			if(rs.next()){
 				te=loadNext(rs);
@@ -45,7 +53,7 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 			}
 			return te;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -57,6 +65,11 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 	
 	@Override
 	public List<TipoEdicion> findAll(Connection conexion, String idioma) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Idioma = "+idioma);
+		}
+		
 		TipoEdicion te=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -72,6 +85,8 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 			pst.setString(i++, idioma);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			List<TipoEdicion> resultado=new ArrayList<TipoEdicion>();
 			while(rs.next()){
 				te=loadNext(rs);
@@ -79,7 +94,7 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);

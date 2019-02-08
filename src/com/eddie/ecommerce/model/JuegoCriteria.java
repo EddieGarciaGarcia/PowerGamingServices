@@ -6,8 +6,23 @@ public class JuegoCriteria extends Juego implements ValueObject {
 	private List<Categoria> categoria=null;
 	private List<Idioma> idioma=null;
 	private List<Plataforma> plataforma=null;
+	private Integer anho=null;
 	
 	public JuegoCriteria() {}
+	
+	
+
+	public Integer getAnho() {
+		return anho;
+	}
+
+
+
+	public void setAnho(Integer anho) {
+		this.anho = anho;
+	}
+
+
 
 	public List<Categoria> getCategoria() {
 		return categoria;

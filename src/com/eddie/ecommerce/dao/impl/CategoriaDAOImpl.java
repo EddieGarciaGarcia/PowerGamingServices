@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.CategoriaDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -18,8 +21,15 @@ import com.eddie.ecommerce.model.Categoria;
 
 public class CategoriaDAOImpl implements CategoriaDAO{
 
+	private static Logger logger=LogManager.getLogger(CategoriaDAOImpl.class);
+	
 	@Override
 	public Categoria findById(Connection conexion, Integer id, String idioma) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id+" , idioma = "+idioma);
+		}
+		
 		Categoria c=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -29,6 +39,8 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 		sql="select id_categoria, nombre from categoria_idiomaweb where id_categoria= ? and id_idioma_web like '"+idioma+"'";
 		
 		pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+		
+		logger.debug(sql);
 		
 		int i=1;
 		pst.setInt(i++, id);
@@ -46,7 +58,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 
 		return c;
 	}catch (SQLException ex) {
-		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+		logger.error(ex.getMessage(),ex);
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeResultSet(rs);
@@ -56,6 +68,11 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 
 	@Override
 	public List<Categoria> findAll(Connection conexion, String idioma) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Idioma = "+idioma);
+		}
+		
 		Categoria c=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -64,6 +81,8 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 			String sql;
 			sql="select c.id_categoria, c.nombre from categoria_idiomaweb c where id_idioma_web like ?";
 
+			logger.debug(sql);
+			
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
@@ -78,7 +97,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 			}
 			return categorias;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -88,6 +107,10 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 	
 	@Override
 	public List<Categoria> findByJuego(Connection conexion, Integer idJuego, String idioma) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("ID = "+idJuego+" , idioma = "+idioma);
+		}
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 
@@ -101,6 +124,8 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 									"where jc.id_juego = ? AND ciw.id_idioma_web like ? ");
 
 
+			logger.debug(queryString);
+			
 			preparedStatement = conexion.prepareStatement(queryString,
 					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
@@ -123,7 +148,7 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 			return categorias;
 	
 			} catch (SQLException e) {
-				System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+				logger.error(e.getMessage(),e);
 				throw new DataException(e);
 			} finally {
 				JDBCUtils.closeResultSet(rs);

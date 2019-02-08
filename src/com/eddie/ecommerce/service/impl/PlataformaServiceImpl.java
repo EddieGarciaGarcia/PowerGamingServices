@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.PlataformaDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -14,6 +17,8 @@ import com.eddie.ecommerce.model.Plataforma;
 import com.eddie.ecommerce.service.PlataformaService;
 
 public class PlataformaServiceImpl implements PlataformaService{
+	
+	private static Logger logger=LogManager.getLogger(PlataformaServiceImpl.class);
 
 	PlataformaDAO pdao=null;
 	
@@ -23,6 +28,11 @@ public class PlataformaServiceImpl implements PlataformaService{
 	
 	@Override
 	public Plataforma findbyIdPlataforma(Integer id) throws InstanceNotFoundException, DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -35,7 +45,7 @@ public class PlataformaServiceImpl implements PlataformaService{
 		return p;
 		
 		}catch(DataException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -55,7 +65,7 @@ public class PlataformaServiceImpl implements PlataformaService{
 		return plataforma;
 		
 		}catch(DataException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -64,6 +74,11 @@ public class PlataformaServiceImpl implements PlataformaService{
 
 	@Override
 	public List<Plataforma> findByJuego(Integer idJuego) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id = "+idJuego);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -75,7 +90,7 @@ public class PlataformaServiceImpl implements PlataformaService{
 		return p;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);

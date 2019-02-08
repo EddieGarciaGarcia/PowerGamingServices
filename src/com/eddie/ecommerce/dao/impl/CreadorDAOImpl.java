@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.CreadorDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -15,9 +18,16 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Creador;
 
 public class CreadorDAOImpl implements CreadorDAO{
+	
+	private static Logger logger=LogManager.getLogger(CreadorDAOImpl.class);
 
 	@Override
 	public Creador findbyIdCreador(Connection conexion, Integer id) throws InstanceNotFoundException,DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id = "+id);
+		}
+		
 		Creador c=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -26,12 +36,18 @@ public class CreadorDAOImpl implements CreadorDAO{
 		String sql;
 		sql="select id_creador, nombre from creador where id_creador= ? ";
 		
+		logger.debug(sql);
+		
 		pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		
 		int i=1;
 		pst.setInt(i++, id);
 		
 		rs=pst.executeQuery();
+		
+		
+		
+		
 		
 		
 		if(rs.next()){
@@ -42,7 +58,7 @@ public class CreadorDAOImpl implements CreadorDAO{
 		}
 		return c;
 	}catch (SQLException ex) {
-		System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+		logger.error(ex.getMessage(),ex);
 		throw new DataException(ex);
 	}finally{
 		JDBCUtils.closeResultSet(rs);
@@ -60,6 +76,8 @@ public class CreadorDAOImpl implements CreadorDAO{
 			String sql;
 			sql="select id_creador, nombre from creador";
 
+			logger.debug(sql);
+			
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			rs=pst.executeQuery();
@@ -71,7 +89,7 @@ public class CreadorDAOImpl implements CreadorDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);

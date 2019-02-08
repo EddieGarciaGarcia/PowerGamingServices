@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.FormatoDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -16,10 +19,16 @@ import com.eddie.ecommerce.model.Formato;
 
 public class FormatoDAOImpl implements FormatoDAO{
 	
+	private static Logger logger=LogManager.getLogger(FormatoDAOImpl.class);
+	
 	public FormatoDAOImpl() {}
 	
-	public Formato findbyIdFormato(Connection conexion,Integer id, String idioma)
-		throws InstanceNotFoundException,DataException{
+	public Formato findbyIdFormato(Connection conexion,Integer id, String idioma) throws InstanceNotFoundException,DataException{
+			
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id+" , idioma = "+idioma);
+		}
+		
 			Formato f=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
@@ -35,6 +44,7 @@ public class FormatoDAOImpl implements FormatoDAO{
 			
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
 			
 			if(rs.next()){
 				f=loadNext(rs);
@@ -44,7 +54,7 @@ public class FormatoDAOImpl implements FormatoDAO{
 			}
 			return f;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -55,6 +65,11 @@ public class FormatoDAOImpl implements FormatoDAO{
 	}
 	
 	public List<Formato> findAll(Connection conexion, String idioma) throws DataException{
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Idioma = "+idioma);
+		}
+		
 		Formato f=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -70,6 +85,8 @@ public class FormatoDAOImpl implements FormatoDAO{
 			pst.setString(i++, idioma);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			List<Formato> resultado=new ArrayList<Formato>();
 			while(rs.next()){
 				f=loadNext(rs);
@@ -77,7 +94,7 @@ public class FormatoDAOImpl implements FormatoDAO{
 			}
 			return resultado;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);

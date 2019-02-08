@@ -12,9 +12,9 @@ import com.eddie.ecommerce.model.Usuario;
 
 public interface UsuarioService {
 	
-	public Usuario create(Usuario u) throws DuplicateInstanceException,Exception;
+	public Usuario create(Usuario u) throws DuplicateInstanceException, Exception;
 	
-	public void update(Usuario u) throws InstanceNotFoundException,Exception;
+	public void update(Usuario u) throws InstanceNotFoundException,DataException;
 	
 	public long delete(String email) throws DataException;
 	

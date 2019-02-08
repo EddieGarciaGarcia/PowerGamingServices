@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -20,9 +23,16 @@ import com.eddie.ecommerce.model.ItemBiblioteca;
 
 
 public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
+	
+	private static Logger logger=LogManager.getLogger(ItemBibliotecaDAOImpl.class);
 
 	@Override
 	public List<ItemBiblioteca> findByUsuario(Connection connection, String email) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		ItemBiblioteca ib=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -38,6 +48,8 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			pst.setString(i++, email);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			List<ItemBiblioteca> biblioteca = new ArrayList<ItemBiblioteca>();
 			while(rs.next()){
 				ib=loadNext(rs);
@@ -45,7 +57,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			}
 			return biblioteca;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -55,6 +67,11 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 
 	@Override
 	public List<ItemBiblioteca> findByJuego(Connection connection, Integer idJuego) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id= "+idJuego);
+		}
+		
 		ItemBiblioteca ib=null;
 		PreparedStatement pst=null;
 		ResultSet rs=null;
@@ -70,6 +87,8 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			pst.setInt(i++, idJuego);	
 			rs=pst.executeQuery();
 			
+			logger.debug(sql);
+			
 			List<ItemBiblioteca> biblioteca = new ArrayList<ItemBiblioteca>();
 			while(rs.next()){
 				ib=loadNext(rs);
@@ -77,7 +96,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			}
 			return biblioteca;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -86,8 +105,12 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 	}
 
 	@Override
-	public ItemBiblioteca create(Connection connection, ItemBiblioteca b)
-			throws DuplicateInstanceException, DataException {
+	public ItemBiblioteca create(Connection connection, ItemBiblioteca b) throws DuplicateInstanceException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("ItemBiblioteca = "+b.toString());
+		}
+		
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
@@ -120,6 +143,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 				pst.setDate(i++, (java.sql.Date) b.getFechaComentario());
 			}
 			
+			logger.debug(sql);
 			
 			int insertRow=pst.executeUpdate();
 			
@@ -129,7 +153,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			
 			return b;
 		}catch (SQLException ex) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
 			JDBCUtils.closeResultSet(rs);
@@ -138,8 +162,12 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 	}
 	
 	@Override
-	public long delete(Connection connection,String email, Integer idJuego)
-			throws InstanceNotFoundException, DataException {
+	public long delete(Connection connection,String email, Integer idJuego) throws InstanceNotFoundException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email+" , IdJuego = "+idJuego);
+		}
+		
 		PreparedStatement preparedStatement = null;
 
 		try {
@@ -153,7 +181,8 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			preparedStatement.setString(i++, email);
 			preparedStatement.setInt(i++, idJuego);
 			
-
+			logger.debug(queryString);
+			
 			int removedRows = preparedStatement.executeUpdate();
 
 			if (removedRows == 0) {
@@ -164,7 +193,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			return removedRows;
 
 		} catch (SQLException e) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(e.getMessage(),e);
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -173,6 +202,11 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 	
 	@Override
 	public ItemBiblioteca update(Connection connection, ItemBiblioteca b) throws DuplicateInstanceException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Biblioteca = "+b.toString());
+		}
+		
 		PreparedStatement preparedStatement = null;
 		connection=null;
 		StringBuilder sqlupdate;
@@ -183,22 +217,22 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			boolean first = true;
 			
 			if (b.getPuntuacion()!=null) {
-				addUpdate(sqlupdate,first," puntuacion = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," puntuacion = ?");
 				first=false;
 			}
 			
 			if (b.getComprado()!=null) {
-				addUpdate(sqlupdate,first," comprado = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," comprado = ?");
 				first=false;
 			}
 			
 			if (b.getComentario()==null) {
-				addUpdate(sqlupdate,first," comentario = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," comentario = ?");
 				first=false;
 			}
 			
 			if (b.getFechaComentario()==null) {
-				addUpdate(sqlupdate,first," fecha_comentario = ?");
+				JDBCUtils.addUpdate(sqlupdate,first," fecha_comentario = ?");
 				first=false;
 			}
 			
@@ -221,13 +255,15 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			preparedStatement.setString(i++, b.getEmail());
 			preparedStatement.setInt(i++, b.getIdJuego());
 
+			logger.debug(sqlupdate);
+			
 			int updatedRows = preparedStatement.executeUpdate();
 
 			if (updatedRows > 1) {
 				throw new SQLException();
 			}     
 		} catch (SQLException e) {
-			System.out.println("Hemos detectado problemas. Por favor compruebe los datos");
+			logger.error(e.getMessage(),e);
 			throw new DataException(e);    
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
@@ -256,11 +292,5 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 				
 				return ib;
 	}
-
-
-		private void addUpdate(StringBuilder queryString, boolean first, String clause) {
-			queryString.append(first? " SET ": " , ").append(clause);
-		}
-
 		
 }

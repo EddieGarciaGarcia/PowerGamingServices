@@ -3,6 +3,10 @@ package com.eddie.ecommerce.service.impl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.PedidoDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -15,6 +19,8 @@ import com.eddie.ecommerce.service.PedidoService;
 
 public class PedidoServiceImpl implements PedidoService{
 	
+	private static Logger logger=LogManager.getLogger(PedidoServiceImpl.class);
+	
 	PedidoDAO pdao=null;
 	public PedidoServiceImpl() {
 		pdao= new PedidoDAOImpl();
@@ -22,6 +28,11 @@ public class PedidoServiceImpl implements PedidoService{
 	
 	@Override
 	public List<Pedido> findByEmail(String email) throws InstanceNotFoundException, SQLException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -33,7 +44,7 @@ public class PedidoServiceImpl implements PedidoService{
 		return pedidos;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -42,6 +53,11 @@ public class PedidoServiceImpl implements PedidoService{
 
 	@Override
 	public void delete(Integer idPedido) throws InstanceNotFoundException, SQLException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id= "+idPedido);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -53,7 +69,7 @@ public class PedidoServiceImpl implements PedidoService{
 		commit=true;
 
 		}catch(SQLException ed) {
-			ed.printStackTrace();
+			logger.error(ed.getMessage(),ed);
 			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -62,6 +78,12 @@ public class PedidoServiceImpl implements PedidoService{
 
 	@Override
 	public Pedido create(Pedido p) throws DuplicateInstanceException, SQLException, DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Pedido = "+p.toString());
+		}
+		
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -75,7 +97,7 @@ public class PedidoServiceImpl implements PedidoService{
 		return p;
 		
 		}catch(SQLException ed) {
-			ed.printStackTrace();
+			logger.error(ed.getMessage(),ed);
 			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -84,6 +106,12 @@ public class PedidoServiceImpl implements PedidoService{
 
 	@Override
 	public Pedido findByID(Integer idPedido) throws DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+idPedido);
+		}
+		
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -97,7 +125,7 @@ public class PedidoServiceImpl implements PedidoService{
 		return p;
 		
 		}catch(SQLException ed) {
-			ed.printStackTrace();
+			logger.error(ed.getMessage(),ed);
 			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);

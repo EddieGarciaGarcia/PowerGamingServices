@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.CreadorDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
@@ -15,6 +18,8 @@ import com.eddie.ecommerce.service.CreadorService;
 
 public class CreadorServiceImpl implements CreadorService{
 
+	private static Logger logger=LogManager.getLogger(CreadorServiceImpl.class);
+	
 	CreadorDAO cdao=null;
 	
 	public CreadorServiceImpl() {
@@ -23,6 +28,11 @@ public class CreadorServiceImpl implements CreadorService{
 	
 	@Override
 	public Creador findbyIdCreador(Integer id) throws InstanceNotFoundException, DataException, SQLException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("id= "+id);
+		}
+		
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -35,7 +45,7 @@ public class CreadorServiceImpl implements CreadorService{
 		return cre;
 		
 		}catch(DataException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
@@ -55,7 +65,7 @@ public class CreadorServiceImpl implements CreadorService{
 		return creador;
 		
 		}catch(SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
