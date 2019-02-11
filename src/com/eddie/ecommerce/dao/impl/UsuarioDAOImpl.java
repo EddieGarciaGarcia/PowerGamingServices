@@ -41,7 +41,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			int i=1;
 			if(u.getEmail()==null || u.getEmail().equals("")) {
-				System.out.println("fallo email null o vacio");
+				logger.warn("fallo email null o vacio");
 			}else {
 				pst.setString(i++,u.getEmail());
 			}

@@ -122,7 +122,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			int i=1;
 			if(b.getEmail()==null || b.getEmail().equals("")) {
-				System.out.println("fallo email null o vacio");
+				logger.warn("fallo email null o vacio");
 			}else {
 				pst.setString(i++,b.getEmail());
 			}
