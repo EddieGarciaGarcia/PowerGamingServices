@@ -12,6 +12,7 @@ import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
 import com.eddie.ecommerce.dao.UsuarioDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
+import com.eddie.ecommerce.dao.Utils.PasswordEncryptionUtil;
 import com.eddie.ecommerce.dao.impl.DireccionDAOImpl;
 import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.UsuarioDAOImpl;
@@ -166,7 +167,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if(u==null) {
 			return null;
 		}
-		if(u.getPassword().equals(password)) {
+		if(PasswordEncryptionUtil.checkPassword(password, u.getPassword())) {
 			if(logger.isDebugEnabled()) {
 				logger.debug("Usuario"+u.getEmail()+" autenticado");
 			}
