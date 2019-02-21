@@ -216,6 +216,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
+		b.setComentario("N");
 		b.setFechaComentario(null);
 		b.setComentario(null);
 		b.setPuntuacion(0);
