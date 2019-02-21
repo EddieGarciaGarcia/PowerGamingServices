@@ -2,3 +2,21 @@
 2019-02-07 11:52:38.339 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria= com.eddie.ecommerce.model.JuegoCriteria@15c25153 ,idioma= ES
 2019-02-07 11:52:38.364 DEBUG JuegoDAOImpl.findByJuegoCriteria:115 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
 2019-02-07 11:52:38.364 DEBUG JuegoDAOImpl.findByJuegoCriteria:115 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-02-19 16:41:16.643 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-02-19 16:41:16.643 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-02-19 16:41:17.249 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-02-19 16:41:17.249 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-02-19 16:41:17.264 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-02-19 16:41:17.264 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-02-19 16:47:46.659 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-02-19 16:47:46.659 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-02-19 16:47:47.308 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-02-19 16:47:47.308 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-02-19 16:47:47.324 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-02-19 16:47:47.324 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-02-19 16:48:25.036 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-02-19 16:48:25.036 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-02-19 16:48:25.648 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-02-19 16:48:25.648 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-02-19 16:48:25.663 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-02-19 16:48:25.663 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 

@@ -107,12 +107,25 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 				first=false;
 			}
 					
+			if (u.getPassword()!=null) {
+				JDBCUtils.addUpdate(sqlupdate,first," password = ?");
+				first=false;
+			}
+			if (u.getFechaNacimiento()!=null) {
+				JDBCUtils.addUpdate(sqlupdate,first," fecha_nacimiento = ?");
+				first=false;
+			}
+			
 			if (u.getNombreUser()!=null) {
 				JDBCUtils.addUpdate(sqlupdate,first," nombre_user = ?");
 				first=false;
 			}
 			
-			sqlupdate.append("WHERE email = ?");
+			if (u.getGenero()!=null) {
+				JDBCUtils.addUpdate(sqlupdate,first," genero = ?");
+				first=false;
+			}
+			sqlupdate.append(" WHERE email = ?");
 			
 			preparedStatement = connection.prepareStatement(sqlupdate.toString());
 			
@@ -127,7 +140,8 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 				preparedStatement.setString(i++,u.getApellido2());
 			if (u.getTelefono()!=null) 
 				preparedStatement.setString(i++,u.getTelefono());
-			
+			if (u.getPassword()!=null) 
+				preparedStatement.setString(i++,PasswordEncryptionUtil.encryptPassword(u.getPassword()));
 			if (u.getNombreUser()!=null) 
 				preparedStatement.setString(i++,u.getNombreUser());
 			
@@ -138,7 +152,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			logger.debug(sqlupdate);
 			
 			if (updatedRows > 1) {
-				throw new SQLException();
+				throw new SQLException("email duplicado = '" + u.getEmail() + "' en table 'Juego'");
 			}     
 			return true;
 		} catch (SQLException e) {

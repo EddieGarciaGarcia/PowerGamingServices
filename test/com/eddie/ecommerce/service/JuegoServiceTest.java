@@ -68,13 +68,12 @@ public class JuegoServiceTest {
 			try {
 				juegos =serviceJ.findByJuegoCriteria(ju, "ES");
 				for(Juego j:juegos) {
+					System.out.println(j.getNombre());
 					for(Categoria categoria: j.getCategoria()) {
-						categoria.getNombre();
+						System.out.println(categoria.getNombre());
 					}
 				}
-				for(Juego j:juegos) {
-					System.out.println(j.getNombre());
-				}
+				
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

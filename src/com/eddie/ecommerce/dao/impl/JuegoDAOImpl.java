@@ -426,7 +426,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				Integer idCreador = rs.getInt(i++);
 				
 				
-				
 				Juego j= new Juego();
 				j.setIdJuego(id);
 				j.setNombre(nombre);
