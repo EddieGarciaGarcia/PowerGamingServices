@@ -1,5 +1,6 @@
 package com.eddie.ecommerce.service;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface JuegoService {
 	public boolean addComent(ItemBiblioteca it)throws DataException,SQLException;
 	
 	public boolean borrarComent(ItemBiblioteca it)throws DataException,SQLException;
+	
+	public List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException,SQLException;
 }

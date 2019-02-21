@@ -220,7 +220,7 @@ public class JuegoServiceImpl implements JuegoService{
 		
 		it.setPuntuacion(0);
 		it.setComprado("No");
-		ibDao.create(c, it);
+		ibDao.update(c, it);
 		
 		commit=true;
 		
@@ -261,6 +261,30 @@ public class JuegoServiceImpl implements JuegoService{
 			JDBCUtils.closeConnection(c, commit);
 		}
 		return true;
+	}
+
+	@Override
+	public List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException, SQLException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+idJuego);
+		}
+		
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		List<ItemBiblioteca> biblio=ibDao.findByJuego(c, idJuego);
+		
+		return biblio;
+		
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+			throw e;
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
 	}
 
 
