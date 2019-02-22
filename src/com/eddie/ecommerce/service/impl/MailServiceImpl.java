@@ -25,7 +25,6 @@ public class MailServiceImpl implements MailService {
 		
 		email.setSubject(subject);
 		try {
-			email.setFrom("eddie_taboada@hotmail.com");
 			email.setMsg(message);
 			email.addTo(to);
 			email.send();
