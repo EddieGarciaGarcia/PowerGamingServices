@@ -78,7 +78,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		try {
 			connection=ConnectionManager.getConnection();
 			String sql;
-			sql="select email,id_juego,puntuacion,comprado,comentario,fecha_comentario from usuarios_juego where id_juego=?";
+			sql="select email,id_juego,puntuacion,comprado,comentario,fecha_comentario from usuarios_juego where id_juego=? order by fecha_comentario desc";
 			
 			pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			

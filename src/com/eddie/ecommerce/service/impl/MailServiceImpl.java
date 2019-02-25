@@ -22,9 +22,9 @@ public class MailServiceImpl implements MailService {
 		email.setSmtpPort(465);
 		email.setAuthenticator(new DefaultAuthenticator("powergaming2019@gmail.com", PASSWORD));
 		email.setSSLOnConnect(true);
-		
 		email.setSubject(subject);
 		try {
+			email.setFrom("powergaming2019@gmail.com");
 			email.setMsg(message);
 			email.addTo(to);
 			email.send();
