@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.IdiomaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -32,7 +31,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 	try {
-		conexion=ConnectionManager.getConnection();
+
 		String sql;
 		sql="select id_idioma, nombre from idioma_idiomaweb where id_idioma= ? and id_idioma_web like '"+idioma+"'";
 		
@@ -73,7 +72,7 @@ public class IdiomaDAOImpl implements IdiomaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+
 			String sql;
 			sql="select i.id_idioma, i.nombre from idioma_idiomaweb i where id_idioma_web like ?";
 

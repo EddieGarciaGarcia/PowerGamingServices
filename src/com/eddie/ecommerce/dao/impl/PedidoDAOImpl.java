@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.PedidoDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -35,7 +34,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="sselect id_pedido,email,iva,total,fecha_pedido from pedido where email=?";
 			
@@ -74,7 +73,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="select id_pedido,email,iva,total,fecha_pedido from pedido where id_pedido=?";
 			
@@ -114,7 +113,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="Insert Into usuarios_juego(email,iva,total,fecha_pedido) "
 					+ "values (?,?,?,?)";

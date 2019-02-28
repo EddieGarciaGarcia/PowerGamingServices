@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.LineaPedidoDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -34,7 +33,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+	
 			String sql;
 			sql="select numero_linea,id_edicion,id_pedido,cantidad,precio from lineapedido where id_pedido=?";
 			
@@ -73,7 +72,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+			
 			String sql;
 			sql="select numero_linea,id_edicion,id_pedido,cantidad,precio from lineapedido where numero_linea=?";
 			
@@ -111,7 +110,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+			
 			String sql;
 			sql="Insert Into usuarios_juego(id_edicion,id_pedido,cantidad,precio) "
 					+ "values (?,?,?,?)";

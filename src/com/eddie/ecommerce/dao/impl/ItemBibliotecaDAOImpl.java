@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
+
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -37,7 +37,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			connection=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="select email,id_juego,puntuacion,comprado,comentario,fecha_comentario from usuarios_juego where email=?";
 			
@@ -76,7 +76,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			connection=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="select email,id_juego,puntuacion,comprado,comentario,fecha_comentario from usuarios_juego where id_juego=? order by fecha_comentario desc";
 			
@@ -114,7 +114,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			connection=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="Insert Into usuarios_juego(email,id_juego,puntuacion,comprado,comentario,fecha_comentario) "
 					+ "values (?,?,?,?,?,?)";
@@ -208,10 +208,10 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		}
 		
 		PreparedStatement preparedStatement = null;
-		connection=null;
+	
 		StringBuilder sqlupdate;
 		try {	
-			connection=ConnectionManager.getConnection();
+		
 			sqlupdate = new StringBuilder(" UPDATE usuarios_juego");
 			
 			boolean first = true;

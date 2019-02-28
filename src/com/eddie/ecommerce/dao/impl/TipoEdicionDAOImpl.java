@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.TipoEdicionDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -28,15 +27,15 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 		}
 		
 		TipoEdicion te=null;
-			Connection connection=null;
+	
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 		try {
-			connection=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="select te.id_tipo_edicion, id.nombre from tipoedicion te inner join idiomaweb_tipoedicion id on te.id_tipo_edicion=id.id_tipo_edicion where te.id_tipo_edicion= ? and id_idioma_web like '"+idioma+"'";
 			
-			pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
 			pst.setLong(i++, id);
@@ -74,7 +73,7 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+			
 			String sql;
 			sql="select id_tipo_edicion, nombre from idiomaweb_tipoedicion where id_idioma_web like ?";
 

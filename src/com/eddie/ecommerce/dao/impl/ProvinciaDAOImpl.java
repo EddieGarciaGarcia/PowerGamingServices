@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.ProvinciaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -32,7 +31,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 	try {
-		conexion=ConnectionManager.getConnection();
+	
 		String sql;
 		sql="select id_provincia, id_pais, nombre from provincia where id_provincia= ? ";
 		
@@ -72,7 +71,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 	try {
-		conexion=ConnectionManager.getConnection();
+		
 		String sql;
 		sql="select id_provincia, id_pais, nombre from provincia where id_pais= ? ";
 		
@@ -106,7 +105,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+			
 			String sql;
 			sql="select id_provincia, id_pais, nombre from provincia";
 

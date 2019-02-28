@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.FormatoDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -33,7 +32,7 @@ public class FormatoDAOImpl implements FormatoDAO{
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+
 			String sql;
 			sql="select id_formato, nombre from idiomaweb_formato where id_formato= ? and id_idioma_web like '"+idioma+"'";
 			
@@ -74,7 +73,7 @@ public class FormatoDAOImpl implements FormatoDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+	
 			String sql;
 			sql="select f.id_formato, f.nombre from idiomaweb_formato f where id_idioma_web like ?";
 

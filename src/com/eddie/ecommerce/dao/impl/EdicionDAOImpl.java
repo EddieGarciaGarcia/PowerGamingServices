@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.EdicionDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -34,7 +33,6 @@ public class EdicionDAOImpl implements EdicionDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
 			String sql;
 			sql="select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_edicion = ?";
 
@@ -73,7 +71,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+
 			String sql;
 			sql="select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?";
 
@@ -110,7 +108,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="Insert Into edicion(id_juego,id_formato,id_tipo_edicion,precio) "
 					+ "values (?,?,?,?)";
@@ -155,10 +153,10 @@ public class EdicionDAOImpl implements EdicionDAO{
 		}
 		
 		PreparedStatement preparedStatement = null;
-		conexion=null;
+		
 		StringBuilder sqlupdate;
 		try {	
-			conexion=ConnectionManager.getConnection();
+			
 			sqlupdate = new StringBuilder(" UPDATE edicion");
 			
 			boolean first = true;

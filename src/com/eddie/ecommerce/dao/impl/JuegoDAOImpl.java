@@ -13,7 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.JuegoDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -51,15 +50,15 @@ public class JuegoDAOImpl implements JuegoDAO{
 				boolean first=true;
 				
 			
-				if(!jc.getCategoria().isEmpty()) {
+				if(!jc.getCategoria().isEmpty() ) {
 					strb.append(" inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria ");
 				}
 				
-				if(!jc.getIdioma().isEmpty()) {
+				if(!jc.getIdioma().isEmpty() ) {
 					strb.append(" inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma ");
 				}
 				
-				if(!jc.getPlataforma().isEmpty()) {
+				if(!jc.getPlataforma().isEmpty()  ) {
 					strb.append(" inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma ");
 				}
 				
@@ -74,7 +73,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 			
 				if(jc.getIdCreador()!=null) {
-					JDBCUtils.addClause(strb,first," c.id_creador = ? ");
+					JDBCUtils.addClause(strb,first," j.id_creador = ? ");
 					first=false;
 				}
 				
@@ -83,12 +82,12 @@ public class JuegoDAOImpl implements JuegoDAO{
 					first=false;
 				}
 				
-				if (!jc.getCategoria().isEmpty()) {
+				if (!jc.getCategoria().isEmpty() ) {
 					JDBCUtils.addClause(strb, first,addCategoria(jc.getCategoria()).toString());	
 					first = false;
 				}
 				
-				if (!jc.getIdioma().isEmpty()) {
+				if (!jc.getIdioma().isEmpty() ) {
 					JDBCUtils.addClause(strb, first,addIdioma(jc.getIdioma()).toString());	
 					first = false;
 				}
@@ -140,7 +139,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 				PreparedStatement pst=null;
 				ResultSet rs=null;
 			try {
-				connection=ConnectionManager.getConnection();
 				String sql;
 				sql="select id_juego, nombre,fecha_lanzamiento, id_creador from juego order by fecha_lanzamiento desc  ";
 				
@@ -176,7 +174,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 			
 			Juego j=null;
-			 connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 			
@@ -185,7 +182,6 @@ public class JuegoDAOImpl implements JuegoDAO{
 			PlataformaService plataformaServicio=new PlataformaServiceImpl();
 			
 			try {
-				connection=ConnectionManager.getConnection();
 				String sql;
 				sql="select j.id_juego, j.nombre, j.fecha_lanzamiento, j.id_creador, ji.informacion from juego j inner join juego_idiomaweb ji on j.id_juego=ji.id_juego where j.id_juego= ? and ji.id_idioma_web like ?";
 				
@@ -233,11 +229,9 @@ public class JuegoDAOImpl implements JuegoDAO{
 		@Override
 		public List<Juego> findAllByValoración(Connection connection) throws DataException {
 				Juego j=null;
-				connection=null;
 				PreparedStatement pst=null;
 				ResultSet rs=null;
 			try {
-				connection=ConnectionManager.getConnection();
 				String sql;
 				sql="select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador\r\n" + 
 						"from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego\r\n" + 
@@ -273,11 +267,9 @@ public class JuegoDAOImpl implements JuegoDAO{
 				logger.debug("Juego = "+j.toString());
 			}
 			
-			connection=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 			try {
-				connection=ConnectionManager.getConnection();
 				String sql;
 				sql="Insert Into juego(Nombre, fecha_lanzamiento, id_creador) "
 						+ "values (?,?,?)";
@@ -323,10 +315,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 			}
 			
 			PreparedStatement preparedStatement = null;
-			connection=null;
 			StringBuilder sqlupdate;
 			try {	
-				connection=ConnectionManager.getConnection();
 				sqlupdate = new StringBuilder(" UPDATE Juego");
 				
 				boolean first = true;

@@ -140,8 +140,8 @@ public class JuegoServiceTest {
 	public static void main(String[] args) {
 		JuegoServiceTest test = new JuegoServiceTest();
 		//test.testFindByDate();
-		//test.testfindValoracion();
-		test.testfindbyCriteria();
+		test.testfindValoracion();
+		//test.testfindbyCriteria();
 		/*
 		try {
 			

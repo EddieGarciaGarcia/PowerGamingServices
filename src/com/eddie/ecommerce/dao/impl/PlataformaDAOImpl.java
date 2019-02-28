@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.PlataformaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -32,7 +31,7 @@ public class PlataformaDAOImpl implements PlataformaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 	try {
-		conexion=ConnectionManager.getConnection();
+		
 		String sql;
 		sql="select id_plataforma, nombre from plataforma where id_plataforma= ? ";
 		
@@ -67,7 +66,7 @@ public class PlataformaDAOImpl implements PlataformaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+			
 			String sql;
 			sql="select id_plataforma, nombre from plataforma";
 

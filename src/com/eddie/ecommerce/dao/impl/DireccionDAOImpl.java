@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.DireccionDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -33,7 +32,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+			
 			String sql;
 			sql="select id_direccion,id_provincia,email,codigo_postal,calle,numero,piso,localidad from direccion where email=?";
 			
@@ -69,7 +68,7 @@ public class DireccionDAOImpl implements DireccionDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
+	
 			String sql;
 			sql="Insert Into direccion(id_provincia,email,codigo_postal,calle,numero,piso,localidad) "
 					+ "values (?,?,?,?,?,?)";
@@ -109,10 +108,10 @@ public class DireccionDAOImpl implements DireccionDAO{
 		}
 		
 		PreparedStatement preparedStatement = null;
-		conexion=null;
+
 		StringBuilder sqlupdate;
 		try {	
-			conexion=ConnectionManager.getConnection();
+	
 			sqlupdate = new StringBuilder(" UPDATE direccion");
 			
 			boolean first = true;

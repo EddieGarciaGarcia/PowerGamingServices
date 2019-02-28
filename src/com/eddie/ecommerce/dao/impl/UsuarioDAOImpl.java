@@ -11,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.UsuarioDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
+
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.Utils.PasswordEncryptionUtil;
 import com.eddie.ecommerce.exceptions.DataException;
@@ -33,7 +33,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		ResultSet rs=null;
 		
 		try {
-			connection=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="Insert Into usuario(email,nombre,apellido1,apellido2,telefono,password, fecha_nacimiento, genero,nombre_user) "
 					+ "values (?,?,?,?,?,?,?,?,?)";
@@ -79,10 +79,9 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		}
 		
 		PreparedStatement preparedStatement = null;
-		connection=null;
 		StringBuilder sqlupdate;
 		try {	
-			connection=ConnectionManager.getConnection();
+			
 			sqlupdate = new StringBuilder(" UPDATE Usuario");
 			
 			boolean first = true;
@@ -214,7 +213,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			connection=ConnectionManager.getConnection();
+		
 			String sql;
 			sql="select email,nombre,apellido1,apellido2,telefono,password,fecha_nacimiento,genero,nombre_user from usuario where email=?";
 			

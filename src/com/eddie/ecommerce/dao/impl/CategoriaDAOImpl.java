@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.CategoriaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -34,7 +33,6 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 	try {
-		conexion=ConnectionManager.getConnection();
 		String sql;
 		sql="select id_categoria, nombre from categoria_idiomaweb where id_categoria= ? and id_idioma_web like '"+idioma+"'";
 		
@@ -77,7 +75,6 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 		PreparedStatement pst=null;
 		ResultSet rs=null;
 		try {
-			conexion=ConnectionManager.getConnection();
 			String sql;
 			sql="select c.id_categoria, c.nombre from categoria_idiomaweb c where id_idioma_web like ?";
 
