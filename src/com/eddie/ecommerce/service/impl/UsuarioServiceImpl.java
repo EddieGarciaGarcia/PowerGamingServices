@@ -54,7 +54,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		
 		Usuario u2 = udao.create(u,c);
 		MailService mail=new MailServiceImpl();
-		mail.sendMail(u.getEmail(), "Bienvenido a mi página web","Hola muy buenas te has registrado correctamente");
+		mail.sendMail(u.getEmail(), "Bienvenido a mi página web","<html><h1>Bienvenido a Power Gaming</h1><p>Hola muy buenas te has registrado correctamente</p></html>");
 		
 		commit=true;
 		return u2;

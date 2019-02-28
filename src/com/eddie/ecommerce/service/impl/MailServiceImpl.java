@@ -1,9 +1,8 @@
 package com.eddie.ecommerce.service.impl;
 
 import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +16,7 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public void sendMail(String to,String subject,String message) {
 		
-		Email email = new SimpleEmail();
+		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(465);
 		email.setAuthenticator(new DefaultAuthenticator("powergaming2019@gmail.com", PASSWORD));
@@ -25,7 +24,7 @@ public class MailServiceImpl implements MailService {
 		email.setSubject(subject);
 		try {
 			email.setFrom("powergaming2019@gmail.com");
-			email.setMsg(message);
+			email.setHtmlMsg(message);
 			email.addTo(to);
 			email.send();
 		} catch (EmailException e) {

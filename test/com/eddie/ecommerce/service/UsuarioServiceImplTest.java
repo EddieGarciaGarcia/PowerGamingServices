@@ -79,7 +79,7 @@ public class UsuarioServiceImplTest {
 	public void create() {
 		try {
 			Usuario prueba=new Usuario();
-			prueba.setEmail("asda@asda.com");
+			prueba.setEmail("eddie_taboada@hotmail.com");
 			prueba.setNombre("asdada");
 			prueba.setApellido1("asdadasda");
 			prueba.setApellido2(null);
@@ -107,7 +107,7 @@ public class UsuarioServiceImplTest {
 	
 	public void delete() {
 				try {
-					System.out.println(daoU.delete("asda@asda.com"));
+					System.out.println(daoU.delete("eddie_taboada@hotmail.com"));
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -146,8 +146,8 @@ public class UsuarioServiceImplTest {
 		//test.testeServiceBiblio();
 		//test.testeCreateServiceBiblio();
 		//test.testServiceDeleteBiblio();
-		//test.create();
-		test.delete();
+		test.create();
+		//test.delete();
 		//test.createdireccion();
 		//test.testLogin();
 	}
