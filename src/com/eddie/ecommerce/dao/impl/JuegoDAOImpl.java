@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,15 +50,15 @@ public class JuegoDAOImpl implements JuegoDAO{
 				boolean first=true;
 				
 			
-				if(!jc.getCategoria().isEmpty() ) {
+				if(!jc.getCategoria().isEmpty()) {
 					strb.append(" inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria ");
 				}
 				
-				if(!jc.getIdioma().isEmpty() ) {
+				if(!jc.getIdiomas().isEmpty()) {
 					strb.append(" inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma ");
 				}
 				
-				if(!jc.getPlataforma().isEmpty()  ) {
+				if(!jc.getPlataformas().isEmpty()) {
 					strb.append(" inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma ");
 				}
 				
@@ -68,7 +68,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				}
 				
 				if(jc.getFechaLanzamiento()!=null) {
-					JDBCUtils.addClause(strb,first," YEAR(j.fecha_lanzamiento) = ? ");
+					JDBCUtils.addClause(strb,first," j.fecha_lanzamiento = ?");
 					first=false;
 				}
 			
@@ -82,20 +82,22 @@ public class JuegoDAOImpl implements JuegoDAO{
 					first=false;
 				}
 				
-				if (!jc.getCategoria().isEmpty() ) {
+				if (!jc.getCategoria().isEmpty()) {
 					JDBCUtils.addClause(strb, first,addCategoria(jc.getCategoria()).toString());	
 					first = false;
 				}
 				
-				if (!jc.getIdioma().isEmpty() ) {
-					JDBCUtils.addClause(strb, first,addIdioma(jc.getIdioma()).toString());	
+				if (!jc.getIdiomas().isEmpty()) {
+					JDBCUtils.addClause(strb, first,addIdioma(jc.getIdiomas()).toString());	
 					first = false;
 				}
 				
-				if (!jc.getPlataforma().isEmpty()) {
-					JDBCUtils.addClause(strb, first,addPlataforma(jc.getPlataforma()).toString());	
+				if (!jc.getPlataformas().isEmpty()) {
+					JDBCUtils.addClause(strb, first,addPlataforma(jc.getPlataformas()).toString());	
 					first = false;
 				}
+				
+				strb.append(" group by j.id_juego");
 				
 				pst = connection.prepareStatement(strb.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				
@@ -104,7 +106,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 					pst.setString(i++, "%" +jc.getNombre()+"%");
 				}
 				if(jc.getFechaLanzamiento()!=null) {
-					pst.setDate(i++, (java.sql.Date) jc.getFechaLanzamiento() );
+					pst.setInt(i++, jc.getFechaLanzamiento() );
 				}
 				if(jc.getIdCreador()!=null) {
 					pst.setInt(i++, jc.getIdCreador() );
@@ -277,7 +279,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				pst=connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				int i=1;
 				pst.setString(i++, j.getNombre());
-				pst.setDate(i++, (java.sql.Date) j.getFechaLanzamiento());			
+				pst.setInt(i++, j.getFechaLanzamiento());			
 				pst.setInt(i++, j.getIdCreador());
 				
 				
@@ -348,7 +350,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 					preparedStatement.setString(i++,j.getNombre());
 				
 				if (j.getFechaLanzamiento()!=null) 
-					preparedStatement.setDate(i++, (java.sql.Date) j.getFechaLanzamiento());
+					preparedStatement.setInt(i++, j.getFechaLanzamiento());
 				
 				if (j.getIdCreador()!=null) 
 					preparedStatement.setInt(i++,j.getIdCreador());
@@ -412,7 +414,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				int i=1;
 				Integer id  = rs.getInt(i++);
 				String nombre = rs.getString(i++);
-				Date fechaLanzamiento=rs.getDate(i++);
+				Integer fechaLanzamiento=rs.getInt(i++);
 				Integer idCreador = rs.getInt(i++);
 				
 				
@@ -431,7 +433,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Categoria c : categorias) {
-				lista.append(inner ? " (c.id_categoria = "+c.getIdCategria() : " OR " + c.getIdCategria());
+				lista.append(inner ? " (c.id_categoria = "+c.getIdCategria() : " OR c.id_categoria = " + c.getIdCategria());
 				inner=false;	
 			}
 			lista.append(" ) ");
@@ -442,7 +444,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Plataforma p : plataforma) {
-				lista.append(inner ? " (p.id_plataforma = "+p.getIdPlatadorma() : " OR " + p.getIdPlatadorma());
+				lista.append(inner ? " (p.id_plataforma = "+p.getIdPlatadorma() : " OR p.id_plataforma = " + p.getIdPlatadorma());
 				inner=false;	
 			}
 			lista.append(" ) ");
@@ -453,7 +455,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
 			for (Idioma i : idioma) {
-				lista.append(inner ? " (i.id_idioma LIKE '"+ i.getIdIdioma()+"'" : " OR '" + i.getIdIdioma()+"'");
+				lista.append(inner ? " (i.id_idioma LIKE '"+ i.getIdIdioma()+"'" : " OR i.id_idioma LIKE '" + i.getIdIdioma()+"'");
 				inner=false;	
 			}
 			lista.append(" ) ");

@@ -1,16 +1,25 @@
 package com.eddie.ecommerce.model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class Juego implements ValueObject, Comparable<Juego>{
 	private Integer idJuego=null;
 	private String nombre = null;
-	private Date fechaLanzamiento = null;
+	private Integer fechaLanzamiento = null;
 	private String informacion = null;
 	private Integer idCreador = null;
+	private Integer anho=null;
 	
+	public Integer getAnho() {
+		return anho;
+	}
+
+	public void setAnho(Integer anho) {
+		this.anho = anho;
+	}
+
 	private List<Categoria> categoria = null;	
 	private List<Idioma> idiomas=null;
 	private List<Plataforma> plataformas=null;
@@ -22,7 +31,7 @@ public class Juego implements ValueObject, Comparable<Juego>{
 		plataformas= new ArrayList<Plataforma>();
 	}
 	
-	public Juego(String nombre, Date fechaLanzamiento,Integer id_creador) {
+	public Juego(String nombre, Integer fechaLanzamiento,Integer id_creador) {
 		setNombre(nombre);
 		setFechaLanzamiento(fechaLanzamiento);
 		setIdCreador(id_creador);
@@ -51,11 +60,11 @@ public class Juego implements ValueObject, Comparable<Juego>{
 		this.nombre = nombre;
 	}
 
-	public Date getFechaLanzamiento() {
+	public Integer getFechaLanzamiento() {
 		return fechaLanzamiento;
 	}
 
-	public void setFechaLanzamiento(Date fechaLanzamiento) {
+	public void setFechaLanzamiento(Integer fechaLanzamiento) {
 		this.fechaLanzamiento = fechaLanzamiento;
 	}
 

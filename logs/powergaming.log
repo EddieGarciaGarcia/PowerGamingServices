@@ -1,74 +1,354 @@
-2019-02-28 18:15:00.784 DEBUG CategoriaServiceImpl.findAll:60 - Idioma = ES
-2019-02-28 18:15:00.784 DEBUG CategoriaServiceImpl.findAll:60 - Idioma = ES
-2019-02-28 18:15:01.497 DEBUG CategoriaDAOImpl.findAll:73 - Idioma = ES
-2019-02-28 18:15:01.497 DEBUG CategoriaDAOImpl.findAll:73 - Idioma = ES
-2019-02-28 18:15:01.513 DEBUG CategoriaDAOImpl.findAll:84 - select c.id_categoria, c.nombre from categoria_idiomaweb c where id_idioma_web like ?
-2019-02-28 18:15:01.513 DEBUG CategoriaDAOImpl.findAll:84 - select c.id_categoria, c.nombre from categoria_idiomaweb c where id_idioma_web like ?
-2019-02-28 18:15:33.273 DEBUG CategoriaServiceImpl.findAll:60 - Idioma = ES
-2019-02-28 18:15:33.273 DEBUG CategoriaServiceImpl.findAll:60 - Idioma = ES
-2019-02-28 18:15:33.874 DEBUG CategoriaDAOImpl.findAll:73 - Idioma = ES
-2019-02-28 18:15:33.874 DEBUG CategoriaDAOImpl.findAll:73 - Idioma = ES
-2019-02-28 18:15:33.883 DEBUG CategoriaDAOImpl.findAll:84 - select c.id_categoria, c.nombre from categoria_idiomaweb c where id_idioma_web like ?
-2019-02-28 18:15:33.883 DEBUG CategoriaDAOImpl.findAll:84 - select c.id_categoria, c.nombre from categoria_idiomaweb c where id_idioma_web like ?
-2019-02-28 21:02:13.977 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
-2019-02-28 21:02:13.977 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
-2019-02-28 21:02:14.585 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
-2019-02-28 21:02:14.585 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
-2019-02-28 21:02:14.601 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
-2019-02-28 21:02:14.601 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
-2019-02-28 21:02:21.969 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
-2019-02-28 21:02:21.969 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
-2019-02-28 21:02:22.578 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
-2019-02-28 21:02:22.578 DEBUG JuegoDAOImpl.findByJuegoCriteria:41 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
-2019-02-28 21:02:22.593 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
-2019-02-28 21:02:22.593 DEBUG JuegoDAOImpl.findByJuegoCriteria:117 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
-2019-02-28 21:02:29.025 DEBUG JuegoDAOImpl.findAllByDate:146 - select id_juego, nombre,fecha_lanzamiento, id_creador from juego order by fecha_lanzamiento desc  
-2019-02-28 21:02:29.025 DEBUG JuegoDAOImpl.findAllByDate:146 - select id_juego, nombre,fecha_lanzamiento, id_creador from juego order by fecha_lanzamiento desc  
-2019-02-28 21:02:35.582 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+2019-03-02 12:48:46.250 DEBUG JuegoDAOImpl.findAllByValoración:241 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
 from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
 group by j.nombre
 order by avg(uj.puntuacion) desc
-2019-02-28 21:02:35.582 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+2019-03-02 12:48:46.250 DEBUG JuegoDAOImpl.findAllByValoración:241 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
 from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
 group by j.nombre
 order by avg(uj.puntuacion) desc
-2019-02-28 21:02:53.314 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 21:02:53.314 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 21:03:30.714 DEBUG JuegoDAOImpl.findAllByDate:146 - select id_juego, nombre,fecha_lanzamiento, id_creador from juego order by fecha_lanzamiento desc  
-2019-02-28 21:03:30.714 DEBUG JuegoDAOImpl.findAllByDate:146 - select id_juego, nombre,fecha_lanzamiento, id_creador from juego order by fecha_lanzamiento desc  
-2019-02-28 21:03:51.031 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 21:03:51.031 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 21:05:14.781 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 21:05:14.781 DEBUG JuegoDAOImpl.findAllByValoración:244 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 21:06:43.908 DEBUG JuegoDAOImpl.findAllByValoración:242 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 21:06:43.908 DEBUG JuegoDAOImpl.findAllByValoración:242 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
-from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
-group by j.nombre
-order by avg(uj.puntuacion) desc
-2019-02-28 22:29:32.111 DEBUG UsuarioServiceImpl.create:46 - Usuario = com.eddie.ecommerce.model.Usuario@3c7f66c4[nombre=asdada,apellido1=asdadasda,apellido2=<null>,nombreUser=asdadaasdadasda,password=root,email=eddie_taboada@hotmail.com,fechaNacimiento=Tue Jun 21 00:00:00 CEST 1994,telefono=<null>,genero=H]
-2019-02-28 22:29:32.111 DEBUG UsuarioServiceImpl.create:46 - Usuario = com.eddie.ecommerce.model.Usuario@3c7f66c4[nombre=asdada,apellido1=asdadasda,apellido2=<null>,nombreUser=asdadaasdadasda,password=root,email=eddie_taboada@hotmail.com,fechaNacimiento=Tue Jun 21 00:00:00 CEST 1994,telefono=<null>,genero=H]
-2019-02-28 22:29:32.719 DEBUG UsuarioDAOImpl.create:29 - Usuario = com.eddie.ecommerce.model.Usuario@3c7f66c4[nombre=asdada,apellido1=asdadasda,apellido2=<null>,nombreUser=asdadaasdadasda,password=root,email=eddie_taboada@hotmail.com,fechaNacimiento=Tue Jun 21 00:00:00 CEST 1994,telefono=<null>,genero=H]
-2019-02-28 22:29:32.719 DEBUG UsuarioDAOImpl.create:29 - Usuario = com.eddie.ecommerce.model.Usuario@3c7f66c4[nombre=asdada,apellido1=asdadasda,apellido2=<null>,nombreUser=asdadaasdadasda,password=root,email=eddie_taboada@hotmail.com,fechaNacimiento=Tue Jun 21 00:00:00 CEST 1994,telefono=<null>,genero=H]
-2019-02-28 22:29:32.798 DEBUG UsuarioDAOImpl.create:57 - Insert Into usuario(email,nombre,apellido1,apellido2,telefono,password, fecha_nacimiento, genero,nombre_user) values (?,?,?,?,?,?,?,?,?)
-2019-02-28 22:29:32.798 DEBUG UsuarioDAOImpl.create:57 - Insert Into usuario(email,nombre,apellido1,apellido2,telefono,password, fecha_nacimiento, genero,nombre_user) values (?,?,?,?,?,?,?,?,?)
+2019-03-02 12:48:57.782 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:48:57.782 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:48:58.384 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:48:58.384 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:49:21.010 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:49:21.010 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:49:21.608 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:49:21.608 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:49:33.378 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:49:33.378 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:49:33.995 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:49:33.995 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:50:24.864 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 12:50:24.864 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 12:50:25.399 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 12:50:25.399 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 12:51:02.812 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:51:02.812 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 , idioma = ES
+2019-03-02 12:51:11.619 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:51:11.619 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@7c24b813 ,idioma = ES
+2019-03-02 12:53:32.161 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 12:53:32.161 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 12:53:32.707 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 12:53:32.707 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 12:59:17.733 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 12:59:17.733 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 12:59:18.281 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 12:59:18.281 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 12:59:18.292 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma  inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma  WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 12:59:18.292 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma  inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma  WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 12:59:18.300 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 12:59:18.300 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:02:25.536 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:02:25.536 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:02:26.072 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:02:26.072 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:02:26.083 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma  inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma  WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:02:26.083 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma  inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma  WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:02:26.091 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:02:26.091 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:02:48.301 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:02:48.301 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:02:48.826 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:02:48.826 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:02:48.837 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:02:48.837 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:02:48.845 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:02:48.845 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:04:26.337 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:04:26.337 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:04:26.875 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:04:26.875 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:04:27.307 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:04:27.307 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:04:27.315 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:04:27.315 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:05:09.281 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:05:09.281 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:05:09.812 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:05:09.812 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:05:09.823 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:05:09.823 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:05:09.831 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:05:09.831 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:67) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:142) [bin/:?]
+2019-03-02 13:05:30.792 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:05:30.792 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:05:31.326 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:05:31.326 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:05:31.337 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:05:31.337 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ?  AND  )  AND  )  AND  ) 
+2019-03-02 13:05:31.345 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:65) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:140) [bin/:?]
+2019-03-02 13:05:31.345 ERROR JuegoDAOImpl.findByJuegoCriteria:128 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')  AND  )  AND  )' at line 1
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:974) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1024) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:118) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:65) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:140) [bin/:?]
+2019-03-02 13:05:55.257 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:05:55.257 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:05:55.798 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:05:55.798 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:05:55.809 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-03-02 13:05:55.809 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-03-02 13:06:15.246 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:06:15.246 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:06:15.778 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:06:15.778 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:06:15.789 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-03-02 13:06:15.789 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-03-02 13:06:25.725 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:06:25.725 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:06:26.257 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:06:26.257 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:06:26.268 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-03-02 13:06:26.268 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.nombre like ?  AND  jiw.id_idioma_web like ? 
+2019-03-02 13:31:56.845 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:31:56.845 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:31:57.382 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:31:57.382 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:31:57.393 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR 8 ) 
+2019-03-02 13:31:57.393 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR 8 ) 
+2019-03-02 13:34:32.021 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:34:32.021 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:34:32.564 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:34:32.564 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:34:32.575 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR 8 ) 
+2019-03-02 13:34:32.575 DEBUG JuegoDAOImpl.findByJuegoCriteria:116 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR 8 ) 
+2019-03-02 13:42:08.529 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:42:08.529 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:42:09.063 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:42:09.063 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:42:09.074 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR  c.id_categoria =8 )  group by j.id_juego
+2019-03-02 13:42:09.074 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR  c.id_categoria =8 )  group by j.id_juego
+2019-03-02 13:43:25.229 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:43:25.229 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:43:25.765 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:43:25.765 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:43:25.776 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria =8 )  group by j.id_juego
+2019-03-02 13:43:25.776 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria =8 )  group by j.id_juego
+2019-03-02 13:50:49.764 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:50:49.764 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 13:50:50.310 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:50:50.310 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 13:50:50.321 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 )  group by j.id_juego
+2019-03-02 13:50:50.321 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 )  group by j.id_juego
+2019-03-02 14:14:34.363 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 14:14:34.363 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 14:14:34.898 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 14:14:34.898 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 14:14:34.909 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 14:14:34.909 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:00:06.024 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:00:06.024 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:00:06.569 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:00:06.569 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:00:06.580 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:00:06.580 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:00:06.583 ERROR JuegoDAOImpl.findByJuegoCriteria:130 - No value specified for parameter 2
+java.sql.SQLException: No value specified for parameter 2
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:129) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1041) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:120) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:72) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:145) [bin/:?]
+2019-03-02 18:00:06.583 ERROR JuegoDAOImpl.findByJuegoCriteria:130 - No value specified for parameter 2
+java.sql.SQLException: No value specified for parameter 2
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:129) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:1041) ~[mysql-connector-java-8.0.13.jar:8.0.13]
+	at com.eddie.ecommerce.dao.impl.JuegoDAOImpl.findByJuegoCriteria(JuegoDAOImpl.java:120) [bin/:?]
+	at com.eddie.ecommerce.service.impl.JuegoServiceImpl.findByJuegoCriteria(JuegoServiceImpl.java:47) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.testfindbyCriteria(JuegoServiceTest.java:72) [bin/:?]
+	at com.eddie.ecommerce.service.JuegoServiceTest.main(JuegoServiceTest.java:145) [bin/:?]
+2019-03-02 18:01:37.670 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:01:37.670 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:01:38.204 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:01:38.204 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:01:57.529 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:01:57.529 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:01:58.057 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:01:58.057 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:01:58.070 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:01:58.070 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:13.738 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:13.738 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:14.274 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:14.274 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:14.287 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:14.287 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:25.330 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:25.330 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:25.872 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:25.872 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:25.884 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:25.884 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:44.959 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:44.959 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:45.489 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:45.489 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:45.501 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:45.501 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:55.330 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:55.330 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:02:55.869 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:55.869 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:02:55.882 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:02:55.882 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria  WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  AND  (c.id_categoria = 7 OR c.id_categoria = 8 OR c.id_categoria = 9 )  group by j.id_juego
+2019-03-02 18:03:27.365 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:03:27.365 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:03:27.905 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:03:27.905 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:03:27.918 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:03:27.918 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  YEAR(j.fecha_lanzamiento) = ?  AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:04:27.358 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:04:27.358 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:04:27.899 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:04:27.899 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:04:27.912 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:04:27.912 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:05:50.864 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:05:50.864 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:05:51.406 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:05:51.406 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:15:18.800 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:15:18.800 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:15:19.342 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:15:19.342 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:15:19.354 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:15:19.354 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:15:51.353 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:15:51.353 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:15:51.891 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:15:51.891 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:15:51.904 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:15:51.904 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:16:02.281 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@2c35e847 , idioma = ES
+2019-03-02 18:16:02.281 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@2c35e847 , idioma = ES
+2019-03-02 18:16:11.106 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@2c35e847 ,idioma = ES
+2019-03-02 18:16:11.106 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@2c35e847 ,idioma = ES
+2019-03-02 18:16:11.219 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:16:11.219 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = YEAR(?) AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:24:15.757 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:24:15.757 DEBUG JuegoServiceImpl.findByJuegoCriteria:38 - Juego Criteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 , idioma = ES
+2019-03-02 18:24:16.300 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:24:16.300 DEBUG JuegoDAOImpl.findByJuegoCriteria:40 - JuegoCriteria = com.eddie.ecommerce.model.JuegoCriteria@78ac1102 ,idioma = ES
+2019-03-02 18:24:16.310 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = ? AND  jiw.id_idioma_web like ?  group by j.id_juego
+2019-03-02 18:24:16.310 DEBUG JuegoDAOImpl.findByJuegoCriteria:118 - select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego WHERE  j.fecha_lanzamiento = ? AND  jiw.id_idioma_web like ?  group by j.id_juego

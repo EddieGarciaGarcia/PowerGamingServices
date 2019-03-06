@@ -2,7 +2,7 @@ package com.eddie.ecommerce.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -45,11 +45,13 @@ public class JuegoServiceTest {
 			
 			Categoria ca=new Categoria();
 			Categoria cate=new Categoria();
+			Categoria categ=new Categoria();
 			List<Categoria> cat=new ArrayList();
 //			ca.setIdCategria(3);
 //			cat.add(ca);
-		
-			
+			ca.setIdCategria(7);
+			cate.setIdCategria(8);
+			categ.setIdCategria(9);
 			Idioma idiom=new Idioma();
 //			idiom.setIdIdioma("ESP");
 			List<Idioma>idiomas=new ArrayList();
@@ -58,20 +60,19 @@ public class JuegoServiceTest {
 //			plataf.setIdPlatadorma(1);
 			List<Plataforma> plataforma=new ArrayList();
 //			plataforma.add(plataf);
-			
-			ju.setNombre("dia");
+//			cat.add(ca);
+//			cat.add(cate);
+//			cat.add(categ);
 			ju.setCategoria(cat);
-			ju.setIdioma(idiomas);
-			ju.setPlataforma(plataforma);
+			ju.setFechaLanzamiento(2001);
+			
 			
 			List<Juego> juegos;
 			try {
 				juegos =serviceJ.findByJuegoCriteria(ju, "ES");
 				for(Juego j:juegos) {
 					System.out.println(j.getNombre());
-					for(Categoria categoria: j.getCategoria()) {
-						System.out.println(categoria.getNombre());
-					}
+					
 				}
 				
 			} catch (DataException | SQLException e) {
@@ -96,7 +97,9 @@ public class JuegoServiceTest {
 	
 	public void create() throws DuplicateInstanceException, DataException {
 		
-			Juego juegos=new Juego("prueba",new Date(),2);
+
+			
+			Juego juegos=new Juego("prueba",new Date(04-06-2000),2);
 			try {
 				juegos =serviceJ.create(juegos);
 				System.out.println("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
@@ -140,8 +143,8 @@ public class JuegoServiceTest {
 	public static void main(String[] args) {
 		JuegoServiceTest test = new JuegoServiceTest();
 		//test.testFindByDate();
-		test.testfindValoracion();
-		//test.testfindbyCriteria();
+		//test.testfindValoracion();
+		test.testfindbyCriteria();
 		/*
 		try {
 			
