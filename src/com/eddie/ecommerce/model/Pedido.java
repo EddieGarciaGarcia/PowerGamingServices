@@ -69,5 +69,21 @@ public class Pedido implements ValueObject{
 		this.lineaspedido = lineaspedido;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o == null) {
+			return false;
+		}
+		Pedido p= (Pedido) o;
+		if(this.getIdPedido()!=null && this.getIdPedido()==p.getIdPedido()) {
+			return this.getIdPedido().equals(p.getIdPedido());
+		}else {
+			return true;
+		}
+	}
+	@Override
+	public int hashCode() {
+		return idPedido;
+	}
 	
 }

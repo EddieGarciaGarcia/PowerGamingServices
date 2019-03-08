@@ -31,7 +31,7 @@ public class JuegoDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			List<Juego> juegos;
-			juegos =daoJ.findAllByDate(c);
+			juegos =daoJ.findAllByDate(c,"ES");
 			for(Juego j : juegos){
 			    System.out.println(j.getNombre());
 			}
@@ -49,20 +49,8 @@ public class JuegoDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			JuegoCriteria ju=new JuegoCriteria();
-			
-			Categoria ca=new Categoria();
-			Categoria cate=new Categoria();
-			List<Categoria> cat=new ArrayList();
-			ca.setIdCategria(3);
-			cat.add(ca);
-			cat.add(cate);
-			
-			List<Idioma>idiomas=new ArrayList();
-			List<Plataforma> plataforma=new ArrayList();
-			
-			ju.setCategoria(cat);
-			ju.setIdioma(idiomas);
-			ju.setPlataforma(plataforma);
+					
+		
 			
 			List<Juego> juegos;
 			juegos =daoJ.findByJuegoCriteria(ju, "ES", c);
@@ -99,7 +87,7 @@ public class JuegoDAOTest {
 	public void create() throws DuplicateInstanceException, DataException {
 		try {
 			Connection c= ConnectionManager.getConnection();
-			Juego juegos=new Juego("prueba",new Date(),2);
+			Juego juegos=new Juego("prueba",1998,2);
 			juegos =daoJ.create(c, juegos);
 			System.out.println("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
 		} catch (SQLException e) {
@@ -113,7 +101,7 @@ public class JuegoDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			List<Juego> juegos;
-			juegos =daoJ.findAllByValoración(c);
+			juegos =daoJ.findAllByValoracion(c,"ES");
 			
 			for(Juego j : juegos){
 			    System.out.println(j.getIdJuego()+",Fecha "
@@ -130,7 +118,7 @@ public class JuegoDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			List<Juego> juegos;
-			juegos =daoJ.findAllByDate(c);
+			juegos =daoJ.findAllByDate(c,"ES");
 			
 			for(Juego j : juegos){
 			    System.out.println(j.getIdJuego()+","+j.getFechaLanzamiento());
@@ -146,9 +134,9 @@ public class JuegoDAOTest {
 	
 	public static void main(String[] args) {
 		JuegoDAOTest test = new JuegoDAOTest();
-		test.testFindByDate();
+		//test.testFindByDate();
 		//test.testfindValoracion();
-		//test.testfindbyCriteria();
+		test.testfindbyCriteria();
 		/*
 		try {
 			

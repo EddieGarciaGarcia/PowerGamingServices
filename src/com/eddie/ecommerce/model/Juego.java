@@ -1,28 +1,18 @@
 package com.eddie.ecommerce.model;
 
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class Juego implements ValueObject, Comparable<Juego>{
 	private Integer idJuego=null;
 	private String nombre = null;
 	private Integer fechaLanzamiento = null;
-	private String informacion = null;
 	private Integer idCreador = null;
-	private Integer anho=null;
 	
-	public Integer getAnho() {
-		return anho;
-	}
-
-	public void setAnho(Integer anho) {
-		this.anho = anho;
-	}
-
 	private List<Categoria> categoria = null;	
 	private List<Idioma> idiomas=null;
 	private List<Plataforma> plataformas=null;
+
 
 	
 	public Juego() {
@@ -31,19 +21,17 @@ public class Juego implements ValueObject, Comparable<Juego>{
 		plataformas= new ArrayList<Plataforma>();
 	}
 	
-	public Juego(String nombre, Integer fechaLanzamiento,Integer id_creador) {
+	public Juego(String nombre, Integer fechaLanzamiento,Integer creador) {
 		setNombre(nombre);
 		setFechaLanzamiento(fechaLanzamiento);
-		setIdCreador(id_creador);
+		setIdCreador(creador);
 	}
 	
-	public Juego(String nombre, String informacion) {
+	public Juego(String nombre) {
 		setNombre(nombre);
-		setInformacion(informacion);
 
 	}
 	
-
 	public Integer getIdJuego() {
 		return idJuego;
 	}
@@ -68,21 +56,12 @@ public class Juego implements ValueObject, Comparable<Juego>{
 		this.fechaLanzamiento = fechaLanzamiento;
 	}
 
-	public String getInformacion() {
-		return informacion;
-	}
-
-	public void setInformacion(String informacion) {
-		this.informacion = informacion;
-	}
-
-
 	public Integer getIdCreador() {
 		return idCreador;
 	}
 
-	public void setIdCreador(Integer id_creador) {
-		this.idCreador = id_creador;
+	public void setIdCreador(Integer creador) {
+		this.idCreador = creador;
 	}
 
 	@Override

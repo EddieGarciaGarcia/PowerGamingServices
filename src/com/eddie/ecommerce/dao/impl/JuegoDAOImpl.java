@@ -6,13 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import java.sql.Date;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.eddie.ecommerce.dao.CategoriaDAO;
+import com.eddie.ecommerce.dao.IdiomaDAO;
 import com.eddie.ecommerce.dao.JuegoDAO;
+import com.eddie.ecommerce.dao.PlataformaDAO;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
@@ -33,7 +35,19 @@ import com.eddie.ecommerce.service.impl.PlataformaServiceImpl;
 public class JuegoDAOImpl implements JuegoDAO{
 		
 		private static Logger logger=LogManager.getLogger(JuegoDAOImpl.class);
-
+		
+		private CategoriaDAO categoriaDAO = null;
+		private PlataformaDAO plataformaDAO = null;
+		private IdiomaDAO idiomaDAO=null;
+		
+		
+		public JuegoDAOImpl() {
+			categoriaDAO = new CategoriaDAOImpl();
+			plataformaDAO= new PlataformaDAOImpl();
+			idiomaDAO= new IdiomaDAOImpl();
+			
+		}
+		
 		public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, Connection connection) throws DataException {
 			
 			if(logger.isDebugEnabled()) {
@@ -82,18 +96,22 @@ public class JuegoDAOImpl implements JuegoDAO{
 					first=false;
 				}
 				
+				/*
 				if (!jc.getCategoria().isEmpty()) {
 					JDBCUtils.addClause(strb, first,addCategoria(jc.getCategoria()).toString());	
 					first = false;
+				} */
+				if (jc.getCategoriaIDs()!=null && jc.getCategoriaIDs().length>0) {
+					JDBCUtils.addClause(strb, first, addCategoria(jc.getCategoriaIDs()).toString());
 				}
 				
-				if (!jc.getIdiomas().isEmpty()) {
-					JDBCUtils.addClause(strb, first,addIdioma(jc.getIdiomas()).toString());	
+				if (jc.getIdiomaIDs()!=null && jc.getIdiomaIDs().length>0) {
+					JDBCUtils.addClause(strb, first,addIdioma(jc.getIdiomaIDs()).toString());	
 					first = false;
 				}
 				
-				if (!jc.getPlataformas().isEmpty()) {
-					JDBCUtils.addClause(strb, first,addPlataforma(jc.getPlataformas()).toString());	
+				if (jc.getPlataformaIDs()!=null && jc.getPlataformaIDs().length>0) {
+					JDBCUtils.addClause(strb, first,addPlataforma(jc.getPlataformaIDs()).toString());	
 					first = false;
 				}
 				
@@ -122,7 +140,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				List<Juego> juegos = new ArrayList<Juego>();
 				Juego j=null;
 				while(rs.next()){
-					j=loadNext(rs);
+					j=loadNext(connection, rs, idioma);
 					juegos.add(j);
 				}
 				return juegos;
@@ -135,7 +153,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		}
 
-		public List<Juego> findAllByDate(Connection connection) throws DataException{
+		public List<Juego> findAllByDate(Connection connection, String idioma) throws DataException{
 			
 				Juego j=null;
 				PreparedStatement pst=null;
@@ -152,7 +170,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				List <Juego> juegos=new ArrayList<Juego>();
 				while(rs.next()){
-					j=loadNext(rs);
+					j= loadNext(connection, rs, idioma);
 					juegos.add(j);
 					
 				}
@@ -198,7 +216,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				logger.debug(sql);
 				
 				if(rs.next()){
-					j=loadNext(rs);
+					j=loadNext(connection, rs, idioma);
 				}else {
 					throw new InstanceNotFoundException("Error "+idJuego+" id introducido incorrecto", Juego.class.getName());
 				}
@@ -229,7 +247,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		
 		@Override
-		public List<Juego> findAllByValoración(Connection connection) throws DataException {
+		public List<Juego> findAllByValoracion(Connection connection, String idioma) throws DataException {
 				Juego j=null;
 				PreparedStatement pst=null;
 				ResultSet rs=null;
@@ -249,7 +267,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				List <Juego> juegos=new ArrayList<Juego>();
 				while(rs.next()){
 					
-					j=loadNext(rs);
+					j = loadNext(connection, rs, idioma);
 					juegos.add(j);
 					
 				}
@@ -409,7 +427,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 		}
 		
-		public Juego loadNext(ResultSet rs) 
+		public Juego loadNext(Connection c, ResultSet rs, String idioma) 
 			throws DataException,SQLException{
 				int i=1;
 				Integer id  = rs.getInt(i++);
@@ -417,45 +435,50 @@ public class JuegoDAOImpl implements JuegoDAO{
 				Integer fechaLanzamiento=rs.getInt(i++);
 				Integer idCreador = rs.getInt(i++);
 				
-				
 				Juego j= new Juego();
 				j.setIdJuego(id);
 				j.setNombre(nombre);
 				j.setFechaLanzamiento(fechaLanzamiento);
 				j.setIdCreador(idCreador);
 				
+				List<Categoria> categorias = categoriaDAO.findByJuego(c, id, idioma);
+				j.setCategoria(categorias);
+				List<Plataforma> plataforma = plataformaDAO.findByJuego(c, id);
+				j.setPlataformas(plataforma);
+				List<Idioma> idiomas = idiomaDAO.findByJuego(c, id, idioma);
+				j.setIdiomas(idiomas);
 				return j;
 				
 		}
 		
-		private StringBuilder addCategoria(List<Categoria> categorias) {
+		private StringBuilder addCategoria(int[] categorias) {
 		
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
-			for (Categoria c : categorias) {
-				lista.append(inner ? " (c.id_categoria = "+c.getIdCategria() : " OR c.id_categoria = " + c.getIdCategria());
+			for (Integer c : categorias) {
+				lista.append(inner ? " (c.id_categoria = "+c : " OR c.id_categoria = " + c);
 				inner=false;	
 			}
 			lista.append(" ) ");
 			return lista;
 		}
-		private StringBuilder addPlataforma(List<Plataforma> plataforma) {
+		private StringBuilder addPlataforma(int[] plataforma) {
 		
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
-			for (Plataforma p : plataforma) {
-				lista.append(inner ? " (p.id_plataforma = "+p.getIdPlatadorma() : " OR p.id_plataforma = " + p.getIdPlatadorma());
+			for (Integer p : plataforma) {
+				lista.append(inner ? " (p.id_plataforma = "+p : " OR p.id_plataforma = " + p);
 				inner=false;	
 			}
 			lista.append(" ) ");
 			return lista;
 		}
-		private StringBuilder addIdioma(List<Idioma> idioma) {
+		private StringBuilder addIdioma(String[] idioma) {
 			
 			boolean inner = true;
 			StringBuilder lista = new StringBuilder();
-			for (Idioma i : idioma) {
-				lista.append(inner ? " (i.id_idioma LIKE '"+ i.getIdIdioma()+"'" : " OR i.id_idioma LIKE '" + i.getIdIdioma()+"'");
+			for (String i : idioma) {
+				lista.append(inner ? " (i.id_idioma LIKE '"+ i.toString()+"'" : " OR i.id_idioma LIKE '" + i.toString()+"'");
 				inner=false;	
 			}
 			lista.append(" ) ");

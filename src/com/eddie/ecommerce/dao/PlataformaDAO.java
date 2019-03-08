@@ -13,6 +13,7 @@ public interface PlataformaDAO {
 	public Plataforma findbyIdPlataforma(Connection conexion,Integer id) throws InstanceNotFoundException, DataException;
 	
 	public List<Plataforma>  findAll(Connection conexion) throws DataException; 
-	
-	public List<Plataforma>  findByJuego(Connection conexion,Integer idJuego) throws DataException;
+
+	public List<Plataforma>  findByJuego(Connection conexion, Integer idJuego)throws DataException;
+
 }

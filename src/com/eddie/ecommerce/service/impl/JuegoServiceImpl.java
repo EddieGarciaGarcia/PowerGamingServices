@@ -57,14 +57,14 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public List<Juego> findAllByDate() throws DataException, SQLException {
+	public List<Juego> findAllByDate(String idioma) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Juego> juegos=jdao.findAllByDate(c);
+		List<Juego> juegos=jdao.findAllByDate(c, idioma);
 		
 		return juegos;
 		
@@ -77,14 +77,14 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public List<Juego> findAllByValoración() throws DataException, SQLException {
+	public List<Juego> findAllByValoracion(String idioma) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Juego> juegos=jdao.findAllByValoración(c);
+		List<Juego> juegos=jdao.findAllByValoracion(c, idioma);
 		
 		return juegos;
 		
