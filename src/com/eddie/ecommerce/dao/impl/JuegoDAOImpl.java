@@ -64,15 +64,15 @@ public class JuegoDAOImpl implements JuegoDAO{
 				boolean first=true;
 				
 			
-				if(!jc.getCategoria().isEmpty()) {
+				if(jc.getCategoriaIDs()!=null && jc.getCategoriaIDs().length>0) {
 					strb.append(" inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria ");
 				}
 				
-				if(!jc.getIdiomas().isEmpty()) {
+				if(jc.getIdiomaIDs()!=null && jc.getIdiomaIDs().length>0) {
 					strb.append(" inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma ");
 				}
 				
-				if(!jc.getPlataformas().isEmpty()) {
+				if(jc.getPlataformaIDs()!=null && jc.getPlataformaIDs().length>0) {
 					strb.append(" inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma ");
 				}
 				
