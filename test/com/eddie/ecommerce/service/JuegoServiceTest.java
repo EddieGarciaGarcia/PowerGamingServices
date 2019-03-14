@@ -27,7 +27,7 @@ public class JuegoServiceTest {
 			
 			List<Juego> juegos;
 			try {
-				juegos =serviceJ.findAllByDate();
+				juegos =serviceJ.findAllByDate("ES");
 				for(Juego j : juegos){
 				    System.out.println(j.getNombre());
 				}
@@ -49,6 +49,7 @@ public class JuegoServiceTest {
 			List<Categoria> cat=new ArrayList();
 //			ca.setIdCategria(3);
 //			cat.add(ca);
+			
 			ca.setIdCategria(7);
 			cate.setIdCategria(8);
 			categ.setIdCategria(9);
@@ -95,7 +96,7 @@ public class JuegoServiceTest {
 			
 	}
 	
-	public void create() throws DuplicateInstanceException, DataException {
+	/*public void create() throws DuplicateInstanceException, DataException {
 		
 
 			
@@ -109,13 +110,13 @@ public class JuegoServiceTest {
 				e.printStackTrace();
 			}
 			
-	}
+	}*/
 	
 	public void testfindValoracion() {
 		
 			List<Juego> juegos;
 			try {
-				juegos =serviceJ.findAllByValoración();
+				juegos =serviceJ.findAllByValoracion("ES");
 				for(Juego j : juegos){
 				    System.out.println(j.getIdJuego()+",Fecha "
 				    		+ ""+j.getFechaLanzamiento());
@@ -130,7 +131,7 @@ public class JuegoServiceTest {
 		
 			List<Juego> juegos;
 			try {
-				juegos =serviceJ.findAllByDate();
+				juegos =serviceJ.findAllByDate("ES");
 				for(Juego j : juegos){
 				    System.out.println(j.getIdJuego()+","+j.getFechaLanzamiento());
 				}
