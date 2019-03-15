@@ -14,7 +14,7 @@ public interface JuegoService {
 	public List<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma) throws DataException, SQLException;
 	
 	//Buscador del index.html todos los juegos por data 
-	public List<Juego> findAllByDate(String idioma) throws DataException, SQLException;
+	public Resultados<Juego> findAllByDate(String idioma , int startIndex, int count) throws DataException, SQLException;
 	
 	//Buscador del index.html todos por puntuacion
 	public List<Juego> findAllByValoracion(String idioma) throws DataException, SQLException;

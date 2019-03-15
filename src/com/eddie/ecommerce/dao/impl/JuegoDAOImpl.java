@@ -27,6 +27,7 @@ import com.eddie.ecommerce.model.Plataforma;
 import com.eddie.ecommerce.service.CategoriaService;
 import com.eddie.ecommerce.service.IdiomaService;
 import com.eddie.ecommerce.service.PlataformaService;
+import com.eddie.ecommerce.service.Resultados;
 import com.eddie.ecommerce.service.impl.CategoriaServiceImpl;
 import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
 import com.eddie.ecommerce.service.impl.PlataformaServiceImpl;
@@ -153,7 +154,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		}
 
-		public List<Juego> findAllByDate(Connection connection, String idioma) throws DataException{
+		public Resultados<Juego> findAllByDate(Connection connection, String idioma , int startIndex, int count) throws DataException{
 			
 				Juego j=null;
 				PreparedStatement pst=null;
@@ -169,12 +170,24 @@ public class JuegoDAOImpl implements JuegoDAO{
 				rs=pst.executeQuery();
 				
 				List <Juego> juegos=new ArrayList<Juego>();
-				while(rs.next()){
-					j= loadNext(connection, rs, idioma);
-					juegos.add(j);
-					
+				int currentCount=0;
+				
+				if ((startIndex >=1) && rs.absolute(startIndex)) {
+					do {
+						j= loadNext(connection, rs, idioma);
+						juegos.add(j);
+						currentCount++;
+					}while((currentCount<count) && rs.next());
 				}
-				return juegos;
+				
+				int total= JDBCUtils.getTotalRows(rs);
+				
+				if(logger.isDebugEnabled()) {
+					logger.debug("Total peticiones: "+total);
+				}
+				
+				Resultados<Juego> resultados= new Resultados<Juego>(juegos,startIndex,total);
+				return resultados;
 			}catch (SQLException ex) {
 				logger.error(ex.getMessage(),ex);
 				throw new DataException(ex);

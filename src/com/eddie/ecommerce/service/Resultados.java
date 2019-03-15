@@ -2,13 +2,17 @@ package com.eddie.ecommerce.service;
 
 import java.util.List;
 
+
 public class Resultados<T> {
 	
 	private List<T> resultados= null;
-	private Integer total;
+	private Integer startIndex=0;
+	private Integer total=0;
 	
-	public Resultados() {
-		
+	public Resultados(List<T> r, int startIndex, int total) {
+		setResultados(r);
+		setStartIndex(startIndex);
+		setTotal(total);
 	}
 
 	public List<T> getResultados() {
@@ -25,6 +29,14 @@ public class Resultados<T> {
 
 	public void setTotal(Integer total) {
 		this.total = total;
+	}
+
+	public Integer getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(Integer startIndex) {
+		this.startIndex = startIndex;
 	}
 	
 	

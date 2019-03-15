@@ -2,10 +2,12 @@ package com.eddie.ecommerce.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Juego;
@@ -21,16 +23,28 @@ public class JuegoServiceTest {
 		serviceJ=new JuegoServiceImpl();
 		serviceC=new CategoriaServiceImpl();
 	}
-	
-	public void testfindAllJuego() {
+	private static Logger logger = LogManager.getLogger(JuegoServiceTest.class.getName());
+	public void testFindByDate() {
 		
-			
-			List<Juego> juegos;
+			int tamanhoPagina=2;
+			Resultados<Juego> juegos;
+			int startIndex=1;
+			int i=1;
 			try {
-				juegos =serviceJ.findAllByDate("ES");
-				for(Juego j : juegos){
-				    System.out.println(j.getNombre());
-				}
+				juegos =serviceJ.findAllByDate("ES",startIndex,tamanhoPagina);
+				do {
+					juegos = serviceJ.findAllByDate("ES",startIndex, tamanhoPagina);
+					logger.info("Found "+juegos.getTotal()+" results.");				
+					if (juegos.getResultados().size()>0) {
+						logger.info("Page ["+startIndex+" - "+(startIndex+juegos.getResultados().size()-1)+"] : ");				
+						for (Juego t: juegos.getResultados()) {
+							logger.info("Result "+i+": "+t.toString());
+							i++;
+						}
+						startIndex = startIndex + tamanhoPagina;
+					}
+
+				} while (!(juegos.getResultados().size()<tamanhoPagina)); 	
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -127,9 +141,9 @@ public class JuegoServiceTest {
 			}
 
 	}
-	public void testFindByDate() {
+	public void testfindAllJuego() {
 		
-			List<Juego> juegos;
+			/*List<Juego> juegos;
 			try {
 				juegos =serviceJ.findAllByDate("ES");
 				for(Juego j : juegos){
@@ -138,14 +152,14 @@ public class JuegoServiceTest {
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 				
 	}
 	public static void main(String[] args) {
 		JuegoServiceTest test = new JuegoServiceTest();
-		//test.testFindByDate();
+		test.testFindByDate();
 		//test.testfindValoracion();
-		test.testfindbyCriteria();
+		//test.testfindbyCriteria();
 		/*
 		try {
 			

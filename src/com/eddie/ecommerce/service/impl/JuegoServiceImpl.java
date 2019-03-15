@@ -18,6 +18,7 @@ import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
 import com.eddie.ecommerce.service.JuegoService;
+import com.eddie.ecommerce.service.Resultados;
 
 public class JuegoServiceImpl implements JuegoService{
 
@@ -57,14 +58,14 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public List<Juego> findAllByDate(String idioma) throws DataException, SQLException {
+	public Resultados<Juego> findAllByDate(String idioma , int startIndex, int count) throws DataException, SQLException {
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Juego> juegos=jdao.findAllByDate(c, idioma);
+		Resultados<Juego> juegos=jdao.findAllByDate(c, idioma, startIndex, count);
 		
 		return juegos;
 		
