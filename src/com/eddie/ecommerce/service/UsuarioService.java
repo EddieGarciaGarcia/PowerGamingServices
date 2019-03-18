@@ -2,7 +2,6 @@ package com.eddie.ecommerce.service;
 
 
 import java.sql.SQLException;
-import java.util.List;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -23,7 +22,7 @@ public interface UsuarioService {
 	public Usuario login(String email, String password)throws SQLException,DataException;
 	
 	//Biblioteca
-	public List<ItemBiblioteca> findByUsuario(String email)throws SQLException,DataException;
+	public Resultados<ItemBiblioteca> findByUsuario(String email, int startIndex, int count)throws SQLException,DataException;
 	
 	//Añadir a biblioteca
 	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b)throws DuplicateInstanceException,SQLException,DataException;

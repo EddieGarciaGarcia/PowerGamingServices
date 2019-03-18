@@ -49,7 +49,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 		}
 		
-		public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, Connection connection) throws DataException {
+		public Resultados<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, Connection connection, int startIndex, int count) throws DataException {
 			
 			if(logger.isDebugEnabled()) {
 				logger.debug("JuegoCriteria = "+jc.toString()+" ,idioma = "+idioma);
@@ -140,18 +140,31 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				List<Juego> juegos = new ArrayList<Juego>();
 				Juego j=null;
-				while(rs.next()){
-					j=loadNext(connection, rs, idioma);
-					juegos.add(j);
+				int currentCount=0;
+				
+				if ((startIndex >=1) && rs.absolute(startIndex)) {
+					do {
+						j= loadNext(connection, rs, idioma);
+						juegos.add(j);
+						currentCount++;
+					}while((currentCount<count) && rs.next());
 				}
-				return juegos;
+				
+				int total= JDBCUtils.getTotalRows(rs);
+				
+				if(logger.isDebugEnabled()) {
+					logger.debug("Total peticiones: "+total);
+				}
+				
+				Resultados<Juego> resultados= new Resultados<Juego>(juegos,startIndex,total);
+				return resultados;
 				}catch (SQLException e) {
 					logger.error(e.getMessage(),e);
 					throw new DataException(e);
 				}finally {
 				JDBCUtils.closeResultSet(rs);
 				JDBCUtils.closeStatement(pst);
-		}
+				}
 		}
 
 		public Resultados<Juego> findAllByDate(Connection connection, String idioma , int startIndex, int count) throws DataException{

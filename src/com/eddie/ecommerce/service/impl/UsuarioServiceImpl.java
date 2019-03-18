@@ -23,6 +23,7 @@ import com.eddie.ecommerce.model.Direccion;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.MailService;
+import com.eddie.ecommerce.service.Resultados;
 import com.eddie.ecommerce.service.UsuarioService;
 
 public class UsuarioServiceImpl implements UsuarioService{
@@ -179,7 +180,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public List<ItemBiblioteca> findByUsuario(String email) throws DataException, SQLException {
+	public Resultados<ItemBiblioteca> findByUsuario(String email, int startIndex, int count) throws DataException, SQLException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
@@ -191,7 +192,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<ItemBiblioteca> biblio=ibDao.findByUsuario(c, email);
+		Resultados<ItemBiblioteca> biblio=ibDao.findByUsuario(c, email, startIndex, count);
 		
 		return biblio;
 		

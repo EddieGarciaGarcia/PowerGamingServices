@@ -20,6 +20,8 @@ import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
+import com.eddie.ecommerce.model.Juego;
+import com.eddie.ecommerce.service.Resultados;
 
 
 public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
@@ -27,7 +29,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 	private static Logger logger=LogManager.getLogger(ItemBibliotecaDAOImpl.class);
 
 	@Override
-	public List<ItemBiblioteca> findByUsuario(Connection connection, String email) throws DataException {
+	public Resultados<ItemBiblioteca> findByUsuario(Connection connection, String email, int startIndex, int count) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
@@ -49,13 +51,22 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			rs=pst.executeQuery();
 			
 			logger.debug(sql);
-			
+			int currentCount=0;
 			List<ItemBiblioteca> biblioteca = new ArrayList<ItemBiblioteca>();
-			while(rs.next()){
-				ib=loadNext(rs);
-				biblioteca.add(ib);
+			if ((startIndex >=1) && rs.absolute(startIndex)) {
+				do {
+					ib=loadNext(rs);
+					biblioteca.add(ib);
+					currentCount++;
+				}while((currentCount<count) && rs.next());
 			}
-			return biblioteca;
+			int total= JDBCUtils.getTotalRows(rs);
+			
+			if(logger.isDebugEnabled()) {
+				logger.debug("Total peticiones: "+total);
+			}
+			Resultados<ItemBiblioteca> resultados= new Resultados<ItemBiblioteca>(biblioteca,startIndex,total);
+			return resultados;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);

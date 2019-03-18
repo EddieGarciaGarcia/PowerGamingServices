@@ -36,7 +36,7 @@ public class CategoriaServiceTest {
 					List<Categoria> categorias;
 					categorias = serviceC.findAll("ES");
 					for(int i=0;i<categorias.size();i++){
-						System.out.println(categorias.get(i).getIdCategria()+categorias.get(i).getNombre());
+						System.out.println(categorias.get(i).getIdCategria()+","+categorias.get(i).getNombre());
 					}
 				} catch (SQLException | DataException e) {
 					// TODO Auto-generated catch block
@@ -67,6 +67,7 @@ public class CategoriaServiceTest {
 			
 			CategoriaServiceTest test = new CategoriaServiceTest();
 				//test.findByJuego();
+				test.testfindAll();
 				test.testfindAll();
 				//test.testfindByCategoria();
 	}

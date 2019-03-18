@@ -52,6 +52,7 @@ public class CreadorServiceTest {
 		CreadorServiceTest test = new CreadorServiceTest();
 
 		test.testfindAll();
+		test.testfindAll();
 		//test.testfindByCreador();
 
 	}

@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.eddie.ecommerce.model.ItemBiblioteca;
+import com.eddie.ecommerce.service.Resultados;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 
 public interface ItemBibliotecaDAO {
 
-	public List<ItemBiblioteca> findByUsuario(Connection connection,String email) throws DataException;
+	public Resultados<ItemBiblioteca> findByUsuario(Connection connection,String email, int startIndex, int count) throws DataException;
 	
 	public List<ItemBiblioteca> findByJuego(Connection connection,Integer idJuego) throws DataException;
 	

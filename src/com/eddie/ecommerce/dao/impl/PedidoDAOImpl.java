@@ -18,13 +18,14 @@ import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Pedido;
+import com.eddie.ecommerce.service.Resultados;
 
 public class PedidoDAOImpl implements PedidoDAO{
 	
 	private static Logger logger=LogManager.getLogger(PedidoDAOImpl.class);
 
 	@Override
-	public List<Pedido> findByEmail(Connection conexion,String email) throws InstanceNotFoundException, DataException {
+	public Resultados<Pedido> findByEmail(Connection conexion,String email, int startIndex, int count) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
@@ -48,11 +49,23 @@ public class PedidoDAOImpl implements PedidoDAO{
 			logger.debug(sql);
 			
 			List<Pedido> pedidos = new ArrayList<Pedido>();
-			while(rs.next()){
-				p=loadNext(rs);
-				pedidos.add(p);
+			int currentCount=0;
+			
+			if ((startIndex >=1) && rs.absolute(startIndex)) {
+				do {
+					p=loadNext(rs);
+					pedidos.add(p);
+					currentCount++;
+				}while((currentCount<count) && rs.next());
 			}
-			return pedidos;
+			
+			int total= JDBCUtils.getTotalRows(rs);
+			
+			if(logger.isDebugEnabled()) {
+				logger.debug("Total peticiones: "+total);
+			}
+			Resultados<Pedido> resultados= new Resultados<Pedido>(pedidos,startIndex,total);
+			return resultados;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);

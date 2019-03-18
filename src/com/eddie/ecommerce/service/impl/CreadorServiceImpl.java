@@ -7,12 +7,16 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.eddie.ecommerce.cache.Cache;
+import com.eddie.ecommerce.cache.CacheManager;
+import com.eddie.ecommerce.cache.CacheNames;
 import com.eddie.ecommerce.dao.CreadorDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.CreadorDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Creador;
 import com.eddie.ecommerce.service.CreadorService;
 
@@ -54,22 +58,35 @@ public class CreadorServiceImpl implements CreadorService{
 
 	@Override
 	public List<Creador> findAll() throws DataException, SQLException {
+		int i=1;
+		
+		Cache<Integer, List> cacheCreador= CacheManager.getInstance().getCache(CacheNames.CREADORCACHE, Integer.class, List.class);
+		
+		List<Creador> creador=cacheCreador.get(i);
+		
 		boolean commit=false;
-		Connection c=null;
-		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
-		
-		List<Creador> creador=cdao.findAll(c);
-		
-		return creador;
-		
-		}catch(SQLException e) {
-			logger.error(e.getMessage(),e);
-			throw e;
-		}finally {
-			JDBCUtils.closeConnection(c, commit);
+		if(creador!=null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Acierto cache: {}", i);
+			}
+		}else {
+			Connection c=null;
+			try {
+			c=ConnectionManager.getConnection();
+			c.setAutoCommit(false);
+			
+			creador=cdao.findAll(c);
+			
+			cacheCreador.put(i, creador);
+			
+			}catch(SQLException e) {
+				logger.error(e.getMessage(),e);
+				throw e;
+			}finally {
+				JDBCUtils.closeConnection(c, commit);
+			}
 		}
+		return creador;
 	}
 
 }

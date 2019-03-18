@@ -33,7 +33,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 	
 	@Override
-	public List<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma) throws DataException, SQLException {
+	public Resultados<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, int startIndex, int count) throws DataException, SQLException {
 	
 		if(logger.isDebugEnabled()) {
 			logger.debug("Juego Criteria = "+jc.toString()+" , idioma = "+idioma);
@@ -44,7 +44,7 @@ public class JuegoServiceImpl implements JuegoService{
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
-		List<Juego> juegos=jdao.findByJuegoCriteria(jc, idioma, c);
+		Resultados<Juego> juegos=jdao.findByJuegoCriteria(jc, idioma, c, startIndex, count);
 		
 		return juegos;
 		

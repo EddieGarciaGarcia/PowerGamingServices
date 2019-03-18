@@ -2,7 +2,6 @@ package com.eddie.ecommerce.service.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +15,7 @@ import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Pedido;
 import com.eddie.ecommerce.service.PedidoService;
+import com.eddie.ecommerce.service.Resultados;
 
 public class PedidoServiceImpl implements PedidoService{
 	
@@ -27,7 +27,7 @@ public class PedidoServiceImpl implements PedidoService{
 	}
 	
 	@Override
-	public List<Pedido> findByEmail(String email) throws InstanceNotFoundException, SQLException, DataException {
+	public Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws InstanceNotFoundException, SQLException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
@@ -39,7 +39,7 @@ public class PedidoServiceImpl implements PedidoService{
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Pedido> pedidos=pdao.findByEmail(c, email);
+		Resultados<Pedido> pedidos=pdao.findByEmail(c, email, startIndex, count);
 		
 		return pedidos;
 		
