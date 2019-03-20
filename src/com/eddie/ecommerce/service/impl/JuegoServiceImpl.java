@@ -219,7 +219,7 @@ public class JuegoServiceImpl implements JuegoService{
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		it.setPuntuacion(0);
+		it.setPuntuacion(null);
 		it.setComprado("No");
 		ibDao.update(c, it);
 		
@@ -249,7 +249,7 @@ public class JuegoServiceImpl implements JuegoService{
 		
 		it.setFechaComentario(null);
 		it.setComentario(null);
-		it.setPuntuacion(0);
+		it.setPuntuacion(null);
 		it.setComprado("No");
 		ibDao.update(c, it);
 		
