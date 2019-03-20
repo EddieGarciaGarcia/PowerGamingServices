@@ -282,7 +282,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 				sql="select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador\r\n" + 
 						"from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego\r\n" + 
 						"group by j.nombre\r\n" + 
-						"order by avg(uj.puntuacion) desc";
+						"order by avg(uj.puntuacion) desc Limit 3";
 				
 				logger.debug(sql);
 				

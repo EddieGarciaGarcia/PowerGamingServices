@@ -84,7 +84,7 @@ public class JuegoServiceTest {
 			
 			
 			List<Juego> juegos;
-			try {
+			/*try {
 				juegos =serviceJ.findByJuegoCriteria(ju, "ES");
 				for(Juego j:juegos) {
 					logger.info(j.getNombre());
@@ -94,7 +94,7 @@ public class JuegoServiceTest {
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 	
 	}
 	public void testfindid() {
@@ -158,8 +158,8 @@ public class JuegoServiceTest {
 	}
 	public static void main(String[] args) {
 		JuegoServiceTest test = new JuegoServiceTest();
-		test.testFindByDate();
-		//test.testfindValoracion();
+		//test.testFindByDate();
+		test.testfindValoracion();
 		//test.testfindbyCriteria();
 		/*
 		try {
