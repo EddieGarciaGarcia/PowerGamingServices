@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.UsuarioDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
@@ -12,7 +15,7 @@ import com.eddie.ecommerce.service.impl.UsuarioServiceImpl;
 
 public class UsuarioTest {
 	
-
+	private static Logger logger=LogManager.getLogger(UsuarioTest.class);
 	private UsuarioDAOImpl usuarioDAO=null;
 	
 	public UsuarioTest() {
@@ -26,7 +29,7 @@ public class UsuarioTest {
 			Usuario u=usuarioDAO.findById("eddie_garcia@gmail.com",c);
 			
 			//Usuario u2=usuarioService.findById("eddie_garcia@gmail.com");
-			System.out.println(u);
+			logger.debug(u);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,7 +53,7 @@ public class UsuarioTest {
 		try {
 			Connection c=ConnectionManager.getConnection();
 			Usuario prueba=new Usuario(null,null,null,null,"546364356","prueba1@gmail.com", null, null,null);
-			System.out.println(usuarioDAO.update(prueba,c));
+			logger.debug(usuarioDAO.update(prueba,c));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -61,7 +64,7 @@ public class UsuarioTest {
 	public void delete() throws DataException {
 		try {
 			Connection c=ConnectionManager.getConnection();
-			System.out.println(usuarioDAO.delete("eddietuenti@gmail.com",c));
+			logger.debug(usuarioDAO.delete("eddietuenti@gmail.com",c));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

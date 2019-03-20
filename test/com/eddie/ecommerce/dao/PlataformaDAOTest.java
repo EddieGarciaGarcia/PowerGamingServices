@@ -3,6 +3,9 @@ package com.eddie.ecommerce.dao;
 import java.sql.Connection;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.PlataformaDAOImpl;
 import com.eddie.ecommerce.model.Idioma;
@@ -11,7 +14,7 @@ import com.eddie.ecommerce.model.Plataforma;
 public class PlataformaDAOTest {
 
 	PlataformaDAOImpl pdao=null;
-	
+	private static Logger logger=LogManager.getLogger(PlataformaDAOTest.class);
 	public PlataformaDAOTest() {
 		pdao=new PlataformaDAOImpl();
 	}
@@ -20,7 +23,7 @@ public class PlataformaDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			Plataforma plataforma= pdao.findbyIdPlataforma(c,2);
-			System.out.println(plataforma.getNombre());
+			logger.debug(plataforma.getNombre());
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -33,7 +36,7 @@ public class PlataformaDAOTest {
 			List<Plataforma> plataforma;
 			plataforma = pdao.findAll(c);
 			for(Plataforma p:plataforma){
-				System.out.println(p.getNombre());
+				logger.debug(p.getNombre());
 			}
 			
 		} catch (Exception e) {
@@ -48,7 +51,7 @@ public class PlataformaDAOTest {
 			List<Plataforma> p;
 			p = pdao.findByJuego(c, 2);
 			for(int i=0;i<p.size();i++){
-				System.out.println(p.get(i).getNombre());
+				logger.debug(p.get(i).getNombre());
 			}
 			
 		} catch (Exception e) {

@@ -7,6 +7,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.eddie.ecommerce.dao.PaisDAOTest;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.model.Direccion;
@@ -15,7 +20,7 @@ import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.impl.UsuarioServiceImpl;
 
 public class UsuarioServiceImplTest {
-	
+	private static Logger logger=LogManager.getLogger(UsuarioServiceImplTest.class);
 	private UsuarioService daoU=null;
 	
 	public UsuarioServiceImplTest() {
@@ -31,7 +36,7 @@ public class UsuarioServiceImplTest {
 			try {
 				biblio =daoU.findByUsuario(u.getEmail());
 				for(ItemBiblioteca ib : biblio){
-				    System.out.println(ib.getIdJuego());
+					logger.debug(ib.getIdJuego());
 				}
 			} catch (SQLException | DataException e) {
 				// TODO Auto-generated catch block
@@ -107,7 +112,7 @@ public class UsuarioServiceImplTest {
 	
 	public void delete() {
 				try {
-					System.out.println(daoU.delete("eddie_taboada@hotmail.com"));
+					logger.debug(daoU.delete("eddie_taboada@hotmail.com"));
 				} catch (DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -126,7 +131,7 @@ public class UsuarioServiceImplTest {
 			prueba.setIdprovincia(23);
 			prueba.setLocalidad("Ordes");
 			prueba=daoU.createDireccion(prueba);
-			System.out.println(prueba.toString());
+			logger.debug(prueba.toString());
 				
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

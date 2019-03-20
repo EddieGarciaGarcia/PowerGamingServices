@@ -3,14 +3,18 @@ package com.eddie.ecommerce.dao;
 import java.sql.Connection;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.IdiomaDAOImpl;
 import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Idioma;
+import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
 
 public class IdiomaDAOTest {
 	private IdiomaDAOImpl daoI=null;
-	
+	private static Logger logger=LogManager.getLogger(IdiomaDAOTest.class);
 	
 	public IdiomaDAOTest() {
 		
@@ -23,7 +27,7 @@ public class IdiomaDAOTest {
 			try {
 				Connection c= ConnectionManager.getConnection();
 				Idioma idiomas= daoI.findById(c,"ESP","ES");
-				System.out.println(idiomas.getNombre());
+				logger.debug(idiomas.getNombre());
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -36,7 +40,7 @@ public class IdiomaDAOTest {
 				List<Idioma> idiomas;
 				idiomas = daoI.findAll(c,"ES");
 				for(int i=0;i<idiomas.size();i++){
-					System.out.println(idiomas.get(i).getNombre());
+					logger.debug(idiomas.get(i).getNombre());
 				}
 				
 			} catch (Exception e) {
@@ -51,7 +55,7 @@ public class IdiomaDAOTest {
 				List<Idioma> idiomas;
 				idiomas = daoI.findByJuego(c, 2, "ES");
 				for(int i=0;i<idiomas.size();i++){
-					System.out.println(idiomas.get(i).getNombre());
+					logger.debug(idiomas.get(i).getNombre());
 				}
 				
 			} catch (Exception e) {

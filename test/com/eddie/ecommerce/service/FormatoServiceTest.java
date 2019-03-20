@@ -3,6 +3,10 @@ package com.eddie.ecommerce.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.eddie.ecommerce.dao.PaisDAOTest;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Formato;
 import com.eddie.ecommerce.service.impl.FormatoServiceImpl;
@@ -10,7 +14,7 @@ import com.eddie.ecommerce.service.impl.FormatoServiceImpl;
 public class FormatoServiceTest {
 	
 	private FormatoService serviceF=null;
-	
+	private static Logger logger=LogManager.getLogger(FormatoServiceTest.class);
 	
 	public FormatoServiceTest() {
 		
@@ -23,7 +27,7 @@ public class FormatoServiceTest {
 				Formato edicionesFormato;
 				try {
 					edicionesFormato = serviceF.findbyIdFormato(2,"ES");
-					System.out.println(edicionesFormato.getNombre());
+					logger.debug(edicionesFormato.getNombre());
 				} catch (DataException | SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -39,7 +43,7 @@ public class FormatoServiceTest {
 				try {
 					edicionesFormato = serviceF.findAll("ES");
 					for(Formato f : edicionesFormato){
-					    System.out.println(f.getNombre());
+						logger.debug(f.getNombre());
 					}
 				} catch (DataException | SQLException e) {
 					// TODO Auto-generated catch block

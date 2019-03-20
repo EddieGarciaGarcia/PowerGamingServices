@@ -2,6 +2,11 @@ package com.eddie.ecommerce.service;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.eddie.ecommerce.dao.PaisDAOTest;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.service.impl.CategoriaServiceImpl;
@@ -9,7 +14,7 @@ import com.eddie.ecommerce.service.impl.CategoriaServiceImpl;
 public class CategoriaServiceTest {
 	
 	private CategoriaService serviceC=null;
-	
+	private static Logger logger=LogManager.getLogger(CategoriaServiceTest.class);
 	public CategoriaServiceTest() {
 		
 		serviceC=new CategoriaServiceImpl();
@@ -22,7 +27,7 @@ public class CategoriaServiceTest {
 				Categoria ca;
 				try {
 					ca = serviceC.findById(1,"ES");
-					System.out.println(ca.getNombre());
+					logger.debug(ca.getNombre());
 				} catch (SQLException | DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -36,7 +41,7 @@ public class CategoriaServiceTest {
 					List<Categoria> categorias;
 					categorias = serviceC.findAll("ES");
 					for(int i=0;i<categorias.size();i++){
-						System.out.println(categorias.get(i).getIdCategria()+","+categorias.get(i).getNombre());
+						logger.debug(categorias.get(i).getIdCategria()+","+categorias.get(i).getNombre());
 					}
 				} catch (SQLException | DataException e) {
 					// TODO Auto-generated catch block
@@ -51,7 +56,7 @@ public class CategoriaServiceTest {
 				try {
 					categorias = serviceC.findByJuego(10, "ES");
 					for(int i=0;i<categorias.size();i++){
-						System.out.println(categorias.get(i).getNombre());
+						logger.debug(categorias.get(i).getNombre());
 					}
 				} catch (DataException | SQLException e) {
 					// TODO Auto-generated catch block

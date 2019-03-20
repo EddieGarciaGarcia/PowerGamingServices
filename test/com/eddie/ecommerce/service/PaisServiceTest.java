@@ -3,12 +3,16 @@ package com.eddie.ecommerce.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.eddie.ecommerce.dao.PaisDAOTest;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Pais;
 import com.eddie.ecommerce.service.impl.PaisServiceImpl;
 
 public class PaisServiceTest {
-	
+	private static Logger logger=LogManager.getLogger(PaisServiceTest.class);
 	PaisService serviceP=null;
 	
 	public PaisServiceTest() {
@@ -22,7 +26,7 @@ public class PaisServiceTest {
 			try {
 				pais = serviceP.findAll();
 				for(int i=0;i<pais.size();i++){
-					System.out.println(pais.get(i).getNombre());
+					logger.debug(pais.get(i).getNombre());
 				}
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block

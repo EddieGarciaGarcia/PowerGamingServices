@@ -8,6 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
 import com.eddie.ecommerce.dao.impl.JuegoDAOImpl;
@@ -18,10 +21,12 @@ import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
 import com.eddie.ecommerce.model.Plataforma;
+import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
 
 public class JuegoDAOTest {
 	private JuegoDAOImpl daoJ=null;
 	private CategoriaDAOImpl daoC=null;
+	private static Logger logger=LogManager.getLogger(JuegoDAOTest.class);
 	public JuegoDAOTest() {
 		daoJ=new JuegoDAOImpl();
 		daoC=new CategoriaDAOImpl();
@@ -33,7 +38,7 @@ public class JuegoDAOTest {
 			List<Juego> juegos;
 			juegos =daoJ.findAllByDate(c,"ES");
 			for(Juego j : juegos){
-			    System.out.println(j.getNombre());
+				logger.debug(j.getNombre());
 			}
 			
 		} catch (Exception e) {
@@ -60,7 +65,7 @@ public class JuegoDAOTest {
 				}
 			}
 			for(int i =0;i<juegos.size();i++) {
-				System.out.println(juegos.get(i).getNombre());
+				logger.debug(juegos.get(i).getNombre());
 			}
 				    
 
@@ -75,7 +80,7 @@ public class JuegoDAOTest {
 			Connection c= ConnectionManager.getConnection();
 			Juego juegos;
 			juegos =daoJ.findById(c,1, "ES");
-			System.out.println(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
+			logger.debug(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			
@@ -89,7 +94,7 @@ public class JuegoDAOTest {
 			Connection c= ConnectionManager.getConnection();
 			Juego juegos=new Juego("prueba",1998,2);
 			juegos =daoJ.create(c, juegos);
-			System.out.println("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
+			logger.debug("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -104,7 +109,7 @@ public class JuegoDAOTest {
 			juegos =daoJ.findAllByValoracion(c,"ES");
 			
 			for(Juego j : juegos){
-			    System.out.println(j.getIdJuego()+",Fecha "
+				logger.debug(j.getIdJuego()+",Fecha "
 			    		+ ""+j.getFechaLanzamiento());
 			}
 			
@@ -121,7 +126,7 @@ public class JuegoDAOTest {
 			juegos =daoJ.findAllByDate(c,"ES");
 			
 			for(Juego j : juegos){
-			    System.out.println(j.getIdJuego()+","+j.getFechaLanzamiento());
+				logger.debug(j.getIdJuego()+","+j.getFechaLanzamiento());
 			}
 			
 		} catch (Exception e) {

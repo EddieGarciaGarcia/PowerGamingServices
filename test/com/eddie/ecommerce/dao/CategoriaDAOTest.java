@@ -3,13 +3,17 @@ package com.eddie.ecommerce.dao;
 import java.sql.Connection;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
 import com.eddie.ecommerce.model.Categoria;
+import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
 
 public class CategoriaDAOTest {
 	private CategoriaDAOImpl daoC=null;
-	
+	private static Logger logger=LogManager.getLogger(CategoriaDAOTest.class);
 	
 	public CategoriaDAOTest() {
 		
@@ -22,7 +26,7 @@ public class CategoriaDAOTest {
 			try {
 				Connection c= ConnectionManager.getConnection();
 				Categoria ca= daoC.findById(c,2,"ES");
-				System.out.println(ca.getNombre());
+				logger.debug(ca.getNombre());
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -35,7 +39,7 @@ public class CategoriaDAOTest {
 				List<Categoria> categorias;
 				categorias = daoC.findAll(c,"ES");
 				for(int i=0;i<categorias.size();i++){
-					System.out.println(categorias.get(i).getNombre());
+					logger.debug(categorias.get(i).getNombre());
 				}
 				
 			} catch (Exception e) {
@@ -51,7 +55,7 @@ public class CategoriaDAOTest {
 				List<Categoria> categorias;
 				categorias = daoC.findByJuego(c, 2, "ES");
 				for(int i=0;i<categorias.size();i++){
-					System.out.println(categorias.get(i).getNombre());
+					logger.debug(categorias.get(i).getNombre());
 				}
 				
 			} catch (Exception e) {

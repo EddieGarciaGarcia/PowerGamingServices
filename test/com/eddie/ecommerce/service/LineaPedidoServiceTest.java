@@ -3,6 +3,10 @@ package com.eddie.ecommerce.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.eddie.ecommerce.dao.PaisDAOTest;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.model.LineaPedido;
@@ -11,7 +15,7 @@ import com.eddie.ecommerce.service.impl.LineaPedidoServiceImpl;
 public class LineaPedidoServiceTest {
 
 	private LineaPedidoService serviceLP=null;
-	
+	private static Logger logger=LogManager.getLogger(LineaPedidoServiceTest.class);
 	public LineaPedidoServiceTest() {
 		
 		serviceLP=new LineaPedidoServiceImpl();
@@ -22,7 +26,7 @@ public class LineaPedidoServiceTest {
 				LineaPedido lp;
 				try {
 					lp = serviceLP.findById(4);
-					System.out.println(lp.getIdEdicion());
+					logger.debug(lp.getIdEdicion());
 				} catch (SQLException | DataException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -35,7 +39,7 @@ public class LineaPedidoServiceTest {
 				try {
 					lineapedido = serviceLP.findByPedido(2);
 					for(LineaPedido lp : lineapedido){
-						System.out.println(lp.getIdEdicion()+" "+lp.getPrecio());
+						logger.debug(lp.getIdEdicion()+" "+lp.getPrecio());
 					}
 				} catch (DataException | SQLException e) {
 					// TODO Auto-generated catch block

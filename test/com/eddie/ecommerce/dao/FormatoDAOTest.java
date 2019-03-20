@@ -3,16 +3,20 @@ package com.eddie.ecommerce.dao;
 import java.sql.Connection;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.FormatoDAOImpl;
 import com.eddie.ecommerce.model.Formato;
 import com.eddie.ecommerce.model.Juego;
+import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
 
 
 public class FormatoDAOTest {
 
 		private FormatoDAOImpl daoF=null;
-		
+		private static Logger logger=LogManager.getLogger(FormatoDAOTest.class);
 		
 		public FormatoDAOTest() {
 			
@@ -25,7 +29,7 @@ public class FormatoDAOTest {
 				try {
 					Connection c= ConnectionManager.getConnection();
 					Formato edicionesFormato= daoF.findbyIdFormato(c,2,"ES");
-					System.out.println(edicionesFormato.getNombre());
+					logger.debug(edicionesFormato.getNombre());
 					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -39,7 +43,7 @@ public class FormatoDAOTest {
 					edicionesFormato = daoF.findAll(c,"ES");
 					
 					for(Formato f : edicionesFormato){
-					    System.out.println(f.getNombre());
+						logger.debug(f.getNombre());
 					}
 					
 				} catch (Exception e) {

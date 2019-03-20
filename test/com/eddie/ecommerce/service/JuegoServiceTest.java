@@ -19,6 +19,7 @@ import com.eddie.ecommerce.service.impl.JuegoServiceImpl;
 public class JuegoServiceTest {
 	private JuegoService serviceJ=null;
 	private CategoriaService serviceC=null;
+	
 	public JuegoServiceTest() {
 		serviceJ=new JuegoServiceImpl();
 		serviceC=new CategoriaServiceImpl();
@@ -86,7 +87,7 @@ public class JuegoServiceTest {
 			try {
 				juegos =serviceJ.findByJuegoCriteria(ju, "ES");
 				for(Juego j:juegos) {
-					System.out.println(j.getNombre());
+					logger.info(j.getNombre());
 					
 				}
 				
@@ -101,7 +102,7 @@ public class JuegoServiceTest {
 			Juego juegos;
 			try {
 				juegos =serviceJ.findById(12, "ES");
-				System.out.println(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
+				logger.info(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
 				
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block
@@ -117,7 +118,7 @@ public class JuegoServiceTest {
 			Juego juegos=new Juego("prueba",new Date(04-06-2000),2);
 			try {
 				juegos =serviceJ.create(juegos);
-				System.out.println("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
+				logger.info("Juego creado: "+juegos.getNombre()+", "+juegos.getIdCreador()+", "+juegos.getFechaLanzamiento());
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -132,7 +133,7 @@ public class JuegoServiceTest {
 			try {
 				juegos =serviceJ.findAllByValoracion("ES");
 				for(Juego j : juegos){
-				    System.out.println(j.getIdJuego()+",Fecha "
+					logger.info(j.getIdJuego()+",Fecha "
 				    		+ ""+j.getFechaLanzamiento());
 				}
 			} catch (DataException | SQLException e) {
@@ -147,7 +148,7 @@ public class JuegoServiceTest {
 			try {
 				juegos =serviceJ.findAllByDate("ES");
 				for(Juego j : juegos){
-				    System.out.println(j.getIdJuego()+","+j.getFechaLanzamiento());
+				    logger.info(j.getIdJuego()+","+j.getFechaLanzamiento());
 				}
 			} catch (DataException | SQLException e) {
 				// TODO Auto-generated catch block

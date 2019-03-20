@@ -70,6 +70,9 @@ public class CreadorServiceImpl implements CreadorService{
 				logger.debug("Acierto cache: {}", i);
 			}
 		}else {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Fallo cache: {}", i);
+			}
 			Connection c=null;
 			try {
 			c=ConnectionManager.getConnection();

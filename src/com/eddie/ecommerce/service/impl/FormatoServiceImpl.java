@@ -7,12 +7,16 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.eddie.ecommerce.cache.Cache;
+import com.eddie.ecommerce.cache.CacheManager;
+import com.eddie.ecommerce.cache.CacheNames;
 import com.eddie.ecommerce.dao.FormatoDAO;
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.FormatoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Formato;
 import com.eddie.ecommerce.service.FormatoService;
 
@@ -58,22 +62,36 @@ public class FormatoServiceImpl implements FormatoService{
 			logger.debug("Idioma = "+idioma);
 		}
 		
+		Cache<String, List> cacheFormato= CacheManager.getInstance().getCache(CacheNames.FORMATOCACHE, String.class, List.class);
+		
+		List<Formato> formato=cacheFormato.get(idioma);
+		
 		boolean commit=false;
-		Connection c=null;
-		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
-		
-		List<Formato> formato=fdao.findAll(c, idioma);
-		
-		return formato;
-		
-		}catch(SQLException e) {
-			logger.error(e.getMessage(),e);
-			throw e;
-		}finally {
-			JDBCUtils.closeConnection(c, commit);
+		if(formato!=null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Acierto cache: {}", idioma);
+			}
+		}else {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Fallo cache: {}", idioma);
+			}
+			Connection c=null;
+			try {
+			c=ConnectionManager.getConnection();
+			c.setAutoCommit(false);
+			
+			formato=fdao.findAll(c, idioma);
+			
+			cacheFormato.put(idioma, formato);
+			
+			}catch(SQLException e) {
+				logger.error(e.getMessage(),e);
+				throw e;
+			}finally {
+				JDBCUtils.closeConnection(c, commit);
+			}
 		}
+		return formato;
 	}
 
 }
