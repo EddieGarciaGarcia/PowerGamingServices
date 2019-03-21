@@ -1,7 +1,5 @@
 package com.eddie.ecommerce.service;
 
-
-import java.sql.SQLException;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -17,25 +15,27 @@ public interface UsuarioService {
 	
 	public long delete(String email) throws DataException;
 	
-	public Usuario findById(String email) throws SQLException,InstanceNotFoundException,DataException;
+	public Usuario findById(String email) throws InstanceNotFoundException,DataException;
 	
-	public Usuario login(String email, String password)throws SQLException,DataException;
+	public Usuario login(String email, String password)throws DataException;
 	
 	//Biblioteca
-	public Resultados<ItemBiblioteca> findByUsuario(String email, int startIndex, int count)throws SQLException,DataException;
+	public Resultados<ItemBiblioteca> findByUsuario(String email, int startIndex, int count)throws DataException;
 	
 	//Añadir a biblioteca
-	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b)throws DuplicateInstanceException,SQLException,DataException;
+	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b)throws DuplicateInstanceException,DataException;
+	
+	public boolean existsInBiblioteca(Integer idJuego,String email)throws DataException;
 	
 	//Eliminar de la Biblioteca
-	public long borrarJuegoBiblioteca(String email,Integer idJuego)throws InstanceNotFoundException,SQLException, DataException;
+	public long borrarJuegoBiblioteca(String email,Integer idJuego)throws InstanceNotFoundException, DataException;
 	
-	public Direccion findByIdDireccion(String email) throws SQLException,InstanceNotFoundException, DataException;
+	public Direccion findByIdDireccion(String email) throws InstanceNotFoundException, DataException;
 	
-	public Direccion createDireccion(Direccion d) throws SQLException,DuplicateInstanceException, DataException;
+	public Direccion createDireccion(Direccion d) throws DuplicateInstanceException, DataException;
 	
-	public boolean updateDireccion(Direccion d) throws SQLException,InstanceNotFoundException, DataException;
+	public boolean updateDireccion(Direccion d) throws InstanceNotFoundException, DataException;
 	
-	public void deleteDireccion(String email) throws SQLException,DataException;
+	public void deleteDireccion(String email) throws DataException;
 
 }

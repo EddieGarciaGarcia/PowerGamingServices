@@ -33,77 +33,76 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 	
 	@Override
-	public Resultados<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, int startIndex, int count) throws DataException, SQLException {
+	public Resultados<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, int startIndex, int count) throws DataException {
 	
 		if(logger.isDebugEnabled()) {
 			logger.debug("Juego Criteria = "+jc.toString()+" , idioma = "+idioma);
 		}
-		
+		Resultados<Juego> juegos=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
-		Resultados<Juego> juegos=jdao.findByJuegoCriteria(jc, idioma, c, startIndex, count);
-		
-		return juegos;
+		juegos=jdao.findByJuegoCriteria(jc, idioma, c, startIndex, count);
+	
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		
 		}
+		return juegos;
+		
 	}
 
 	@Override
-	public Resultados<Juego> findAllByDate(String idioma , int startIndex, int count) throws DataException, SQLException {
+	public Resultados<Juego> findAllByDate(String idioma , int startIndex, int count) throws DataException {
 		boolean commit=false;
 		Connection c=null;
+		Resultados<Juego> juegos=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		Resultados<Juego> juegos=jdao.findAllByDate(c, idioma, startIndex, count);
+		juegos=jdao.findAllByDate(c, idioma, startIndex, count);
 		
-		return juegos;
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return juegos;
 	}
 
 	@Override
-	public List<Juego> findAllByValoracion(String idioma) throws DataException, SQLException {
+	public List<Juego> findAllByValoracion(String idioma) throws DataException {
 		boolean commit=false;
 		Connection c=null;
+		List<Juego> juegos=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Juego> juegos=jdao.findAllByValoracion(c, idioma);
-		
-		return juegos;
+		juegos=jdao.findAllByValoracion(c, idioma);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return juegos;
 	}
 
 	@Override
-	public Juego findById(Integer id,String idioma) throws DataException, SQLException {
+	public Juego findById(Integer id,String idioma) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id+" , idioma = "+idioma);
 		}
-		
+		Juego j=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -111,20 +110,18 @@ public class JuegoServiceImpl implements JuegoService{
 		c.setAutoCommit(false);
 		
 		
-		Juego j = jdao.findById(c,id, idioma);
-		
-		return j;
+		j = jdao.findById(c,id, idioma);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return j;
 	}
 
 	@Override
-	public Juego create(Juego j) throws DataException, SQLException {
+	public Juego create(Juego j) throws DataException {
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("Juego = "+j.toString());
@@ -140,14 +137,14 @@ public class JuegoServiceImpl implements JuegoService{
 
 		commit=true;
 		
-		return j;
+		
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return j;
 	}
 
 	@Override
@@ -207,7 +204,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public boolean addComent(ItemBiblioteca it) throws DataException, SQLException {
+	public boolean addComent(ItemBiblioteca it) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("ItemBiblioteca = "+it.toString());
@@ -227,7 +224,6 @@ public class JuegoServiceImpl implements JuegoService{
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
@@ -235,7 +231,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public boolean borrarComent(ItemBiblioteca it) throws DataException, SQLException {
+	public boolean borrarComent(ItemBiblioteca it) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("ItemBiblioteca = "+it.toString());
@@ -257,7 +253,6 @@ public class JuegoServiceImpl implements JuegoService{
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
@@ -265,27 +260,38 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException, SQLException {
+	public List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException {
 		if(logger.isDebugEnabled()) {
-			logger.debug("Email = "+idJuego);
+			logger.debug("IdJuego = "+idJuego);
 		}
-		
+		List<ItemBiblioteca> biblio = null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<ItemBiblioteca> biblio=ibDao.findByJuego(c, idJuego);
+		biblio=ibDao.findByJuego(c, idJuego);
 		
-		return biblio;
+		
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return biblio;
+	}
+
+
+	@Override
+	public List<Integer> comprobarBiblio(List<Integer> j, String email) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Juego = "+j+",Email="+email);
+		}
+		
+		
+		
 	}
 
 

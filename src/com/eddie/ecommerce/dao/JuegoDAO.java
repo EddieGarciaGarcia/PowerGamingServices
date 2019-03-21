@@ -17,6 +17,8 @@ public interface JuegoDAO {
 	
 	public Resultados<Juego> findAllByDate(Connection connection, String idioma, int startIndex, int count) throws DataException;
 	
+	public List<Juego> findByIDs(Connection connection, List<Integer> ids, String idioma)throws DataException;
+	
 	public List<Juego> findAllByValoracion(Connection connection, String idioma) throws DataException;
 	
 	public Juego findById(Connection connection,Integer id, String idioma)throws InstanceNotFoundException, DataException;

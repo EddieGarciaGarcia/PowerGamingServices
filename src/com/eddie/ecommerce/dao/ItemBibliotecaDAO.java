@@ -13,6 +13,9 @@ public interface ItemBibliotecaDAO {
 
 	public Resultados<ItemBiblioteca> findByUsuario(Connection connection,String email, int startIndex, int count) throws DataException;
 	
+	//Dao usado para la comprobacion en biblioteca
+	public List<ItemBiblioteca> findByUsuarioComprobar(Connection connection,String email) throws DataException;
+	
 	public List<ItemBiblioteca> findByJuego(Connection connection,Integer idJuego) throws DataException;
 	
 	public ItemBiblioteca create(Connection connection,ItemBiblioteca b) throws DuplicateInstanceException, DataException;

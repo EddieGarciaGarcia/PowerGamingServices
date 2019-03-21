@@ -20,7 +20,6 @@ import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
-import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.service.Resultados;
 
 
@@ -76,6 +75,48 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		}
 	}
 
+	@Override
+	public List<ItemBiblioteca> findByUsuario(Connection connection, String email) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		
+		ItemBiblioteca ib=null;
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		try {
+		
+			String sql;
+			sql="select email,id_juego,puntuacion,comprado,comentario,fecha_comentario from usuarios_juego where email=?";
+			
+			pst=connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			
+			int i=1;
+			//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
+			pst.setString(i++, email);	
+			rs=pst.executeQuery();
+			
+			logger.debug(sql);
+			List<ItemBiblioteca> biblioteca = new ArrayList<ItemBiblioteca>();
+			
+			while(rs.next()){	
+					ib=loadNext(rs);
+					biblioteca.add(ib);
+			}
+				
+			
+			
+			return biblioteca;
+		}catch (SQLException ex) {
+			logger.error(ex.getMessage(),ex);
+			throw new DataException(ex);
+		}finally{
+			JDBCUtils.closeResultSet(rs);
+			JDBCUtils.closeStatement(pst);
+		}
+	}
+	
+	
 	@Override
 	public List<ItemBiblioteca> findByJuego(Connection connection, Integer idJuego) throws DataException {
 		
@@ -303,5 +344,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 				
 				return ib;
 	}
+
+	
 		
 }
