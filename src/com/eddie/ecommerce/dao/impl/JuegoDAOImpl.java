@@ -308,10 +308,10 @@ public class JuegoDAOImpl implements JuegoDAO{
 		}
 		
 		@Override
-		public List<Juego> findByIDs(Connection connection, List<Integer> ids, String idioma) throws DataException {
+		public List<Juego> findByIDs(Connection connection, List<Integer> idsJuegos, String idioma) throws DataException {
 			
 			if(logger.isDebugEnabled()) {
-				logger.debug("Id= "+ids+" , idioma= "+idioma);
+				logger.debug("Id= "+idsJuegos+" , idioma= "+idioma);
 			}
 			
 			List<Juego> j=new ArrayList<Juego>();
@@ -322,12 +322,9 @@ public class JuegoDAOImpl implements JuegoDAO{
 			try {
 				StringBuilder sql= null;
 				sql=new StringBuilder("select j.id_juego, j.nombre, j.fecha_lanzamiento, j.id_creador, ji.informacion from juego j inner join juego_idiomaweb ji on j.id_juego=ji.id_juego where ji.id_idioma_web like ? and j.id_juego in (");
+
+				JDBCUtils.anhadirIN(sql, idsJuegos);
 				
-				for(int i=0;i<ids.size()-1;i++) {
-					sql.append(i+",");
-				}
-				sql.append(")");
-			
 				pst=connection.prepareStatement(sql.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 				
 				int i=1;
@@ -338,11 +335,9 @@ public class JuegoDAOImpl implements JuegoDAO{
 				
 				logger.debug(sql);
 				
-				if(rs.next()){
+				while(rs.next()){
 					juego=loadNext(connection, rs, idioma);
 					j.add(juego);
-				}else {
-					throw new InstanceNotFoundException("Error "+ids+" id introducido incorrecto", Juego.class.getName());
 				}
 				
 				return j;

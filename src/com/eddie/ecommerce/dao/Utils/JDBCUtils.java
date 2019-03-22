@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import com.eddie.ecommerce.exceptions.DataException;
 
@@ -136,5 +137,17 @@ public final class JDBCUtils {
 	public static void addUpdate(StringBuilder queryString, boolean first, String clause) {
 		queryString.append(first? " SET ": " , ").append(clause);
 	}
+	
+	//Clausula in para listas en select
+	public static void anhadirIN(StringBuilder queryString,List<Integer> clause) {
+		for(int i=0;i<clause.size();i++) {
+			queryString.append(clause.get(i));
+			if(i!=clause.size()-1) {
+				queryString.append(",");
+			}
+		}
+		queryString.append(")");
+	}
+	
 
 }

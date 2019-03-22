@@ -21,6 +21,7 @@ import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
 import com.eddie.ecommerce.model.Plataforma;
+import com.eddie.ecommerce.service.Resultados;
 import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
 
 public class JuegoDAOTest {
@@ -31,12 +32,11 @@ public class JuegoDAOTest {
 		daoJ=new JuegoDAOImpl();
 		daoC=new CategoriaDAOImpl();
 	}
-	
 	public void testfindAllJuego() {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			List<Juego> juegos;
-			juegos =daoJ.findAllByDate(c,"ES");
+			juegos =daoJ.findAllByDate(c,"ES", 0, 0);
 			for(Juego j : juegos){
 				logger.debug(j.getNombre());
 			}
@@ -58,7 +58,7 @@ public class JuegoDAOTest {
 		
 			
 			List<Juego> juegos;
-			juegos =daoJ.findByJuegoCriteria(ju, "ES", c);
+			juegos =(List<Juego>) daoJ.findByJuegoCriteria(ju, "ES", c, 0, 0);
 			for(Juego j:juegos) {
 				for(Categoria categoria: j.getCategoria()) {
 					categoria.getNombre();
@@ -123,7 +123,7 @@ public class JuegoDAOTest {
 		try {
 			Connection c= ConnectionManager.getConnection();
 			List<Juego> juegos;
-			juegos =daoJ.findAllByDate(c,"ES");
+			juegos =(List<Juego>) daoJ.findAllByDate(c,"ES", 0, 0);
 			
 			for(Juego j : juegos){
 				logger.debug(j.getIdJuego()+","+j.getFechaLanzamiento());
@@ -136,12 +136,32 @@ public class JuegoDAOTest {
 		
 	}
 	
+	public void testFindByIDs() {
+		List<Integer> ids= new ArrayList<Integer>();
+		ids.add(1);
+		ids.add(4);
+		ids.add(6);
+		try {
+			Connection c= ConnectionManager.getConnection();
+			List<Juego> juegos=daoJ.findByIDs(c, ids, "ES");
+			
+			for(Juego j : juegos){
+				logger.debug(j.getIdJuego()+","+j.getNombre());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public static void main(String[] args) {
 		JuegoDAOTest test = new JuegoDAOTest();
 		//test.testFindByDate();
 		//test.testfindValoracion();
-		test.testfindbyCriteria();
+		//test.testfindbyCriteria();
+		test.testFindByIDs();
 		/*
 		try {
 			

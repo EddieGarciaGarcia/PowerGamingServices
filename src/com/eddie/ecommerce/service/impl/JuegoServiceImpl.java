@@ -283,15 +283,26 @@ public class JuegoServiceImpl implements JuegoService{
 		return biblio;
 	}
 
-
 	@Override
-	public List<Integer> comprobarBiblio(List<Integer> j, String email) throws DataException {
+	public List<Juego> findByIDs(List<Integer> ids, String idioma) throws DataException {
 		if(logger.isDebugEnabled()) {
-			logger.debug("Juego = "+j+",Email="+email);
+			logger.debug("IdJuego = "+ids);
 		}
+		List<Juego> juegosBiblio = null;
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
 		
+		juegosBiblio=jdao.findByIDs(c, ids, idioma);
 		
-		
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return juegosBiblio;
 	}
 
 

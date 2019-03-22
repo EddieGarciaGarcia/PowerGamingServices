@@ -1,5 +1,7 @@
 package com.eddie.ecommerce.service;
 
+import java.util.List;
+
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -23,9 +25,10 @@ public interface UsuarioService {
 	public Resultados<ItemBiblioteca> findByUsuario(String email, int startIndex, int count)throws DataException;
 	
 	//Añadir a biblioteca
-	public ItemBiblioteca addJuegoBiblioteca(ItemBiblioteca b)throws DuplicateInstanceException,DataException;
+	public ItemBiblioteca addJuegoBiblioteca(String email, ItemBiblioteca b)throws DuplicateInstanceException,DataException;
 	
-	public boolean existsInBiblioteca(Integer idJuego,String email)throws DataException;
+	public boolean existsInBiblioteca(String email, Integer idJuego)throws DataException;
+	public List<Integer> existsInBiblioteca(String email, List<Integer> idsDeJuego)throws DataException;
 	
 	//Eliminar de la Biblioteca
 	public long borrarJuegoBiblioteca(String email,Integer idJuego)throws InstanceNotFoundException, DataException;

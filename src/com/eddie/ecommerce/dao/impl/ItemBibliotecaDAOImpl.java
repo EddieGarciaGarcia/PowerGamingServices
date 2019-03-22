@@ -20,6 +20,7 @@ import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
+import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.service.Resultados;
 
 
@@ -75,8 +76,11 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		}
 	}
 
+	
+	
+/*
 	@Override
-	public List<ItemBiblioteca> findByUsuario(Connection connection, String email) throws DataException {
+	public List<ItemBiblioteca> findByUsuarioComprobar(Connection connection,String email) throws DataException {
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
 		}
@@ -114,6 +118,93 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			JDBCUtils.closeResultSet(rs);
 			JDBCUtils.closeStatement(pst);
 		}
+	}
+	
+	*/
+	
+	// public boolean exists(c, email, idJuego)
+
+	
+	@Override
+	public boolean exists(Connection c, String email, Integer idJuego) throws DataException {
+		boolean exist = false;
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = {}", email+" Idjuego = {}",idJuego);
+		}
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+
+		try {
+
+			String queryString = "SELECT email,id_juego FROM usuarios_juego WHERE UPPER(email) LIKE UPPER(?) AND id_juego= ?";
+			
+			logger.debug(queryString);
+			preparedStatement = c.prepareStatement(queryString);
+
+			int i = 1;
+			preparedStatement.setString(i++, email);
+			preparedStatement.setInt(i++, idJuego);
+
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				exist = true;
+			}
+
+		} catch (SQLException e) {
+			logger.info(e.getMessage(), e);
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+
+		return exist;
+	} 
+	
+
+
+	// public List<Integer>  exists(c, String email, List<Integer> idsJuegos)
+	@Override
+	public List<Integer> exists(Connection c, String email, List<Integer> idsJuegos) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = {}", email+" Idjuego = {}",idsJuegos);
+		}
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<Integer> listaIdJuegoEnBiblitoeca=new ArrayList<Integer>();
+
+		try {
+			StringBuilder sql= null;
+			sql =new StringBuilder("SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (");
+			
+			JDBCUtils.anhadirIN(sql, idsJuegos);
+			
+			logger.debug(sql);
+			preparedStatement = c.prepareStatement(sql.toString());
+
+			int i = 1;
+			preparedStatement.setString(i++, email);
+
+			resultSet = preparedStatement.executeQuery();
+			
+			
+			Integer idJuego = null;
+			while (resultSet.next()) {
+				idJuego = resultSet.getInt(1);
+				listaIdJuegoEnBiblitoeca.add(idJuego);
+			}
+
+		} catch (SQLException e) {
+			logger.info(e.getMessage(), e);
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+
+		return listaIdJuegoEnBiblitoeca;
+
 	}
 	
 	
