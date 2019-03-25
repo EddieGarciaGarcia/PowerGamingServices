@@ -2,6 +2,7 @@ package com.eddie.ecommerce.service.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -382,10 +383,25 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public List<Integer> existsInBiblioteca(String email, List<Integer> idsDeJuego) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email+", idJuego "+idsDeJuego);
+		}
+		boolean commit=false;
+		Connection c=null;
+		List<Integer> result=new ArrayList<Integer>();
+		try {	
+			c=ConnectionManager.getConnection();
+			c.setAutoCommit(false);
 
-
-
-		return null;
+			result=itemBibliotecaDao.exists(c, email, idsDeJuego);
+			
+			commit=true;
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return result;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.eddie.ecommerce.dao;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +18,24 @@ public class ItemBibliotecaDAOTest {
 	private static Logger logger=LogManager.getLogger(ItemBibliotecaDAOTest.class);
 	public ItemBibliotecaDAOTest() {
 		daoIB=new ItemBibliotecaDAOImpl();
+	}
+	
+	public void testExist() {
+		try {
+			List<Integer>idsJuegos=new ArrayList<Integer>();
+			idsJuegos.add(1);
+			idsJuegos.add(3);
+			Connection c= ConnectionManager.getConnection();
+			List<Integer> ids;
+			ids=daoIB.exists(c, "eddie_garcia@gmail.com", idsJuegos);
+			
+			for(Integer i:ids) {
+				logger.debug(i);
+			}
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -41,6 +60,7 @@ public class ItemBibliotecaDAOTest {
 	
 	public static void main(String[] args) {
 		ItemBibliotecaDAOTest test = new ItemBibliotecaDAOTest();
-		test.testfindValoracion();
+//		test.testfindValoracion();
+		test.testExist();
 	}
 }
