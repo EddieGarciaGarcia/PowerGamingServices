@@ -29,58 +29,53 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 	
 	
 	@Override
-	public List<LineaPedido> findByPedido(Integer idPedido) throws DataException,SQLException {
+	public List<LineaPedido> findByPedido(Integer idPedido) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+idPedido);
 		}
-		
+		List<LineaPedido> lineaspedido=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<LineaPedido> lineaspedido=lpdao.findByPedido(c, idPedido);
-		
-		return lineaspedido;
-		
+		lineaspedido=lpdao.findByPedido(c, idPedido);
+
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return lineaspedido;
 	}
 
 	@Override
-	public LineaPedido findById(Integer numeroLinea) throws InstanceNotFoundException, DataException, SQLException {
+	public LineaPedido findById(Integer numeroLinea) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Numero linea= "+numeroLinea);
 		}
-		
+		LineaPedido lp=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		
-		LineaPedido lp = lpdao.findById(c,numeroLinea);
-		
-		return lp;
+		lp = lpdao.findById(c,numeroLinea);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return lp;
 	}
 
 	@Override
-	public LineaPedido create(LineaPedido lp) throws DuplicateInstanceException, DataException, SQLException {
+	public LineaPedido create(LineaPedido lp) throws DuplicateInstanceException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Linea Pedido = "+lp.toString());
@@ -96,14 +91,12 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 
 		commit=true;
 		
-		return lp;
-		
 		}catch(SQLException ed) {
 			logger.error(ed.getMessage(),ed);
-			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return lp;
 	}
 
 	@Override

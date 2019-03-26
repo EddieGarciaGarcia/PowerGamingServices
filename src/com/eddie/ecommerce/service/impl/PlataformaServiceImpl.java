@@ -16,7 +16,6 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.PlataformaDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Creador;
 import com.eddie.ecommerce.model.Plataforma;
 import com.eddie.ecommerce.service.PlataformaService;
 
@@ -31,33 +30,32 @@ public class PlataformaServiceImpl implements PlataformaService{
 	}
 	
 	@Override
-	public Plataforma findbyIdPlataforma(Integer id) throws InstanceNotFoundException, DataException, SQLException {
+	public Plataforma findbyIdPlataforma(Integer id) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id);
 		}
-		
+		Plataforma p=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		
-		Plataforma p = pdao.findbyIdPlataforma(c, id);		
-				
-		return p;
-		
+		p = pdao.findbyIdPlataforma(c, id);		
+
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return p;
 	}
 
 	@Override
-	public List<Plataforma> findAll() throws SQLException,DataException {
+	public List<Plataforma> findAll() throws DataException {
 		int i=1;
 		
 		Cache<Integer, List> cachePlataforma= CacheManager.getInstance().getCache(CacheNames.PLATAFORMACACHE, Integer.class, List.class);
@@ -85,7 +83,8 @@ public class PlataformaServiceImpl implements PlataformaService{
 			
 			}catch(DataException e) {
 				logger.error(e.getMessage(),e);
-				throw e;
+			} catch (SQLException e) {
+				logger.error(e.getMessage(),e);
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}
@@ -94,28 +93,26 @@ public class PlataformaServiceImpl implements PlataformaService{
 	}
 
 	@Override
-	public List<Plataforma> findByJuego(Integer idJuego) throws DataException, SQLException {
+	public List<Plataforma> findByJuego(Integer idJuego) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id = "+idJuego);
 		}
-		
+		List<Plataforma> p=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Plataforma> p=pdao.findByJuego(c, idJuego);
-		
-		return p;
+		p=pdao.findByJuego(c, idJuego);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return p;
 	}
 
 }

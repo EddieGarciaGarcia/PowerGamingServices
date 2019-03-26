@@ -99,6 +99,41 @@ public class EdicionDAOImpl implements EdicionDAO{
 	}
 	
 	@Override
+	public List<Edicion> findByIdsJuego(Connection conexion, List<Integer> ids) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("id = "+ids);
+		}
+		
+		Edicion e=null;
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		try {
+
+			StringBuilder sql;
+			sql=new StringBuilder("select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego in (");
+			JDBCUtils.anhadirIN(sql, ids);
+			pst=conexion.prepareStatement(sql.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			
+			logger.debug(sql);
+			
+			int i=1;	
+			rs=pst.executeQuery();
+			
+			List<Edicion> resultado=new ArrayList<Edicion>();
+			while(rs.next()){
+				e=loadNext(rs);
+				resultado.add(e);
+			}
+			return resultado;
+		}catch (SQLException ex) {
+			logger.error(ex.getMessage(),ex);
+			throw new DataException(ex);
+		}finally{
+			JDBCUtils.closeResultSet(rs);
+			JDBCUtils.closeStatement(pst);
+		}
+	}
+	@Override
 	public Edicion create(Connection conexion,Edicion e) throws DuplicateInstanceException, DataException {
 		
 		if(logger.isDebugEnabled()) {
@@ -235,5 +270,7 @@ public class EdicionDAOImpl implements EdicionDAO{
 		return e;
 
 	}
+
+	
 	
 }

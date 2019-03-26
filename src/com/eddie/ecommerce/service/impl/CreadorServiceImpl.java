@@ -16,7 +16,6 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.CreadorDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Creador;
 import com.eddie.ecommerce.service.CreadorService;
 
@@ -31,33 +30,32 @@ public class CreadorServiceImpl implements CreadorService{
 	}
 	
 	@Override
-	public Creador findbyIdCreador(Integer id) throws InstanceNotFoundException, DataException, SQLException {
+	public Creador findbyIdCreador(Integer id) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id);
 		}
-		
+		Creador cre=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		
-		Creador cre = cdao.findbyIdCreador(c, id);		
-				
-		return cre;
-		
+		cre= cdao.findbyIdCreador(c, id);		
+
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return cre;
 	}
 
 	@Override
-	public List<Creador> findAll() throws DataException, SQLException {
+	public List<Creador> findAll() throws DataException {
 		int i=1;
 		
 		Cache<Integer, List> cacheCreador= CacheManager.getInstance().getCache(CacheNames.CREADORCACHE, Integer.class, List.class);
@@ -84,7 +82,6 @@ public class CreadorServiceImpl implements CreadorService{
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
-				throw e;
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}

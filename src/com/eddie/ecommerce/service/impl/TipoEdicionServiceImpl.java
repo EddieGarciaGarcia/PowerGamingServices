@@ -16,7 +16,6 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.TipoEdicionDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.TipoEdicion;
 import com.eddie.ecommerce.service.TipoEdicionService;
 
@@ -31,33 +30,32 @@ public class TipoEdicionServiceImpl implements TipoEdicionService{
 	}
 	
 	@Override
-	public TipoEdicion findbyIdTipoEdicion(Integer id, String idioma) throws InstanceNotFoundException, DataException, SQLException {
+	public TipoEdicion findbyIdTipoEdicion(Integer id, String idioma) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id+" , idioma = "+idioma);
 		}
-		
+		TipoEdicion te=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		
-		TipoEdicion te = tedao.findbyIdTipoEdicion(c, id, idioma);	
+		te = tedao.findbyIdTipoEdicion(c, id, idioma);	
 				
-		return te;
-		
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return te;
 	}
 
 	@Override
-	public List<TipoEdicion> findAll(String idioma) throws DataException, SQLException {
+	public List<TipoEdicion> findAll(String idioma) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Idioma = "+idioma);
@@ -87,7 +85,6 @@ public class TipoEdicionServiceImpl implements TipoEdicionService{
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
-				throw e;
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}

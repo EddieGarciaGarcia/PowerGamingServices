@@ -27,32 +27,52 @@ public class EdicionServiceImpl implements EdicionService{
 	}
 	
 	@Override
-	public List<Edicion> findByIdJuego(Integer id) throws DataException, SQLException {
+	public List<Edicion> findByIdJuego(Integer id) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Id = "+id);
 		}
-		
+		List<Edicion> ediciones=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Edicion> ediciones=edao.findByIdJuego(c, id);
-		
-		return ediciones;
+		ediciones=edao.findByIdJuego(c, id);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return ediciones;
+	}
+	
+	@Override
+	public List<Edicion> findByIdsJuego(List<Integer> ids) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id = "+ids);
+		}
+		List<Edicion> ediciones=null;
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		ediciones=edao.findByIdsJuego(c, ids);
+		
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return ediciones;
 	}
 
 	@Override
-	public Edicion create(Edicion e) throws DuplicateInstanceException, DataException, SQLException {
+	public Edicion create(Edicion e) throws DuplicateInstanceException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Edicion = "+e.toString());
@@ -68,18 +88,16 @@ public class EdicionServiceImpl implements EdicionService{
 
 		commit=true;
 		
-		return e;
-		
 		}catch(SQLException ed) {
 			logger.error(ed.getMessage(),ed);
-			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return e;
 	}
 
 	@Override
-	public boolean update(Edicion e) throws InstanceNotFoundException, DataException, SQLException {
+	public boolean update(Edicion e) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Edicion = "+e.toString());
@@ -99,11 +117,12 @@ public class EdicionServiceImpl implements EdicionService{
         } catch (SQLException ed) {
         	logger.error(ed.getMessage(),ed);
             throw new DataException(ed);
-
         } finally {
         	JDBCUtils.closeConnection(c, commit);
         }
 		return true;
 	}
+
+	
 
 }

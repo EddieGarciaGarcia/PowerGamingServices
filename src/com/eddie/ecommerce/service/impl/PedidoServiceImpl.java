@@ -27,32 +27,30 @@ public class PedidoServiceImpl implements PedidoService{
 	}
 	
 	@Override
-	public Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws InstanceNotFoundException, SQLException, DataException {
+	public Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
 		}
-		
+		Resultados<Pedido> pedidos=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		Resultados<Pedido> pedidos=pdao.findByEmail(c, email, startIndex, count);
-		
-		return pedidos;
+		pedidos=pdao.findByEmail(c, email, startIndex, count);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return pedidos;
 	}
 
 	@Override
-	public void delete(Integer idPedido) throws InstanceNotFoundException, SQLException, DataException {
+	public void delete(Integer idPedido) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Id= "+idPedido);
@@ -70,19 +68,17 @@ public class PedidoServiceImpl implements PedidoService{
 
 		}catch(SQLException ed) {
 			logger.error(ed.getMessage(),ed);
-			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
 	}
 
 	@Override
-	public Pedido create(Pedido p) throws DuplicateInstanceException, SQLException, DataException {
+	public Pedido create(Pedido p) throws DuplicateInstanceException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Pedido = "+p.toString());
 		}
-		
 		
 		boolean commit=false;
 		Connection c=null;
@@ -93,43 +89,39 @@ public class PedidoServiceImpl implements PedidoService{
 		p = pdao.create(c,p);
 
 		commit=true;
-		
-		return p;
-		
+
 		}catch(SQLException ed) {
 			logger.error(ed.getMessage(),ed);
-			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return p;
 	}
 
 	@Override
-	public Pedido findByID(Integer idPedido) throws DataException, SQLException {
+	public Pedido findByID(Integer idPedido) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+idPedido);
 		}
 		
-		
+		Pedido p =null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		Pedido p = pdao.findByID(c,idPedido);
+		p = pdao.findByID(c,idPedido);
 
 		commit=true;
-		
-		return p;
-		
+
 		}catch(SQLException ed) {
 			logger.error(ed.getMessage(),ed);
-			throw ed;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return p;
 	}
 
 }

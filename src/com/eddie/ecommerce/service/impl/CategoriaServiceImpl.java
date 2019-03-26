@@ -30,34 +30,32 @@ public class CategoriaServiceImpl implements CategoriaService{
 	}
 	
 	@Override
-	public Categoria findById(Integer id, String idioma) throws SQLException, InstanceNotFoundException, DataException {
+	public Categoria findById(Integer id, String idioma) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id+" , idioma = "+idioma);
 		}
-		
+		Categoria cate = null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		
-		
-		Categoria cate = cdao.findById(c, id, idioma);		
-		
-		return cate;
+		cate = cdao.findById(c, id, idioma);		
 		
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return cate;
 	}
 
 	@Override
-	public List<Categoria> findAll(String idioma) throws SQLException, DataException {
+	public List<Categoria> findAll(String idioma) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Idioma = "+idioma);
@@ -88,7 +86,6 @@ public class CategoriaServiceImpl implements CategoriaService{
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
-				throw e;
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}
@@ -97,28 +94,26 @@ public class CategoriaServiceImpl implements CategoriaService{
 	}
 
 	@Override
-	public List<Categoria> findByJuego(Integer idJuego, String idioma) throws DataException, SQLException {
+	public List<Categoria> findByJuego(Integer idJuego, String idioma) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+idJuego+" , idioma = "+idioma);
 		}
-		
+		List<Categoria> cat=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Categoria> cat=cdao.findByJuego(c, idJuego, idioma);
-		
-		return cat;
-		
+		cat=cdao.findByJuego(c, idJuego, idioma);
+
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return cat;
 	}
 
 }

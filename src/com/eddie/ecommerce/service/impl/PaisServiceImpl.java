@@ -25,23 +25,22 @@ public class PaisServiceImpl implements PaisService{
 		 pdao=new PaisDAOImpl();
 	 }
 	@Override
-	public List<Pais> findAll() throws DataException, SQLException {
+	public List<Pais> findAll() throws DataException {
 		boolean commit=false;
 		Connection c=null;
+		List<Pais> pais=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Pais> pais=pdao.findAll(c)	;
-		
-		return pais;
+		pais=pdao.findAll(c)	;
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return pais;
 	}
 
 }

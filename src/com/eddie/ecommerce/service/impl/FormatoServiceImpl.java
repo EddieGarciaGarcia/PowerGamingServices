@@ -30,33 +30,32 @@ public class FormatoServiceImpl implements FormatoService{
 		fdao=new FormatoDAOImpl();
 	}
 	@Override
-	public Formato findbyIdFormato(Integer id, String idioma) throws InstanceNotFoundException, DataException, SQLException {
+	public Formato findbyIdFormato(Integer id, String idioma) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id+" , idioma = "+idioma);
 		}
-		
+		Formato f=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
-		
-		
-		Formato f = fdao.findbyIdFormato(c, id, idioma);	
+			
+		f = fdao.findbyIdFormato(c, id, idioma);	
 				
-		return f;
-		
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return f;
 	}
 
 	@Override
-	public List<Formato> findAll(String idioma) throws DataException, SQLException  {
+	public List<Formato> findAll(String idioma) throws DataException  {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Idioma = "+idioma);
@@ -86,7 +85,6 @@ public class FormatoServiceImpl implements FormatoService{
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
-				throw e;
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}

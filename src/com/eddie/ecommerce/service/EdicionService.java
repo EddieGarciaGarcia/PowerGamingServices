@@ -1,7 +1,5 @@
 package com.eddie.ecommerce.service;
 
-
-import java.sql.SQLException;
 import java.util.List;
 
 import com.eddie.ecommerce.exceptions.DataException;
@@ -12,10 +10,12 @@ import com.eddie.ecommerce.model.Edicion;
 public interface EdicionService {
 	
 	//Busqueda de las ediciones de un juego
-	public List<Edicion> findByIdJuego(Integer id) throws DataException, SQLException;
+	public List<Edicion> findByIdJuego(Integer id) throws DataException;
 	
-	public Edicion create(Edicion e) throws DuplicateInstanceException, DataException, SQLException;
+	public List<Edicion> findByIdsJuego(List<Integer> ids) throws DataException;
 	
-	public boolean update(Edicion e) throws InstanceNotFoundException, DataException, SQLException;		
+	public Edicion create(Edicion e) throws DuplicateInstanceException, DataException;
+	
+	public boolean update(Edicion e) throws InstanceNotFoundException, DataException;		
 	
 }

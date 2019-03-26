@@ -31,33 +31,32 @@ public class IdiomaServiceImpl implements IdiomaService{
 	}
 	
 	@Override
-	public Idioma findById(String id, String idioma) throws InstanceNotFoundException, DataException, SQLException {
+	public Idioma findById(String id, String idioma) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id+" , idioma = "+idioma);
 		}
-		
+		Idioma i=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		
-		Idioma i = idao.findById(c, id, idioma);		
+		i = idao.findById(c, id, idioma);		
 				
-		return i;
-		
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return i;
 	}
 
 	@Override
-	public List<Idioma> findAll(String idioma) throws DataException, SQLException {
+	public List<Idioma> findAll(String idioma) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Idioma = "+idioma);
@@ -87,7 +86,6 @@ public class IdiomaServiceImpl implements IdiomaService{
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
-				throw e;
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}
@@ -96,28 +94,26 @@ public class IdiomaServiceImpl implements IdiomaService{
 	}
 
 	@Override
-	public List<Idioma> findByJuego(Integer idJuego, String idioma) throws DataException, SQLException {
+	public List<Idioma> findByJuego(Integer idJuego, String idioma) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+idJuego+" , idioma = "+idioma);
 		}
-		
+		List<Idioma> i=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Idioma> i=idao.findByJuego(c, idJuego, idioma);
-		
-		return i;
+		i=idao.findByJuego(c, idJuego, idioma);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return i;
 	}
 
 }

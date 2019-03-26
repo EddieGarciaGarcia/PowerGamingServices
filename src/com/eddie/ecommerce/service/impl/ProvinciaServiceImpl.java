@@ -26,28 +26,26 @@ public class ProvinciaServiceImpl implements ProvinciaService{
 	}
 
 	@Override
-	public List<Provincia> findAllByIdPais(Integer idPais) throws DataException, SQLException {
+	public List<Provincia> findAllByIdPais(Integer idPais) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+idPais);
 		}
-		
+		List<Provincia> p=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		List<Provincia> p=pdao.findAllByIdPais(c, idPais);
-		
-		return p;
+		p=pdao.findAllByIdPais(c, idPais);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
-			throw e;
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
+		return p;
 	}
 
 }
