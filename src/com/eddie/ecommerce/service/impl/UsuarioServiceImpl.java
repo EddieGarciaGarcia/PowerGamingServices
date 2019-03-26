@@ -34,11 +34,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	private UsuarioDAO usuarioDao=null;
 	private ItemBibliotecaDAO itemBibliotecaDao=null;
 	private DireccionDAO direccionDao=null;
-
+	private MailService mailService=null;
 	public UsuarioServiceImpl() {
 		usuarioDao=new UsuarioDAOImpl();
 		itemBibliotecaDao=new ItemBibliotecaDAOImpl();
 		direccionDao=new DireccionDAOImpl();
+		mailService=new MailServiceImpl();
 	}
 
 	@Override
@@ -55,8 +56,8 @@ public class UsuarioServiceImpl implements UsuarioService{
 			c.setAutoCommit(false);
 
 			Usuario u2 = usuarioDao.create(u,c);
-			MailService mail=new MailServiceImpl();
-			mail.sendMail(u.getEmail(), "Bienvenido a mi página web","<html><h1>Bienvenido a Power Gaming</h1><p>Hola muy buenas te has registrado correctamente</p></html>");
+			
+			mailService.sendMail(u.getEmail(), "Bienvenido a mi página web","<html><h1>Bienvenido a Power Gaming</h1><p>Hola muy buenas te has registrado correctamente</p></html>");
 
 			commit=true;
 			return u2;
