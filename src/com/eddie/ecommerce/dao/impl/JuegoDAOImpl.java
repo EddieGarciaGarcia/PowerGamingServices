@@ -60,7 +60,7 @@ public class JuegoDAOImpl implements JuegoDAO{
 			StringBuilder strb=null;
 			try {
 				
-				strb=new StringBuilder("select j.id_juego, j.nombre, YEAR(j.fecha_lanzamiento), j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego" );
+				strb=new StringBuilder("select j.id_juego, j.nombre, j.fecha_lanzamiento, j.id_creador from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego" );
 				
 				boolean first=true;
 				
