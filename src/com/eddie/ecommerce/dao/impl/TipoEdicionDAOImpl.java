@@ -20,37 +20,32 @@ public class TipoEdicionDAOImpl implements TipoEdicionDAO{
 	
 	private static Logger logger=LogManager.getLogger(TipoEdicionDAOImpl.class);
 	
-	public TipoEdicion findbyIdTipoEdicion(Connection conexion, Integer id,String idioma) throws InstanceNotFoundException, DataException{
+	public List<TipoEdicion> findbyIdsTipoEdicion(Connection conexion, List<Integer> ids,String idioma) throws InstanceNotFoundException, DataException{
 			
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+id+" , idioma = "+idioma);
+			logger.debug("id= "+ids+" , idioma = "+idioma);
 		}
-		
+		List<TipoEdicion> resultados=new ArrayList<TipoEdicion>();
 		TipoEdicion te=null;
 	
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 		try {
 		
-			String sql;
-			sql="select te.id_tipo_edicion, id.nombre from tipoedicion te inner join idiomaweb_tipoedicion id on te.id_tipo_edicion=id.id_tipo_edicion where te.id_tipo_edicion= ? and id_idioma_web like '"+idioma+"'";
-			
-			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
-			int i=1;
-			pst.setLong(i++, id);
+			StringBuilder sql;
+			sql=new StringBuilder("select te.id_tipo_edicion, id.nombre from tipoedicion te inner join idiomaweb_tipoedicion id on te.id_tipo_edicion=id.id_tipo_edicion where id_idioma_web like '"+idioma+"' and te.id_tipo_edicion in (");
+			JDBCUtils.anhadirIN(sql, ids);
+			pst=conexion.prepareStatement(sql.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			rs=pst.executeQuery();
 			
 			logger.debug(sql);
 			
-			if(rs.next()){
+			while(rs.next()){
 				te=loadNext(rs);
-				
-			}else {
-				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", TipoEdicionDAOImpl.class.getName());
+				resultados.add(te);
 			}
-			return te;
+			return resultados;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);

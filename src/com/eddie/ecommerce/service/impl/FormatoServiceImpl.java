@@ -16,7 +16,6 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.FormatoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Formato;
 import com.eddie.ecommerce.service.FormatoService;
 
@@ -30,19 +29,19 @@ public class FormatoServiceImpl implements FormatoService{
 		fdao=new FormatoDAOImpl();
 	}
 	@Override
-	public Formato findbyIdFormato(Integer id, String idioma) throws InstanceNotFoundException, DataException {
+	public List<Formato> findbyIdsFormato(List<Integer> ids, String idioma) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+id+" , idioma = "+idioma);
+			logger.debug("id= "+ids+" , idioma = "+idioma);
 		}
-		Formato f=null;
+		List<Formato> f=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 			
-		f = fdao.findbyIdFormato(c, id, idioma);	
+		f = fdao.findbyIdsFormato(c, ids, idioma);	
 				
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);

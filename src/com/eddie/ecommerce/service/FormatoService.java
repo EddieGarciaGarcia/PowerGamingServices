@@ -8,7 +8,7 @@ import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Formato;
 
 public interface FormatoService {
-	public Formato findbyIdFormato(Integer id, String idioma) throws InstanceNotFoundException, DataException;
+	public List<Formato> findbyIdsFormato(List<Integer> ids, String idioma) throws InstanceNotFoundException, DataException;
 	//Lista de Formatos
 	public List<Formato> findAll(String idioma) throws DataException;
 }

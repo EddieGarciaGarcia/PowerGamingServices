@@ -30,19 +30,19 @@ public class TipoEdicionServiceImpl implements TipoEdicionService{
 	}
 	
 	@Override
-	public TipoEdicion findbyIdTipoEdicion(Integer id, String idioma) throws InstanceNotFoundException, DataException {
+	public List<TipoEdicion> findbyIdsTipoEdicion(List<Integer> ids, String idioma) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+id+" , idioma = "+idioma);
+			logger.debug("id= "+ids+" , idioma = "+idioma);
 		}
-		TipoEdicion te=null;
+		List<TipoEdicion> te=null;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		te = tedao.findbyIdTipoEdicion(c, id, idioma);	
+		te = tedao.findbyIdsTipoEdicion(c, ids, idioma);	
 				
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);

@@ -22,36 +22,31 @@ public class FormatoDAOImpl implements FormatoDAO{
 	
 	public FormatoDAOImpl() {}
 	
-	public Formato findbyIdFormato(Connection conexion,Integer id, String idioma) throws InstanceNotFoundException,DataException{
+	public List<Formato> findbyIdsFormato(Connection conexion,List<Integer> ids, String idioma) throws InstanceNotFoundException,DataException{
 			
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+id+" , idioma = "+idioma);
+			logger.debug("id= "+ids+" , idioma = "+idioma);
 		}
-		
+			List<Formato> resultado=new ArrayList<Formato>();
 			Formato f=null;
 			PreparedStatement pst=null;
 			ResultSet rs=null;
 		try {
 
-			String sql;
-			sql="select id_formato, nombre from idiomaweb_formato where id_formato= ? and id_idioma_web like '"+idioma+"'";
-			
-			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
-			int i=1;
-			pst.setInt(i++, id);
+			StringBuilder sql;
+			sql=new StringBuilder("select id_formato, nombre from idiomaweb_formato where id_idioma_web like '"+idioma+"' and id_formato in (");
+			JDBCUtils.anhadirIN(sql, ids);
+			pst=conexion.prepareStatement(sql.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			rs=pst.executeQuery();
 			
 			logger.debug(sql);
 			
-			if(rs.next()){
+			while(rs.next()){
 				f=loadNext(rs);
-				
-			}else {
-				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Formato.class.getName());
+				resultado.add(f);
 			}
-			return f;
+			return resultado;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);

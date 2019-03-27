@@ -10,7 +10,7 @@ import com.eddie.ecommerce.model.TipoEdicion;
 
 public interface TipoEdicionDAO {
 	
-	public TipoEdicion findbyIdTipoEdicion(Connection conexion, Integer id, String idioma) throws InstanceNotFoundException, DataException;
+	public List<TipoEdicion> findbyIdsTipoEdicion(Connection conexion, List<Integer> ids, String idioma) throws InstanceNotFoundException, DataException;
 	
 	public List<TipoEdicion> findAll(Connection conexion, String idioma) throws DataException;
 }
