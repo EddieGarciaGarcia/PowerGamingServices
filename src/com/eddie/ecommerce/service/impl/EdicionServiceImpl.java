@@ -21,7 +21,7 @@ public class EdicionServiceImpl implements EdicionService{
 
 	private static Logger logger=LogManager.getLogger(EdicionServiceImpl.class);
 	
-	EdicionDAO edao=null;
+	private EdicionDAO edao=null;
 	public EdicionServiceImpl() {
 		edao= new EdicionDAOImpl();
 	}

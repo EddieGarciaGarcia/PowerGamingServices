@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.CategoriaDAO;
+import com.eddie.ecommerce.dao.EdicionDAO;
 import com.eddie.ecommerce.dao.IdiomaDAO;
 import com.eddie.ecommerce.dao.JuegoDAO;
 import com.eddie.ecommerce.dao.PlataformaDAO;
@@ -20,6 +21,7 @@ import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Categoria;
+import com.eddie.ecommerce.model.Edicion;
 import com.eddie.ecommerce.model.Idioma;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
@@ -40,13 +42,13 @@ public class JuegoDAOImpl implements JuegoDAO{
 		private CategoriaDAO categoriaDAO = null;
 		private PlataformaDAO plataformaDAO = null;
 		private IdiomaDAO idiomaDAO=null;
-		
+		private EdicionDAO edicionDAO=null;
 		
 		public JuegoDAOImpl() {
 			categoriaDAO = new CategoriaDAOImpl();
 			plataformaDAO= new PlataformaDAOImpl();
 			idiomaDAO= new IdiomaDAOImpl();
-			
+			edicionDAO= new EdicionDAOImpl();
 		}
 		
 		public Resultados<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, Connection connection, int startIndex, int count) throws DataException {
@@ -518,6 +520,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 				j.setPlataformas(plataforma);
 				List<Idioma> idiomas = idiomaDAO.findByJuego(c, id, idioma);
 				j.setIdiomas(idiomas);
+				List<Edicion>ediciones = edicionDAO.findByIdJuego(c, id);
+				j.setEdiciones(ediciones);
 				return j;
 				
 		}
