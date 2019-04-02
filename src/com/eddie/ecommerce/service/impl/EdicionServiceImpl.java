@@ -26,6 +26,29 @@ public class EdicionServiceImpl implements EdicionService{
 		edao= new EdicionDAOImpl();
 	}
 	
+	
+	@Override
+	public Edicion finById(Integer id) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id = "+id);
+		}
+		Edicion edicion=null;
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		edicion=edao.findByIdEdicion(c, id);
+		
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return edicion;
+	}
+	
 	@Override
 	public List<Edicion> findByIdJuego(Integer id) throws DataException {
 		
@@ -122,6 +145,8 @@ public class EdicionServiceImpl implements EdicionService{
         }
 		return true;
 	}
+
+	
 
 	
 

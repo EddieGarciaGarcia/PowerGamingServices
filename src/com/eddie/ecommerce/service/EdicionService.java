@@ -9,6 +9,8 @@ import com.eddie.ecommerce.model.Edicion;
 
 public interface EdicionService {
 	
+	public Edicion finById(Integer id) throws DataException;
+	
 	//Busqueda de las ediciones de un juego
 	public List<Edicion> findByIdJuego(Integer id) throws DataException;
 	
