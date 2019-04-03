@@ -99,10 +99,10 @@ public class PedidoServiceImpl implements PedidoService{
 	}
 
 	@Override
-	public Pedido findByID(Integer idPedido) throws DataException {
+	public Pedido findByEmail(String email) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+idPedido);
+			logger.debug("id= "+email);
 		}
 		
 		Pedido p =null;
@@ -112,7 +112,7 @@ public class PedidoServiceImpl implements PedidoService{
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		p = pdao.findByID(c,idPedido);
+		p = pdao.findByEmail(c,email);
 
 		commit=true;
 

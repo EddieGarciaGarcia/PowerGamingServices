@@ -37,7 +37,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 		try {
 		
 			String sql;
-			sql="sselect id_pedido,email,iva,total,fecha_pedido from pedido where email=?";
+			sql="select id_pedido,email,iva,total,fecha_pedido from pedido where email=? order by fecha_pedido desc";
 			
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
@@ -76,10 +76,10 @@ public class PedidoDAOImpl implements PedidoDAO{
 	}
 
 	@Override
-	public Pedido findByID(Connection conexion,Integer idPedido) throws InstanceNotFoundException, DataException {
+	public Pedido findByEmail(Connection conexion,String email ) throws InstanceNotFoundException, DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("Id = "+idPedido);
+			logger.debug("Id = "+email);
 		}
 		
 		Pedido p=null;
@@ -88,13 +88,13 @@ public class PedidoDAOImpl implements PedidoDAO{
 		try {
 		
 			String sql;
-			sql="select id_pedido,email,iva,total,fecha_pedido from pedido where id_pedido=?";
+			sql="select id_pedido,email,iva,total,fecha_pedido from pedido where email like ? order by id_pedido desc";
 			
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
 			//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
-			pst.setInt(i++, idPedido);	
+			pst.setString(i++, email);	
 			rs=pst.executeQuery();
 			
 			logger.debug(sql);
@@ -104,7 +104,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 	
 			}
 			else {
-				throw new InstanceNotFoundException("Error "+idPedido+" id introducido incorrecto", Pedido.class.getName());
+				throw new InstanceNotFoundException("Error "+email+" id introducido incorrecto", Pedido.class.getName());
 			}
 			return p;
 		}catch (SQLException ex) {
@@ -201,7 +201,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 				Integer idPedido=rs.getInt(i++);
 				String email  = rs.getString(i++);
 				Date fechaPedido=rs.getDate(i++);
-				Double iva=rs.getDouble(i++);
+				Integer iva=rs.getInt(i++);
 				Double total=rs.getDouble(i++);
 				
 				Pedido p= new Pedido();

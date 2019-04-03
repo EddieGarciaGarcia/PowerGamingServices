@@ -15,6 +15,5 @@ public interface PedidoService {
 	
 	public Pedido create(Pedido p) throws DuplicateInstanceException, DataException;
 	
-	//Abrir pedido
-	public Pedido findByID(Integer idPedido)throws DataException;
+	public Pedido findByEmail(String email)throws DataException;
 }

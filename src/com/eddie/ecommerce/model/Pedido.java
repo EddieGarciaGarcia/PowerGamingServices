@@ -12,7 +12,7 @@ public class Pedido implements ValueObject{
 	private Date fecha_pedido=null;
 	private List<LineaPedido>lineaspedido=null;
 	
-	private static final Double IVA=0.0d;
+	private static final Integer IVA=21;
 	
 	public Pedido() {
 		lineaspedido=new ArrayList<LineaPedido>();
@@ -57,7 +57,7 @@ public class Pedido implements ValueObject{
 		this.fecha_pedido = fecha_pedido;
 	}
 
-	public static Double getIva() {
+	public static Integer getIva() {
 		return IVA;
 	}
 
