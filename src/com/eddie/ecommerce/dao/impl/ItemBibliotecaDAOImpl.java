@@ -272,8 +272,16 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 			
 			pst.setInt(i++, b.getIdJuego());
 			
-			pst.setInt(i++,b.getPuntuacion());
-			pst.setString(i++, b.getComprado());
+			if(b.getPuntuacion()==null) {
+				pst.setNull(i++, Types.NULL);
+			}else {
+				pst.setInt(i++,b.getPuntuacion());
+			}
+			if(b.getComprado()==null) {
+				pst.setNull(i++, Types.NULL);
+			}else {
+				pst.setString(i++,b.getComprado());
+			}
 			if(b.getComentario()==null) {
 				pst.setNull(i++, Types.NULL);
 			}else {

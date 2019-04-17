@@ -217,8 +217,14 @@ public class JuegoServiceImpl implements JuegoService{
 		c.setAutoCommit(false);
 		
 		it.setPuntuacion(null);
-		it.setComprado("No");
-		ibDao.update(c, it);
+		it.setComprado("N");
+		
+		boolean existe=ibDao.exists(c, it.getEmail(), it.getIdJuego());
+		
+		if(existe==true) {
+			ibDao.delete(c, it.getEmail(), it.getIdJuego());
+		}
+		ibDao.create(c, it);
 		
 		commit=true;
 		

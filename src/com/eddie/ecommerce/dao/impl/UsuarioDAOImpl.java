@@ -229,6 +229,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			if(rs.next()){
 				u=loadNext(rs);
 			}else {
+				u=null;
 				throw new InstanceNotFoundException("Error "+email+" id introducido incorrecto", Usuario.class.getName());
 			}
 			return u;
