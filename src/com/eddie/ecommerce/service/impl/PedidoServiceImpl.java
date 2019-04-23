@@ -2,6 +2,7 @@ package com.eddie.ecommerce.service.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,7 @@ import com.eddie.ecommerce.dao.impl.PedidoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.Pedido;
 import com.eddie.ecommerce.service.PedidoService;
 import com.eddie.ecommerce.service.Resultados;
@@ -122,6 +124,28 @@ public class PedidoServiceImpl implements PedidoService{
 			JDBCUtils.closeConnection(c, commit);
 		}
 		return p;
+	}
+
+	@Override
+	public List<Pedido> findByIds(List<Integer> ids) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("IdJuego = "+ids);
+		}
+		List<Pedido> pedido = null;
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		pedido=pdao.findByIds(c, ids);
+		
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return pedido;
 	}
 
 }

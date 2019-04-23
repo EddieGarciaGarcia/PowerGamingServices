@@ -17,6 +17,7 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.Pedido;
 import com.eddie.ecommerce.service.Resultados;
 
@@ -88,7 +89,7 @@ public class PedidoDAOImpl implements PedidoDAO{
 		try {
 		
 			String sql;
-			sql="select id_pedido,email,iva,total,fecha_pedido from pedido where email like ? order by id_pedido desc";
+			sql="select id_pedido,email,iva,total,fecha_pedido from pedido where email like ? order by id_pedido desc limit 1";
 			
 			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			
@@ -216,5 +217,46 @@ public class PedidoDAOImpl implements PedidoDAO{
 				
 			
 		}
+
+	@Override
+	public List<Pedido> findByIds(Connection conexion, List<Integer> ids) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id= "+ids);
+		}
+		
+		List<Pedido> pedidos=new ArrayList<Pedido>();
+		Pedido pedido=null;
+		PreparedStatement pst=null;
+		ResultSet rs=null;
+		
+		try {
+			StringBuilder sql= null;
+			sql=new StringBuilder("select id_pedido, email, iva, total, fecha_pedido from pedido where id_pedido in (");
+
+			JDBCUtils.anhadirIN(sql, ids);
+			
+			pst=conexion.prepareStatement(sql.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			
+			int i=1;
+			//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
+			
+			rs=pst.executeQuery();
+			
+			logger.debug(sql);
+			
+			while(rs.next()){
+				pedido=loadNext(rs);
+				pedidos.add(pedido);
+			}
+			
+			return pedidos;
+		}catch (SQLException ex) {
+			logger.error(ex.getMessage(),ex);
+			throw new DataException(ex);
+		}finally{
+			JDBCUtils.closeResultSet(rs);
+			JDBCUtils.closeStatement(pst);
+		}
+	}
 		
 }

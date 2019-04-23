@@ -199,5 +199,40 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 				
 			
 		}
+
+	@Override
+	public long deleteByPedido(Connection conexion, Integer id) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("idPedido = "+id);
+		}
+		
+		PreparedStatement preparedStatement = null;
+
+		try {
+			String queryString =	
+					  "DELETE FROM lineapedido " 
+					+ "WHERE  id_pedido = ? ";
+			
+			preparedStatement = conexion.prepareStatement(queryString);
+
+			int i = 1;
+			preparedStatement.setInt(i++, id);
+			
+			logger.debug(queryString);
+			
+			int removedRows = preparedStatement.executeUpdate();
+
+			if (removedRows == 0) {
+				throw new InstanceNotFoundException(id,"No se elimino el pedido correctamente");
+			} 
+
+			return removedRows;
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
 		
 }

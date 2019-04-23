@@ -127,4 +127,32 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 		
 	}
 
+
+	@Override
+	public void deleteByPedido(Integer id) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Id= "+id);
+		}
+		
+		boolean commit=false;
+		Connection c=null;
+		try {
+	          
+            c = ConnectionManager.getConnection();
+
+            c.setAutoCommit(false);
+
+            lpdao.deleteByPedido(c,id);
+            commit = true;
+            
+        } catch (SQLException ed) {
+        	logger.error(ed.getMessage(),ed);
+            throw new DataException(ed);
+
+        } finally {
+        	JDBCUtils.closeConnection(c, commit);
+        }
+		
+	}
+
 }

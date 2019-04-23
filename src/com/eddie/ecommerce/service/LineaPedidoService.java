@@ -21,4 +21,6 @@ public interface LineaPedidoService {
 	
 	//Cancelar Linea de pedido
 	public void delete(Integer id) throws DataException;
+	
+	public void deleteByPedido(Integer id) throws DataException;
 }

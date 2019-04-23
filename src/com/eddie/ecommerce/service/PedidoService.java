@@ -1,5 +1,7 @@
 package com.eddie.ecommerce.service;
 
+import java.util.List;
+
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
@@ -9,6 +11,8 @@ public interface PedidoService {
 	
 	//Historial del Usuario
 	public Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws InstanceNotFoundException, DataException;
+	
+	public List<Pedido> findByIds(List<Integer> ids)throws DataException;
 	
 	//Cancelar pedido
 	public void delete(Integer idPedido) throws InstanceNotFoundException, DataException;
