@@ -1,6 +1,7 @@
 package com.eddie.ecommerce.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +24,7 @@ public class PedidoServiceTest {
 		
 	}
 
-		public void testFindById() { 
+	/*	public void testFindById() { 
 			
 				Pedido p;
 				try {
@@ -48,15 +49,17 @@ public class PedidoServiceTest {
 					e.printStackTrace();
 				}		
 			
-		}
+		}*/
 		public void create() {
 			Pedido p=new Pedido();
-			
+			p.setEmail("eddie_garcia@gmail.com");
+			p.setTotal(120.0);
+			Date d= new Date();
+			p.setFecha_pedido(new java.sql.Date(d.getTime()));
+		
 			try {
 				serviceP.create(p);
 			} catch (DuplicateInstanceException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (DataException e) {
 				e.printStackTrace();
@@ -66,9 +69,6 @@ public class PedidoServiceTest {
 		public void delete() {
 			try {
 				serviceP.delete(1);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (DataException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -78,7 +78,7 @@ public class PedidoServiceTest {
 	public static void main(String[] args) {
 		PedidoServiceTest test = new PedidoServiceTest();
 	
-
+		test.create();
 	}
 
 }

@@ -148,6 +148,13 @@ public class PedidoDAOImpl implements PedidoDAO{
 				throw new SQLException(" No se pudo insertar");
 			}
 			
+			rs=pst.getGeneratedKeys();
+			if(rs.next()) {
+				Integer idPedido=rs.getInt(1);
+				p.setIdPedido(idPedido);
+			}else {
+				throw new DataException("Problemas al autogenerar primary key");
+			}
 			return p;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
@@ -201,16 +208,16 @@ public class PedidoDAOImpl implements PedidoDAO{
 				int i=1;
 				Integer idPedido=rs.getInt(i++);
 				String email  = rs.getString(i++);
-				Date fechaPedido=rs.getDate(i++);
 				Integer iva=rs.getInt(i++);
+				Date fechaPedido=rs.getDate(i++);	
 				Double total=rs.getDouble(i++);
 				
 				Pedido p= new Pedido();
 				
 				p.setIdPedido(idPedido);
 				p.setEmail(email);
-				p.setFecha_pedido(fechaPedido);
 				iva=p.getIva();
+				p.setFecha_pedido(fechaPedido);
 				p.setTotal(total);
 				
 				return p;

@@ -81,9 +81,5 @@ public class Pedido implements ValueObject{
 			return true;
 		}
 	}
-	@Override
-	public int hashCode() {
-		return idPedido;
-	}
 	
 }
