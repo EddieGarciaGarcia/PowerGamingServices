@@ -435,5 +435,55 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return result;
 	}
 
+	@Override
+	public ItemBiblioteca update(ItemBiblioteca it) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("it = "+it.toString());
+		}
+
+		boolean commit=false;
+		Connection c=null;
+		try {
+
+			c = ConnectionManager.getConnection();
+
+			c.setAutoCommit(false);
+
+			itemBibliotecaDao.update(c, it);
+			commit = true;
+
+		} catch (SQLException e) {
+			logger.error(e.getMessage(),e);
+			throw new DataException(e);
+
+		} finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return it;
+	}
+
+	@Override
+	public ItemBiblioteca findByIdEmail(String email, Integer idJuego) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email+", idJuego "+idJuego);
+		}
+		boolean commit=false;
+		Connection c=null;
+		ItemBiblioteca result=null;
+		try {	
+			c=ConnectionManager.getConnection();
+			c.setAutoCommit(false);
+
+			result=itemBibliotecaDao.fingByIdEmail(c, email, idJuego);
+			
+			commit=true;
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return result;
+	}
+
 
 }

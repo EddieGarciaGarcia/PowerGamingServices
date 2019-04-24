@@ -20,7 +20,6 @@ import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
-import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.service.Resultados;
 
 
@@ -422,6 +421,43 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		return b;              		
 	}
 	
+	@Override
+	public ItemBiblioteca fingByIdEmail(Connection c, String email, Integer idJuego) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = {}", email+" Idjuego = {}",idJuego);
+		}
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		ItemBiblioteca it= null;
+		try {
+
+			String queryString = "SELECT email,id_juego FROM usuarios_juego WHERE UPPER(email) LIKE UPPER(?) AND id_juego= ?";
+			
+			logger.debug(queryString);
+			preparedStatement = c.prepareStatement(queryString);
+
+			int i = 1;
+			preparedStatement.setString(i++, email);
+			preparedStatement.setInt(i++, idJuego);
+
+			resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				it=loadNext(resultSet);
+			}
+
+		} catch (SQLException e) {
+			logger.info(e.getMessage(), e);
+			throw new DataException(e);
+		} finally {
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+
+		return it;
+	}
+	
 	public ItemBiblioteca loadNext(ResultSet rs) 
 			throws SQLException,DataException{
 				int i=1;
@@ -443,6 +479,10 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 				
 				return ib;
 	}
+
+
+
+	
 
 	
 		

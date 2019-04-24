@@ -27,4 +27,5 @@ public interface ItemBibliotecaDAO {
 	
 	public long delete(Connection connection,String email,Integer idJuego) throws InstanceNotFoundException, DataException;
 	
+	public ItemBiblioteca fingByIdEmail(Connection c, String email, Integer idJuego) throws DataException;
 }
