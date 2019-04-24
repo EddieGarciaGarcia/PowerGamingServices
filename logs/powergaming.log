@@ -1,26 +1,186 @@
-2019-03-25 09:34:49.358 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:34:49.358 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:34:49.368 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:34:49.368 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:36:04.328 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:36:04.328 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:36:04.333 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:36:04.333 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:36:04.379 DEBUG ItemBibliotecaDAOTest.testExist:33 - 3
-2019-03-25 09:36:04.379 DEBUG ItemBibliotecaDAOTest.testExist:33 - 3
-2019-03-25 09:36:18.919 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:36:18.919 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:36:18.924 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:36:18.924 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:36:37.797 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:36:37.797 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:36:37.803 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:36:37.803 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:36:37.850 DEBUG ItemBibliotecaDAOTest.testExist:33 - 3
-2019-03-25 09:36:37.850 DEBUG ItemBibliotecaDAOTest.testExist:33 - 3
-2019-03-25 09:39:05.554 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:39:05.554 DEBUG ItemBibliotecaDAOImpl.exists:171 - Email = eddie_garcia@gmail.com Idjuego = {}
-2019-03-25 09:39:05.559 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:39:05.559 DEBUG ItemBibliotecaDAOImpl.exists:183 - SELECT id_juego FROM usuarios_juego WHERE UPPER(email) = UPPER(?) AND id_juego in (1,3)
-2019-03-25 09:39:05.597 DEBUG ItemBibliotecaDAOTest.testExist:33 - 3
-2019-03-25 09:39:05.597 DEBUG ItemBibliotecaDAOTest.testExist:33 - 3
+2019-04-02 13:07:43.694 DEBUG JuegoDAOImpl.findAllByValoracion:289 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
+group by j.nombre
+order by avg(uj.puntuacion) desc Limit 3
+2019-04-02 13:07:43.694 DEBUG JuegoDAOImpl.findAllByValoracion:289 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
+group by j.nombre
+order by avg(uj.puntuacion) desc Limit 3
+2019-04-02 13:07:43.758 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 5 , idioma = ES
+2019-04-02 13:07:43.758 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 5 , idioma = ES
+2019-04-02 13:07:43.758 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:43.758 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:43.761 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 5
+2019-04-02 13:07:43.761 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 5
+2019-04-02 13:07:43.762 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:43.762 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:43.763 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 5 , idioma = ES
+2019-04-02 13:07:43.763 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 5 , idioma = ES
+2019-04-02 13:07:43.764 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:43.764 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:43.765 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 5
+2019-04-02 13:07:43.765 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 5
+2019-04-02 13:07:43.765 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:43.765 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:43.767 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 10 , idioma = ES
+2019-04-02 13:07:43.767 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 10 , idioma = ES
+2019-04-02 13:07:43.767 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:43.767 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:43.768 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 10
+2019-04-02 13:07:43.768 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 10
+2019-04-02 13:07:43.769 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:43.769 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:43.769 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 10 , idioma = ES
+2019-04-02 13:07:43.769 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 10 , idioma = ES
+2019-04-02 13:07:43.770 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:43.770 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:43.771 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 10
+2019-04-02 13:07:43.771 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 10
+2019-04-02 13:07:43.771 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:43.771 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:43.774 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 8 , idioma = ES
+2019-04-02 13:07:43.774 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 8 , idioma = ES
+2019-04-02 13:07:43.774 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:43.774 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:43.775 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 8
+2019-04-02 13:07:43.775 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 8
+2019-04-02 13:07:43.776 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:43.776 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:43.776 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 8 , idioma = ES
+2019-04-02 13:07:43.776 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 8 , idioma = ES
+2019-04-02 13:07:43.777 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:43.777 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:43.778 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 8
+2019-04-02 13:07:43.778 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 8
+2019-04-02 13:07:43.778 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:43.778 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:43.780 INFO  JuegoServiceTest.testfindValoracion:136 - 5,Fecha 2008
+2019-04-02 13:07:43.780 INFO  JuegoServiceTest.testfindValoracion:136 - 5,Fecha 2008
+2019-04-02 13:07:43.780 INFO  JuegoServiceTest.testfindValoracion:136 - 10,Fecha 2015
+2019-04-02 13:07:43.780 INFO  JuegoServiceTest.testfindValoracion:136 - 10,Fecha 2015
+2019-04-02 13:07:43.780 INFO  JuegoServiceTest.testfindValoracion:136 - 8,Fecha 1997
+2019-04-02 13:07:43.780 INFO  JuegoServiceTest.testfindValoracion:136 - 8,Fecha 1997
+2019-04-02 13:07:56.109 DEBUG JuegoDAOImpl.findAllByValoracion:289 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
+group by j.nombre
+order by avg(uj.puntuacion) desc Limit 3
+2019-04-02 13:07:56.109 DEBUG JuegoDAOImpl.findAllByValoracion:289 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
+group by j.nombre
+order by avg(uj.puntuacion) desc Limit 3
+2019-04-02 13:07:56.156 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 5 , idioma = ES
+2019-04-02 13:07:56.156 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 5 , idioma = ES
+2019-04-02 13:07:56.156 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:56.156 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:56.160 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 5
+2019-04-02 13:07:56.160 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 5
+2019-04-02 13:07:56.161 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:56.161 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:56.162 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 5 , idioma = ES
+2019-04-02 13:07:56.162 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 5 , idioma = ES
+2019-04-02 13:07:56.164 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:56.164 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:56.165 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 5
+2019-04-02 13:07:56.165 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 5
+2019-04-02 13:07:56.166 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:56.166 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:56.168 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 10 , idioma = ES
+2019-04-02 13:07:56.168 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 10 , idioma = ES
+2019-04-02 13:07:56.169 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:56.169 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:56.171 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 10
+2019-04-02 13:07:56.171 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 10
+2019-04-02 13:07:56.172 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:56.172 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:56.172 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 10 , idioma = ES
+2019-04-02 13:07:56.172 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 10 , idioma = ES
+2019-04-02 13:07:56.173 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:56.173 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:56.174 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 10
+2019-04-02 13:07:56.174 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 10
+2019-04-02 13:07:56.174 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:56.174 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:56.178 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 8 , idioma = ES
+2019-04-02 13:07:56.178 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 8 , idioma = ES
+2019-04-02 13:07:56.178 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:56.178 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:07:56.180 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 8
+2019-04-02 13:07:56.180 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 8
+2019-04-02 13:07:56.181 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:56.181 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:07:56.181 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 8 , idioma = ES
+2019-04-02 13:07:56.181 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 8 , idioma = ES
+2019-04-02 13:07:56.183 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:56.183 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:07:56.184 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 8
+2019-04-02 13:07:56.184 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 8
+2019-04-02 13:07:56.184 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:56.184 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:07:56.186 INFO  JuegoServiceTest.testfindValoracion:136 - 5,Fecha 2008
+2019-04-02 13:07:56.186 INFO  JuegoServiceTest.testfindValoracion:136 - 5,Fecha 2008
+2019-04-02 13:07:56.187 INFO  JuegoServiceTest.testfindValoracion:136 - 10,Fecha 2015
+2019-04-02 13:07:56.187 INFO  JuegoServiceTest.testfindValoracion:136 - 10,Fecha 2015
+2019-04-02 13:07:56.187 INFO  JuegoServiceTest.testfindValoracion:136 - 8,Fecha 1997
+2019-04-02 13:07:56.187 INFO  JuegoServiceTest.testfindValoracion:136 - 8,Fecha 1997
+2019-04-02 13:11:00.221 DEBUG JuegoDAOImpl.findAllByValoracion:289 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
+group by j.nombre
+order by avg(uj.puntuacion) desc Limit 3
+2019-04-02 13:11:00.221 DEBUG JuegoDAOImpl.findAllByValoracion:289 - select j.id_juego, j.nombre,j.fecha_lanzamiento, j.id_creador
+from juego j inner join usuarios_juego uj on j.id_juego=uj.id_juego
+group by j.nombre
+order by avg(uj.puntuacion) desc Limit 3
+2019-04-02 13:11:00.270 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 5 , idioma = ES
+2019-04-02 13:11:00.270 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 5 , idioma = ES
+2019-04-02 13:11:00.271 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:11:00.271 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:11:00.274 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 5
+2019-04-02 13:11:00.274 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 5
+2019-04-02 13:11:00.277 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:11:00.277 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:11:00.279 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 5 , idioma = ES
+2019-04-02 13:11:00.279 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 5 , idioma = ES
+2019-04-02 13:11:00.282 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:11:00.282 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:11:00.283 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 5
+2019-04-02 13:11:00.283 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 5
+2019-04-02 13:11:00.283 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:11:00.283 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:11:00.285 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 10 , idioma = ES
+2019-04-02 13:11:00.285 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 10 , idioma = ES
+2019-04-02 13:11:00.285 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:11:00.285 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:11:00.287 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 10
+2019-04-02 13:11:00.287 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 10
+2019-04-02 13:11:00.288 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:11:00.288 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:11:00.289 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 10 , idioma = ES
+2019-04-02 13:11:00.289 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 10 , idioma = ES
+2019-04-02 13:11:00.290 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:11:00.290 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:11:00.290 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 10
+2019-04-02 13:11:00.290 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 10
+2019-04-02 13:11:00.291 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:11:00.291 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:11:00.294 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 8 , idioma = ES
+2019-04-02 13:11:00.294 DEBUG CategoriaDAOImpl.findByJuego:109 - ID = 8 , idioma = ES
+2019-04-02 13:11:00.294 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:11:00.294 DEBUG CategoriaDAOImpl.findByJuego:124 - select jc.id_categoria, ciw.nombre from juego_categoria jc inner join categoria c on jc.id_categoria=c.id_categoria inner join categoria_idiomaweb ciw on ciw.id_categoria=c.id_categoria where jc.id_juego = ? AND ciw.id_idioma_web like ? 
+2019-04-02 13:11:00.296 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 8
+2019-04-02 13:11:00.296 DEBUG PlataformaDAOImpl.findByJuego:99 - id = 8
+2019-04-02 13:11:00.297 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:11:00.297 DEBUG PlataformaDAOImpl.findByJuego:122 - select jp.id_plataforma, p.nombre from juego_plataforma jp inner join plataforma p on jp.id_plataforma=p.id_plataforma where jp.id_juego = ?
+2019-04-02 13:11:00.298 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 8 , idioma = ES
+2019-04-02 13:11:00.298 DEBUG IdiomaDAOImpl.findByJuego:108 - id= 8 , idioma = ES
+2019-04-02 13:11:00.299 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:11:00.299 DEBUG IdiomaDAOImpl.findByJuego:138 - select ji.id_idioma, iiw.nombre from juego_idioma ji inner join idioma i on ji.id_idioma=i.id_idioma inner join idioma_idiomaweb iiw on iiw.id_idioma=i.id_idioma where ji.id_juego = ? AND iiw.id_idioma_web like ? 
+2019-04-02 13:11:00.299 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 8
+2019-04-02 13:11:00.299 DEBUG EdicionDAOImpl.findByIdJuego:67 - id = 8
+2019-04-02 13:11:00.300 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:11:00.300 DEBUG EdicionDAOImpl.findByIdJuego:80 - select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?
+2019-04-02 13:11:00.303 INFO  JuegoServiceTest.testfindValoracion:138 - 5,Fecha 2008
+2019-04-02 13:11:00.303 INFO  JuegoServiceTest.testfindValoracion:138 - 5,Fecha 2008
+2019-04-02 13:11:00.303 INFO  JuegoServiceTest.testfindValoracion:138 - 10,Fecha 2015
+2019-04-02 13:11:00.303 INFO  JuegoServiceTest.testfindValoracion:138 - 10,Fecha 2015
+2019-04-02 13:11:00.303 INFO  JuegoServiceTest.testfindValoracion:138 - 8,Fecha 1997
+2019-04-02 13:11:00.303 INFO  JuegoServiceTest.testfindValoracion:138 - 8,Fecha 1997

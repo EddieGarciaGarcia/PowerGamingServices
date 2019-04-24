@@ -159,32 +159,38 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
 		}
-
-		if(email == null) {
-			return null;
-		}
-		if(password == null){
-			return null;
-		}
-		Usuario u =null;
-		Connection c;
-		try {
-			c = ConnectionManager.getConnection();
-			u = usuarioDao.findById(email, c);
-		} catch (SQLException e) {
-			logger.debug(e);
-		}
-		if(u==null) {
-			return null;
-		}
-		if(PasswordEncryptionUtil.checkPassword(password, u.getPassword())) {
-			if(logger.isDebugEnabled()) {
-				logger.debug("Usuario"+u.getEmail()+" autenticado");
+		
+		Connection c = null;
+		Usuario u=null;
+		
+			if(email == null) {
+				return null;
 			}
-			return u;
-		}
-		return null;
-
+			if(password == null){
+				return null;
+			}
+			try {
+			c = ConnectionManager.getConnection();
+			c.setAutoCommit(true);
+			u = usuarioDao.findById(email, c);
+			
+			} catch (SQLException e) {
+				logger.debug(e);
+			}finally {
+				JDBCUtils.closeConnection(c);
+			}
+			if(u==null) {
+				return u;
+			}
+			if(PasswordEncryptionUtil.checkPassword(password, u.getPassword())) {
+				if(logger.isDebugEnabled()) {
+					logger.debug("Usuario"+u.getEmail()+" autenticado");
+				}
+				return u;
+			}else {
+				return null;
+			}
+		
 
 	}
 

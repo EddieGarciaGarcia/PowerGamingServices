@@ -203,7 +203,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 
 	
 	@Override
-	public Usuario findById(String email, Connection connection) throws InstanceNotFoundException, DataException {
+	public Usuario findById(String email, Connection connection) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
@@ -230,7 +230,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 				u=loadNext(rs);
 			}else {
 				u=null;
-				throw new InstanceNotFoundException("Error "+email+" id introducido incorrecto", Usuario.class.getName());
+				logger.error("Error "+email+" id introducido incorrecto", Usuario.class.getName());
 			}
 			return u;
 		}catch (SQLException ex) {

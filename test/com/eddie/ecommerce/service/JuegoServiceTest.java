@@ -2,7 +2,9 @@ package com.eddie.ecommerce.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,7 +48,7 @@ public class JuegoServiceTest {
 					}
 
 				} while (!(juegos.getResultados().size()<tamanhoPagina)); 	
-			} catch (DataException | SQLException e) {
+			} catch (DataException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -104,7 +106,7 @@ public class JuegoServiceTest {
 				juegos =serviceJ.findById(12, "ES");
 				logger.info(juegos.getNombre()+","+juegos.getIdiomas().get(0).getNombre()+",Fecha "+juegos.getFechaLanzamiento());
 				
-			} catch (DataException | SQLException e) {
+			} catch (DataException  e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -136,7 +138,7 @@ public class JuegoServiceTest {
 					logger.info(j.getIdJuego()+",Fecha "
 				    		+ ""+j.getFechaLanzamiento());
 				}
-			} catch (DataException | SQLException e) {
+			} catch (DataException  e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -160,6 +162,15 @@ public class JuegoServiceTest {
 		JuegoServiceTest test = new JuegoServiceTest();
 		//test.testFindByDate();
 		test.testfindValoracion();
+		
+		Properties systemProperties= System.getProperties();
+		
+		String key=null;
+		for(Enumeration keys= systemProperties.keys(); keys.hasMoreElements();){
+			key= (String) keys.nextElement();
+			System.out.println(key+"="+ System.getProperty(key));
+		}
+		
 		//test.testfindbyCriteria();
 		/*
 		try {
