@@ -28,4 +28,7 @@ public interface JuegoDAO {
 	public boolean update(Connection connection,Juego j) throws InstanceNotFoundException, DataException;
 	
 	public void delete(Connection connection,Integer id) throws DataException;
+	
+	//Media
+	public Integer puntuacion(Connection connection, Integer idJuego)throws DataException;
 }

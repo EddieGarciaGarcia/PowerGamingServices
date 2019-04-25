@@ -30,21 +30,19 @@ public class UsuarioServiceImplTest {
 	
 	public void testeServiceBiblio() {
 		
-			List<ItemBiblioteca> biblio;
+			ItemBiblioteca biblio;
 			Usuario u =new Usuario();
 			u.setEmail("eddie_garcia@gmail.com");
+			Integer id=3;
 			try {
-				biblio =daoU.findByUsuario(u.getEmail());
-				for(ItemBiblioteca ib : biblio){
-					logger.debug(ib.getIdJuego());
-				}
-			} catch (SQLException | DataException e) {
+				biblio =daoU.findByIdEmail(u.getEmail(),id);
+			} catch (DataException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 		
 	}
-	public void testeCreateServiceBiblio() {
+	/*public void testeCreateServiceBiblio() {
 
 			ItemBiblioteca biblio=new ItemBiblioteca();
 			biblio.setEmail("eddie_garcia@gmail.com");
@@ -145,13 +143,13 @@ public class UsuarioServiceImplTest {
 		}
 	}
 	
-	
+	*/
 	public static void main(String[] args) {
 		UsuarioServiceImplTest test = new UsuarioServiceImplTest();
-		//test.testeServiceBiblio();
+		test.testeServiceBiblio();
 		//test.testeCreateServiceBiblio();
 		//test.testServiceDeleteBiblio();
-		test.create();
+		//test.create();
 		//test.delete();
 		//test.createdireccion();
 		//test.testLogin();

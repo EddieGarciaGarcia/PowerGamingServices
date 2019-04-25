@@ -42,7 +42,7 @@ public interface UsuarioService {
 	public void deleteDireccion(String email) throws DataException;
 
 	//Puntuacion
-	public ItemBiblioteca update(ItemBiblioteca it)throws DataException;
+	public ItemBiblioteca create(ItemBiblioteca it)throws DataException;
 	
 	public ItemBiblioteca findByIdEmail(String email, Integer idJuego)throws DataException;
 }

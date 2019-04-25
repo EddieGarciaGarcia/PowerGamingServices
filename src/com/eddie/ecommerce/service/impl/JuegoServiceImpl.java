@@ -311,5 +311,27 @@ public class JuegoServiceImpl implements JuegoService{
 		return juegosBiblio;
 	}
 
+	@Override
+	public Integer puntuacion(Integer idJuego) throws DataException {
+		if(logger.isDebugEnabled()) {
+			logger.debug("IdJuego = "+idJuego);
+		}
+		Integer juegoPuntuacion=null;
+		boolean commit=false;
+		Connection c=null;
+		try {
+		c=ConnectionManager.getConnection();
+		c.setAutoCommit(false);
+		
+		juegoPuntuacion=jdao.puntuacion(c, idJuego);
+		
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return juegoPuntuacion;
+	}
+
 
 }

@@ -1,6 +1,7 @@
 package com.eddie.ecommerce.service;
 
-import java.sql.SQLException;
+
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Categoria;
 import com.eddie.ecommerce.model.Idioma;
@@ -99,6 +101,20 @@ public class JuegoServiceTest {
 			}*/
 	
 	}
+	
+	public void puntuacion() {
+		try {
+			Integer i=serviceJ.puntuacion(10);
+			System.out.println(i);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
 	public void testfindid() {
 		
 			Juego juegos;
@@ -160,17 +176,18 @@ public class JuegoServiceTest {
 	}
 	public static void main(String[] args) {
 		JuegoServiceTest test = new JuegoServiceTest();
-		//test.testFindByDate();
-		test.testfindValoracion();
-		
-		Properties systemProperties= System.getProperties();
-		
-		String key=null;
-		for(Enumeration keys= systemProperties.keys(); keys.hasMoreElements();){
-			key= (String) keys.nextElement();
-			System.out.println(key+"="+ System.getProperty(key));
-		}
-		
+//		//test.testFindByDate();
+//		test.testfindValoracion();
+//		
+//		Properties systemProperties= System.getProperties();
+//		
+//		String key=null;
+//		for(Enumeration keys= systemProperties.keys(); keys.hasMoreElements();){
+//			key= (String) keys.nextElement();
+//			System.out.println(key+"="+ System.getProperty(key));
+//		}
+//		
+		test.puntuacion();
 		//test.testfindbyCriteria();
 		/*
 		try {

@@ -35,12 +35,9 @@ public class JuegoDAOTest {
 	public void testfindAllJuego() {
 		try {
 			Connection c= ConnectionManager.getConnection();
-			List<Juego> juegos;
-			juegos =daoJ.findAllByDate(c,"ES", 0, 0);
-			for(Juego j : juegos){
-				logger.debug(j.getNombre());
-			}
 			
+			Integer i=daoJ.puntuacion(c, 10);
+			System.out.println(i);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -161,7 +158,7 @@ public class JuegoDAOTest {
 		//test.testFindByDate();
 		//test.testfindValoracion();
 		//test.testfindbyCriteria();
-		test.testFindByIDs();
+		//test.testFindByIDs();
 		/*
 		try {
 			
@@ -172,7 +169,7 @@ public class JuegoDAOTest {
 			e.printStackTrace();
 		}
 		*/
-		//test.testfindAllJuego();
+		test.testfindAllJuego();
 		//test.testfindid();
 	}
 

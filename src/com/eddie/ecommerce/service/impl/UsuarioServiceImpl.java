@@ -436,7 +436,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public ItemBiblioteca update(ItemBiblioteca it) throws DataException {
+	public ItemBiblioteca create(ItemBiblioteca it) throws DataException {
 		if(logger.isDebugEnabled()) {
 			logger.debug("it = "+it.toString());
 		}
@@ -449,7 +449,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 			c.setAutoCommit(false);
 
-			itemBibliotecaDao.update(c, it);
+			itemBibliotecaDao.create(c, it);
 			commit = true;
 
 		} catch (SQLException e) {

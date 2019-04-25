@@ -2,7 +2,6 @@ package com.eddie.ecommerce.dao;
 
 import java.sql.Connection;
 import java.util.List;
-
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;

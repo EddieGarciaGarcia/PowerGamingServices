@@ -8,13 +8,12 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	private String nombre = null;
 	private Integer fechaLanzamiento = null;
 	private Integer idCreador = null;
+	private Integer puntuacionMedia=null;
 	
 	private List<Categoria> categoria = null;	
 	private List<Idioma> idiomas=null;
 	private List<Plataforma> plataformas=null;
 	private List<Edicion> ediciones = null;
-	
-
 	
 	public Juego() {
 		categoria= new ArrayList<Categoria>();
@@ -65,7 +64,13 @@ public class Juego implements ValueObject, Comparable<Juego>{
 	public void setIdCreador(Integer creador) {
 		this.idCreador = creador;
 	}
+	public Integer getPuntuacionMedia() {
+		return puntuacionMedia;
+	}
 
+	public void setPuntuacionMedia(Integer puntuacionMedia) {
+		this.puntuacionMedia = puntuacionMedia;
+	}
 	
 	@Override
 	public int compareTo(Juego j) {

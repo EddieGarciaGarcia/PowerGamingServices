@@ -500,6 +500,41 @@ public class JuegoDAOImpl implements JuegoDAO{
 			
 		}
 		
+		@Override
+		public Integer puntuacion(Connection connection, Integer idJuego) throws DataException {
+			if(logger.isDebugEnabled()) {
+				logger.debug(" Idjuego = {}",idJuego);
+			}
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			Integer puntuacion = null;
+			try {
+				StringBuilder sql= null;
+				sql =new StringBuilder("select ROUND(AVG(puntuacion)) from usuarios_juego where id_juego=?");
+				
+				logger.debug(sql);
+				preparedStatement = connection.prepareStatement(sql.toString());
+
+				int i = 1;
+				preparedStatement.setInt(i++, idJuego);
+
+				resultSet = preparedStatement.executeQuery();
+				
+				while (resultSet.next()) {
+					puntuacion = resultSet.getInt(1);
+				}
+
+			} catch (SQLException e) {
+				logger.info(e.getMessage(), e);
+				throw new DataException(e);
+			} finally {
+				JDBCUtils.closeResultSet(resultSet);
+				JDBCUtils.closeStatement(preparedStatement);
+			}
+
+			return puntuacion;
+		}
+		
 		public Juego loadNext(Connection c, ResultSet rs, String idioma) 
 			throws DataException,SQLException{
 				int i=1;
@@ -559,6 +594,8 @@ public class JuegoDAOImpl implements JuegoDAO{
 			lista.append(" ) ");
 			return lista;
 		}
+
+		
 
 		
 		

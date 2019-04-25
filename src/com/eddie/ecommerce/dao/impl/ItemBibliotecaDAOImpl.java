@@ -8,7 +8,9 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -432,14 +434,12 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		ItemBiblioteca it= null;
 		try {
 
-			String queryString = "SELECT email,id_juego FROM usuarios_juego WHERE UPPER(email) LIKE UPPER(?) AND id_juego= ?";
+			String queryString = "SELECT email,id_juego,puntuacion,comprado,comentario,fecha_comentario FROM usuarios_juego WHERE email LIKE '"+email+"' AND id_juego="+idJuego;
 			
 			logger.debug(queryString);
 			preparedStatement = c.prepareStatement(queryString);
 
 			int i = 1;
-			preparedStatement.setString(i++, email);
-			preparedStatement.setInt(i++, idJuego);
 
 			resultSet = preparedStatement.executeQuery();
 
@@ -456,7 +456,9 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 		}
 
 		return it;
-	}
+}
+	
+
 	
 	public ItemBiblioteca loadNext(ResultSet rs) 
 			throws SQLException,DataException{
@@ -473,13 +475,20 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO{
 				ib.setEmail(email);
 				ib.setIdJuego(idJuego);
 				ib.setPuntuacion(puntuacion);
+				ib.setComprado(comprado);
 				ib.setComentario(comentario);
 				ib.setFechaComentario(fechaComentario);
-				ib.setComprado(comprado);
+				
 				
 				return ib;
 	}
 
+
+
+
+
+
+	
 
 
 	

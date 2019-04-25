@@ -36,5 +36,5 @@ public interface JuegoService {
 	
 	public List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException;
 
-	
+	public Integer puntuacion(Integer idJuego)throws DataException;
 }

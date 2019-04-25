@@ -1,6 +1,7 @@
 package com.eddie.ecommerce.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.eddie.ecommerce.dao.Utils.ConnectionManager;
 import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
+import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.service.impl.IdiomaServiceImpl;
 
@@ -58,9 +60,29 @@ public class ItemBibliotecaDAOTest {
 	}
 	
 	
+	public ItemBiblioteca testmedia() throws SQLException {
+		int id=1;
+		ItemBiblioteca it=null;
+		try {
+			Connection c= ConnectionManager.getConnection();
+			it=daoIB.findByJuegoPuntuacion(c, id);
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return it;
+		
+	}
+	
 	public static void main(String[] args) {
 		ItemBibliotecaDAOTest test = new ItemBibliotecaDAOTest();
 //		test.testfindValoracion();
-		test.testExist();
+	//	test.testExist();
+		try {
+			test.testmedia();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
