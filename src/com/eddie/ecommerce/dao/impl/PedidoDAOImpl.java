@@ -17,7 +17,6 @@ import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.Pedido;
 import com.eddie.ecommerce.service.Resultados;
 
