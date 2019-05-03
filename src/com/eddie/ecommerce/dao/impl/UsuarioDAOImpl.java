@@ -141,8 +141,12 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 				preparedStatement.setString(i++,u.getTelefono());
 			if (u.getPassword()!=null) 
 				preparedStatement.setString(i++,PasswordEncryptionUtil.encryptPassword(u.getPassword()));
+			if (u.getFechaNacimiento()!=null) 
+				preparedStatement.setDate(i++,new java.sql.Date(u.getFechaNacimiento().getTime()));
 			if (u.getNombreUser()!=null) 
 				preparedStatement.setString(i++,u.getNombreUser());
+			if (u.getGenero()!=null) 
+				preparedStatement.setString(i++,u.getGenero());
 			
 			preparedStatement.setString(i++, u.getEmail());
 
