@@ -1,15 +1,14 @@
 package com.eddie.ecommerce.service;
 
-import java.util.List;
-
 import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Creador;
+
+import java.util.List;
 
 public interface CreadorService {
 	
-	public Creador findbyIdCreador(Integer id) throws InstanceNotFoundException, DataException;
+	Creador findbyIdCreador(Integer id) throws DataException;
 	
 	//Lista de Creadores
-	public List<Creador> findAll() throws DataException;
+	List<Creador> findAll() throws DataException;
 }

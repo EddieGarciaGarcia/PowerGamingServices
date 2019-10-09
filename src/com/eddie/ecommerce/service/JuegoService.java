@@ -1,40 +1,41 @@
 package com.eddie.ecommerce.service;
 
-import java.util.List;
-
+import com.eddie.ecommerce.model.Resultados;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
 
+import java.util.List;
+
 public interface JuegoService {
 	
 	//Buscador
-	public Resultados<Juego> findByJuegoCriteria(JuegoCriteria c, String idioma, int startIndex, int count) throws DataException;
+	Resultados<Juego> findByJuegoCriteria(JuegoCriteria juegoCriteria, String idioma, int startIndex, int count) throws DataException;
 	
 	//Buscador del index.html todos los juegos por data 
-	public Resultados<Juego> findAllByDate(String idioma, int startIndex, int count) throws DataException;
+	Resultados<Juego> findAllByDate(String idioma, int startIndex, int count) throws DataException;
 	
 	//Buscador del index.html todos por puntuacion
-	public List<Juego> findAllByValoracion(String idioma) throws DataException;
+	List<Juego> findAllByValoracion(String idioma) throws DataException;
 	
 	List<Juego> findByIDs(List<Integer> ids, String idioma)throws DataException;
 	
 	//Buscar un juego en concreto
-	public Juego findById(Integer id, String idioma)throws DataException;
+	Juego findById(Integer id, String idioma)throws DataException;
 	
-	public Juego create(Juego j) throws DataException;
+	Juego create(Juego juego) throws DataException;
 	
-	public boolean update(Juego j) throws DataException;
+	boolean update(Juego juego) throws DataException;
 	
-	public void delete(Integer id) throws DataException;
+	boolean delete(Integer id) throws DataException;
 	
-	//añadir comentario a juego mas su fecha
-	public boolean addComent(ItemBiblioteca it)throws DataException;
+	//aï¿½adir comentario a juego mas su fecha
+	boolean addComent(ItemBiblioteca itemBiblioteca)throws DataException;
 	
-	public boolean borrarComent(ItemBiblioteca it)throws DataException;
+	boolean borrarComent(ItemBiblioteca itemBiblioteca)throws DataException;
 	
-	public List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException;
+	List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException;
 
-	public Integer puntuacion(Integer idJuego)throws DataException;
+	Integer puntuacion(Integer idJuego)throws DataException;
 }

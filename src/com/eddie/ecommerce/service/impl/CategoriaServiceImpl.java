@@ -1,57 +1,55 @@
 package com.eddie.ecommerce.service.impl;
 
+
+import com.eddie.ecommerce.dao.CategoriaDAO;
+import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.model.Categoria;
+import com.eddie.ecommerce.service.CategoriaService;
+import com.eddie.ecommerce.utils.CacheManager;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.Constantes;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.ehcache.Cache;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import com.eddie.ecommerce.cache.Cache;
-import com.eddie.ecommerce.cache.CacheManager;
-import com.eddie.ecommerce.cache.CacheNames;
-import com.eddie.ecommerce.dao.CategoriaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
-import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
-import com.eddie.ecommerce.service.CategoriaService;
-
-public class CategoriaServiceImpl implements CategoriaService{
+public class CategoriaServiceImpl implements CategoriaService {
 
 	private static Logger logger=LogManager.getLogger(CategoriaServiceImpl.class);
 	
-	private CategoriaDAO cdao=null;
+	private CategoriaDAO categoriaDAO =null;
 	
 	public CategoriaServiceImpl() {
-		cdao=new CategoriaDAOImpl();
+		categoriaDAO =new CategoriaDAOImpl();
 	}
 	
 	@Override
-	public Categoria findById(Integer id, String idioma) throws InstanceNotFoundException, DataException {
+	public Categoria findById(Integer id, String idioma) throws DataException {
 		
-		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+id+" , idioma = "+idioma);
-		}
-		Categoria cate = null;
+
+		Categoria categoria = null;
 		boolean commit=false;
-		Connection c=null;
+		Connection connection=null;
 		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
+		connection= ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
 		
-		cate = cdao.findById(c, id, idioma);		
+		categoria = categoriaDAO.findById(connection, id, idioma);
 		
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(),e);;
 		}finally {
-			JDBCUtils.closeConnection(c, commit);
+			JDBCUtils.closeConnection(connection, commit);
 		}
-		return cate;
+		return categoria;
 	}
 
 	@Override
@@ -60,34 +58,34 @@ public class CategoriaServiceImpl implements CategoriaService{
 		if(logger.isDebugEnabled()) {
 			logger.debug("Idioma = "+idioma);
 		}
+
+		Cache<String, List> cache= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
 		
-		Cache<String, List> cacheCategoria= CacheManager.getInstance().getCache(CacheNames.CATEGORIACACHE, String.class, List.class);
-		
-		List<Categoria> categoria=cacheCategoria.get(idioma);
+		List<Categoria> categoria = cache.get(Constantes.CACHE_CATEGORIA);
 		
 		boolean commit=false;
 		
 		if(categoria!=null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Acierto cache: {}", idioma);
+				logger.debug("Acierto cache: {}", categoria.size());
 			}
 		}else {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Fallo cache: {}", idioma);
+				logger.debug("Fallo cache");
 			}
-			Connection c=null;
+			Connection connection=null;
 			try {
-				c=ConnectionManager.getConnection();
-				c.setAutoCommit(false);
+				connection=ConnectionManager.getConnection();
+				connection.setAutoCommit(false);
 				
-				categoria=cdao.findAll(c, idioma);
-				
-				cacheCategoria.put(idioma, categoria);
+				categoria= categoriaDAO.findAll(connection, idioma);
+
+				cache.put(Constantes.CACHE_CATEGORIA, categoria);
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
 			}finally {
-				JDBCUtils.closeConnection(c, commit);
+				JDBCUtils.closeConnection(connection, commit);
 			}
 		}
 		return categoria;
@@ -99,21 +97,21 @@ public class CategoriaServiceImpl implements CategoriaService{
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+idJuego+" , idioma = "+idioma);
 		}
-		List<Categoria> cat=null;
+		List<Categoria> categorias=null;
 		boolean commit=false;
-		Connection c=null;
+		Connection connection=null;
 		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
+		connection=ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
 		
-		cat=cdao.findByJuego(c, idJuego, idioma);
+		categorias= categoriaDAO.findByJuego(connection, idJuego, idioma);
 
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
-			JDBCUtils.closeConnection(c, commit);
+			JDBCUtils.closeConnection(connection, commit);
 		}
-		return cat;
+		return categorias;
 	}
 
 }

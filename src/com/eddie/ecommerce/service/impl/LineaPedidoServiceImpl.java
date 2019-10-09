@@ -1,21 +1,20 @@
 package com.eddie.ecommerce.service.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.eddie.ecommerce.dao.LineaPedidoDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.LineaPedidoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.LineaPedido;
 import com.eddie.ecommerce.service.LineaPedidoService;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class LineaPedidoServiceImpl implements LineaPedidoService{
 	
@@ -38,7 +37,7 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 		boolean commit=false;
 		Connection c=null;
 		try {
-		c=ConnectionManager.getConnection();
+		c= ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
 		lineaspedido=lpdao.findByPedido(c, idPedido);
@@ -75,19 +74,19 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 	}
 
 	@Override
-	public LineaPedido create(LineaPedido lp) throws DuplicateInstanceException, DataException {
+	public boolean create(LineaPedido lp) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Linea Pedido = "+lp.toString());
 		}
-		
+		boolean creado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		lp = lpdao.create(c,lp);
+		creado = lpdao.create(c,lp);
 
 		commit=true;
 		
@@ -96,16 +95,16 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-		return lp;
+		return creado;
 	}
 
 	@Override
-	public void delete(Integer id) throws DataException {
+	public boolean delete(Integer id) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Id= "+id);
 		}
-		
+		boolean borrado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -114,7 +113,7 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 
             c.setAutoCommit(false);
 
-            lpdao.delete(c,id);
+			borrado = lpdao.delete(c,id);
             commit = true;
             
         } catch (SQLException ed) {
@@ -124,16 +123,16 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
         } finally {
         	JDBCUtils.closeConnection(c, commit);
         }
-		
+		return borrado;
 	}
 
 
 	@Override
-	public void deleteByPedido(Integer id) throws DataException {
+	public boolean deleteByPedido(Integer id) throws DataException {
 		if(logger.isDebugEnabled()) {
 			logger.debug("Id= "+id);
 		}
-		
+		boolean borrado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -142,7 +141,7 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
 
             c.setAutoCommit(false);
 
-            lpdao.deleteByPedido(c,id);
+			borrado = lpdao.deleteByPedido(c,id);
             commit = true;
             
         } catch (SQLException ed) {
@@ -152,7 +151,7 @@ public class LineaPedidoServiceImpl implements LineaPedidoService{
         } finally {
         	JDBCUtils.closeConnection(c, commit);
         }
-		
+		return borrado;
 	}
 
 }

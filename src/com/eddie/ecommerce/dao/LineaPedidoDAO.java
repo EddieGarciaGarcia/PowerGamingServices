@@ -1,22 +1,20 @@
 package com.eddie.ecommerce.dao;
 
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.model.LineaPedido;
+
 import java.sql.Connection;
 import java.util.List;
 
-import com.eddie.ecommerce.model.LineaPedido;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-
 public interface LineaPedidoDAO {
 
-	public List<LineaPedido> findByPedido(Connection conexion,Integer idPedido)throws DataException;
-	
-	public LineaPedido findById(Connection conexion,Integer numeroLinea)throws InstanceNotFoundException, DataException;
-	
-	public LineaPedido create(Connection conexion,LineaPedido lp) throws DuplicateInstanceException, DataException;
-	
-	public long delete(Connection conexion,Integer id) throws DataException;
-	
-	public long deleteByPedido(Connection conexion,Integer id) throws DataException;
+	List<LineaPedido> findByPedido(Connection conexion, Integer idPedido)throws DataException;
+
+	LineaPedido findById(Connection conexion, Integer numeroLinea)throws DataException;
+
+	boolean create(Connection conexion, LineaPedido lineaPedido) throws DataException;
+
+	boolean delete(Connection conexion, Integer id) throws DataException;
+
+	boolean deleteByPedido(Connection conexion, Integer id) throws DataException;
 }

@@ -1,14 +1,13 @@
 package com.eddie.ecommerce.service;
 
 
-import java.util.List;
-
 import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Formato;
 
+import java.util.List;
+
 public interface FormatoService {
-	public List<Formato> findbyIdsFormato(List<Integer> ids, String idioma) throws InstanceNotFoundException, DataException;
+	List<Formato> findbyIdsFormato(List<Integer> ids, String idioma) throws DataException;
 	//Lista de Formatos
-	public List<Formato> findAll(String idioma) throws DataException;
+	List<Formato> findAll(String idioma) throws DataException;
 }

@@ -49,11 +49,11 @@ public class Pedido implements ValueObject{
 		this.total = total;
 	}
 
-	public Date getFecha_pedido() {
+	public Date getFechaPedido() {
 		return fecha_pedido;
 	}
 
-	public void setFecha_pedido(Date fecha_pedido) {
+	public void setFechaPedido(Date fecha_pedido) {
 		this.fecha_pedido = fecha_pedido;
 	}
 

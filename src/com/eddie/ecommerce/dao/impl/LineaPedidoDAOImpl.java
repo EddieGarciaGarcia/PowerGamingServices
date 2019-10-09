@@ -1,232 +1,138 @@
 package com.eddie.ecommerce.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
+import com.eddie.ecommerce.dao.LineaPedidoDAO;
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.LineaPedido;
+import com.eddie.ecommerce.utils.JDBCUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.eddie.ecommerce.dao.LineaPedidoDAO;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.LineaPedido;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LineaPedidoDAOImpl implements LineaPedidoDAO{
+public class LineaPedidoDAOImpl implements LineaPedidoDAO {
 	
 	private static Logger logger=LogManager.getLogger(LineaPedidoDAOImpl.class);
 
 	@Override
-	public List<LineaPedido> findByPedido(Connection conexion,Integer idPedido) throws DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("ID= "+idPedido);
-		}
-		
-		LineaPedido lp=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
+	public List<LineaPedido> findByPedido(Connection conexion, Integer idPedido) throws DataException {
+		LineaPedido lineaPedido = new LineaPedido();
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
 		try {
-	
-			String sql;
-			sql="select numero_linea,id_edicion,id_pedido,cantidad,precio from lineapedido where id_pedido=?";
-			
-			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
-			int i=1;
-			//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
-			pst.setInt(i++, idPedido);	
-			rs=pst.executeQuery();
-			
-			logger.debug(sql);
-			
-			List<LineaPedido> lineas = new ArrayList<LineaPedido>();
-			while(rs.next()){
-				lp=loadNext(rs);
-				lineas.add(lp);
+			query = new StringBuilder();
+			query.append("select numero_linea,id_edicion,id_pedido,cantidad,precio ");
+			query.append("from lineapedido ");
+			query.append("where id_pedido = ?");
+			preparedStatement=conexion.prepareStatement(query.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			preparedStatement.setInt(1, idPedido);
+			resultSet=preparedStatement.executeQuery();
+			List<LineaPedido> lineas = new ArrayList<>();
+			while(resultSet.next()){
+				lineas.add(loadNext(resultSet, lineaPedido));
 			}
 			return lineas;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
 
 	@Override
-	public LineaPedido findById(Connection conexion,Integer numeroLinea) throws InstanceNotFoundException, DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("Numero Linea = "+numeroLinea);
-		}
-		
-		LineaPedido lp=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
+	public LineaPedido findById(Connection conexion,Integer numeroLinea) throws DataException {
+		LineaPedido lineaPedido = new LineaPedido();
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
 		try {
-			
-			String sql;
-			sql="select numero_linea,id_edicion,id_pedido,cantidad,precio from lineapedido where numero_linea=?";
-			
-			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
-			int i=1;
-			//pst.setString(i++,"%"+nombrejuego.toUpperCase()+"%");
-			pst.setInt(i++, numeroLinea);	
-			rs=pst.executeQuery();
-			
-			logger.debug(sql);
-			
-			if(rs.next()){
-				lp=loadNext(rs);
+			query = new StringBuilder();
+			query.append("select numero_linea,id_edicion,id_pedido,cantidad,precio ");
+			query.append("from lineapedido ");
+			query.append("where numero_linea=?");
+			preparedStatement=conexion.prepareStatement(query.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+
+			preparedStatement.setInt(1, numeroLinea);
+			resultSet=preparedStatement.executeQuery();
+
+			if(resultSet.next()){
+				return loadNext(resultSet, lineaPedido);
 			}else {
 				throw new InstanceNotFoundException("Error "+numeroLinea+" id introducido incorrecto", LineaPedido.class.getName());
 			}
-			return lp;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
 
 	@Override
-	public LineaPedido create(Connection conexion,LineaPedido lp) throws DuplicateInstanceException, DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("Linea de Pedido = "+lp.toString());
-		}
-		
-		PreparedStatement pst=null;
-		ResultSet rs=null;
+	public boolean create(Connection conexion, LineaPedido lineaPedido) throws DataException {
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
 		try {
-			
-			String sql;
-			sql="Insert Into usuarios_juego(id_edicion,id_pedido,cantidad,precio) "
-					+ "values (?,?,?,?)";
-			
-			pst=conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			query = new StringBuilder();
+			query.append("Insert Into usuarios_juego(id_edicion,id_pedido,cantidad,precio) ");
+			query.append("values (?,?,?,?)");
+			preparedStatement=conexion.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
 			int i=1;
-			
-			pst.setInt(i++,lp.getIdEdicion());
-			pst.setInt(i++,lp.getPedido());
-			pst.setInt(i++,lp.getCantidad());
-			pst.setDouble(i++, lp.getPrecio());
-			
-			int insertRow=pst.executeUpdate();
-			
-			logger.debug(sql);
-			
-			if(insertRow == 0) {
-				throw new SQLException(" No se pudo insertar");
-			}
-			
-			return lp;
+			preparedStatement.setInt(i++,lineaPedido.getIdEdicion());
+			preparedStatement.setInt(i++,lineaPedido.getPedido());
+			preparedStatement.setInt(i++,lineaPedido.getCantidad());
+			preparedStatement.setDouble(i, lineaPedido.getPrecio());
+			int insertRow=preparedStatement.executeUpdate();
+			return insertRow != 0;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
 
 	@Override
-	public long delete(Connection conexion,Integer id) throws DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("Numero Linea = "+id);
-		}
-		
+	public boolean delete(Connection conexion,Integer id) throws DataException {
 		PreparedStatement preparedStatement = null;
-
+		StringBuilder query;
 		try {
-			String queryString =	
-					  "DELETE FROM lineapedido " 
-					+ "WHERE  numero_linea = ? ";
-			
-			preparedStatement = conexion.prepareStatement(queryString);
-
-			int i = 1;
-			preparedStatement.setInt(i++, id);
-			
-			logger.debug(queryString);
-			
+			query = new StringBuilder();
+			query.append("DELETE FROM lineapedido ");
+			query.append("WHERE  numero_linea = ?");
+			preparedStatement = conexion.prepareStatement(query.toString());
+			preparedStatement.setInt(1, id);
 			int removedRows = preparedStatement.executeUpdate();
-
-			if (removedRows == 0) {
-				throw new InstanceNotFoundException(id,"No se elimino el pedido correctamente");
-			} 
-
-			return removedRows;
+			return removedRows != 0;
 		} catch (SQLException e) {
 			logger.error(e.getMessage(),e);
 			throw new DataException(e);
 		} finally {
 			JDBCUtils.closeStatement(preparedStatement);
 		}
-		
 	}
 	
-	public LineaPedido loadNext(ResultSet rs) 
-			throws SQLException,DataException{
-				int i=1;
-				Integer numeroLinea=rs.getInt(i++);
-				Integer idEdicion  = rs.getInt(i++);
-				Integer idPedido=rs.getInt(i++);
-				Integer cantidad=rs.getInt(i++);
-				Double precio=rs.getDouble(i++);
-				
-				LineaPedido lp= new LineaPedido();
-				
-				lp.setNumeroLinea(numeroLinea);
-				lp.setIdEdicion(idEdicion);
-				lp.setPedido(idPedido);
-				lp.setCantidad(cantidad);
-				lp.setPrecio(precio);
-				
-				return lp;
-				
-			
-		}
-
 	@Override
-	public long deleteByPedido(Connection conexion, Integer id) throws DataException {
-		if(logger.isDebugEnabled()) {
-			logger.debug("idPedido = "+id);
-		}
-		
+	public boolean deleteByPedido(Connection conexion, Integer id) throws DataException {
 		PreparedStatement preparedStatement = null;
-
+		StringBuilder query;
 		try {
-			String queryString =	
-					  "DELETE FROM lineapedido " 
-					+ "WHERE  id_pedido = ? ";
-			
-			preparedStatement = conexion.prepareStatement(queryString);
-
-			int i = 1;
-			preparedStatement.setInt(i++, id);
-			
-			logger.debug(queryString);
-			
+			query = new StringBuilder();
+			query.append("DELETE FROM lineapedido ");
+			query.append("WHERE  id_pedido = ? ");
+			preparedStatement = conexion.prepareStatement(query.toString());
+			preparedStatement.setInt(1, id);
 			int removedRows = preparedStatement.executeUpdate();
-
-			if (removedRows == 0) {
-				throw new InstanceNotFoundException(id,"No se elimino el pedido correctamente");
-			} 
-
-			return removedRows;
+			return removedRows != 0;
 		} catch (SQLException e) {
 			logger.error(e.getMessage(),e);
 			throw new DataException(e);
@@ -234,5 +140,14 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO{
 			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
-		
+
+	public LineaPedido loadNext(ResultSet resultSet, LineaPedido lineaPedido) throws SQLException{
+		lineaPedido.setNumeroLinea(resultSet.getInt("numero_linea"));
+		lineaPedido.setIdEdicion(resultSet.getInt("id_edicion"));
+		lineaPedido.setPedido(resultSet.getInt("id_pedido"));
+		lineaPedido.setCantidad(resultSet.getInt("cantidad"));
+		lineaPedido.setPrecio(resultSet.getDouble("precio"));
+		return lineaPedido;
+	}
+
 }

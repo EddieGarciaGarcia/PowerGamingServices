@@ -1,119 +1,116 @@
 package com.eddie.ecommerce.service.impl;
 
+import com.eddie.ecommerce.dao.IdiomaDAO;
+import com.eddie.ecommerce.dao.impl.IdiomaDAOImpl;
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.model.Idioma;
+import com.eddie.ecommerce.service.IdiomaService;
+import com.eddie.ecommerce.utils.CacheManager;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.Constantes;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.ehcache.Cache;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.eddie.ecommerce.cache.Cache;
-import com.eddie.ecommerce.cache.CacheManager;
-import com.eddie.ecommerce.cache.CacheNames;
-import com.eddie.ecommerce.dao.IdiomaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
-import com.eddie.ecommerce.dao.impl.IdiomaDAOImpl;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Categoria;
-import com.eddie.ecommerce.model.Idioma;
-import com.eddie.ecommerce.service.IdiomaService;
 
 public class IdiomaServiceImpl implements IdiomaService{
 	
 	private static Logger logger=LogManager.getLogger(IdiomaServiceImpl.class);
 	
-	IdiomaDAO idao=null;
+	IdiomaDAO idiomaDAO =null;
 	
 	public IdiomaServiceImpl() {
-		idao=new IdiomaDAOImpl();
+		idiomaDAO =new IdiomaDAOImpl();
 	}
 	
 	@Override
-	public Idioma findById(String id, String idioma) throws InstanceNotFoundException, DataException {
+	public Idioma findById(String id, String idiomaWeb) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+id+" , idioma = "+idioma);
+			logger.debug("id= "+id+" , idioma = "+idiomaWeb);
 		}
-		Idioma i=null;
+		Idioma idioma=null;
 		boolean commit=false;
-		Connection c=null;
+		Connection connection=null;
 		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
+		connection= ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
 		
-		i = idao.findById(c, id, idioma);		
+		idioma = idiomaDAO.findById(connection, id, idiomaWeb);
 				
 		}catch(DataException e) {
 			logger.error(e.getMessage(),e);
 		} catch (SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
-			JDBCUtils.closeConnection(c, commit);
+			JDBCUtils.closeConnection(connection, commit);
 		}
-		return i;
+		return idioma;
 	}
 
 	@Override
-	public List<Idioma> findAll(String idioma) throws DataException {
+	public List<Idioma> findAll(String idiomaWeb) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("Idioma = "+idioma);
+			logger.debug("Idioma = "+idiomaWeb);
 		}
 		
-		Cache<String, List> cacheIdioma= CacheManager.getInstance().getCache(CacheNames.IDIOMACACHE, String.class, List.class);
+		Cache<String, List> cacheIdioma= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
 		
-		List<Idioma> idi=cacheIdioma.get(idioma);
+		List<Idioma> idiomas=cacheIdioma.get(Constantes.CACHE_IDIOMA);
 		
 		boolean commit=false;
-		if(idi!=null) {
+		if(idiomas!=null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Acierto cache: {}", idioma);
+				logger.debug("Acierto cache: {}", idiomaWeb);
 			}
 		}else {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Fallo cache: {}", idioma);
+				logger.debug("Fallo cache: {}", idiomaWeb);
 			}
-			Connection c=null;
+			Connection connection=null;
 			try {
-			c=ConnectionManager.getConnection();
-			c.setAutoCommit(false);
+			connection=ConnectionManager.getConnection();
+			connection.setAutoCommit(false);
 			
-			idi=idao.findAll(c, idioma);
+			idiomas= idiomaDAO.findAll(connection, idiomaWeb);
 			
-			cacheIdioma.put(idioma, idi);
+			cacheIdioma.put(Constantes.CACHE_IDIOMA, idiomas);
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
 			}finally {
-				JDBCUtils.closeConnection(c, commit);
+				JDBCUtils.closeConnection(connection, commit);
 			}
 		}
-		return idi;
+		return idiomas;
 	}
 
 	@Override
-	public List<Idioma> findByJuego(Integer idJuego, String idioma) throws DataException {
+	public List<Idioma> findByJuego(Integer idJuego, String idiomaWeb) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+idJuego+" , idioma = "+idioma);
+			logger.debug("id= "+idJuego+" , idioma = "+idiomaWeb);
 		}
-		List<Idioma> i=null;
+		List<Idioma> idiomas=null;
 		boolean commit=false;
-		Connection c=null;
+		Connection connection=null;
 		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
+		connection=ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
 		
-		i=idao.findByJuego(c, idJuego, idioma);
+		idiomas= idiomaDAO.findByJuego(connection, idJuego, idiomaWeb);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
-			JDBCUtils.closeConnection(c, commit);
+			JDBCUtils.closeConnection(connection, commit);
 		}
-		return i;
+		return idiomas;
 	}
 
 }

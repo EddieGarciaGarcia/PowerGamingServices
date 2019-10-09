@@ -1,24 +1,23 @@
 package com.eddie.ecommerce.service.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
 import com.eddie.ecommerce.dao.JuegoDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.JuegoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
+import com.eddie.ecommerce.model.Resultados;
 import com.eddie.ecommerce.service.JuegoService;
-import com.eddie.ecommerce.service.Resultados;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class JuegoServiceImpl implements JuegoService{
 
@@ -33,46 +32,42 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 	
 	@Override
-	public Resultados<Juego> findByJuegoCriteria(JuegoCriteria jc, String idioma, int startIndex, int count) throws DataException {
+	public Resultados<Juego> findByJuegoCriteria(JuegoCriteria juegoCriteria, String idioma, int startIndex, int count) throws DataException {
 	
 		if(logger.isDebugEnabled()) {
-			logger.debug("Juego Criteria = "+jc.toString()+" , idioma = "+idioma);
+			logger.debug("Juego Criteria = "+juegoCriteria.toString()+" , idioma = "+idioma);
 		}
 		Resultados<Juego> juegos=null;
 		boolean commit=false;
-		Connection c=null;
+		Connection connection=null;
 		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
-		juegos=jdao.findByJuegoCriteria(jc, idioma, c, startIndex, count);
-	
-		
+		connection= ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
+		juegos=jdao.findByJuegoCriteria(connection, juegoCriteria, idioma, startIndex, count);
+
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
-			JDBCUtils.closeConnection(c, commit);
-		
+			JDBCUtils.closeConnection(connection, commit);
 		}
 		return juegos;
-		
 	}
 
 	@Override
 	public Resultados<Juego> findAllByDate(String idioma , int startIndex, int count) throws DataException {
 		boolean commit=false;
-		Connection c=null;
+		Connection connection=null;
 		Resultados<Juego> juegos=null;
 		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
+		connection=ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
 		
-		juegos=jdao.findAllByDate(c, idioma, startIndex, count);
-		
-		
+		juegos=jdao.findAllByDate(connection, idioma, startIndex, count);
+
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
-			JDBCUtils.closeConnection(c, commit);
+			JDBCUtils.closeConnection(connection, commit);
 		}
 		return juegos;
 	}
@@ -80,18 +75,18 @@ public class JuegoServiceImpl implements JuegoService{
 	@Override
 	public List<Juego> findAllByValoracion(String idioma) throws DataException {
 		boolean commit=false;
-		Connection c=null;
+		Connection connection=null;
 		List<Juego> juegos=null;
 		try {
-		c=ConnectionManager.getConnection();
-		c.setAutoCommit(false);
+		connection=ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
 		
-		juegos=jdao.findAllByValoracion(c, idioma);
+		juegos=jdao.findAllByValoracion(connection, idioma);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
-			JDBCUtils.closeConnection(c, commit);
+			JDBCUtils.closeConnection(connection, commit);
 		}
 		return juegos;
 	}
@@ -176,7 +171,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public void delete(Integer id) throws DataException {
+	public boolean delete(Integer id) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Id = "+id);
@@ -191,7 +186,7 @@ public class JuegoServiceImpl implements JuegoService{
 
             connection.setAutoCommit(false);
 
-            jdao.delete(connection, id);          
+            return jdao.delete(connection, id);
                        
         } catch (SQLException e) {
         	logger.error(e.getMessage(),e);

@@ -1,19 +1,8 @@
 package com.eddie.ecommerce.service.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.eddie.ecommerce.dao.DireccionDAO;
 import com.eddie.ecommerce.dao.ItemBibliotecaDAO;
 import com.eddie.ecommerce.dao.UsuarioDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
-import com.eddie.ecommerce.dao.Utils.PasswordEncryptionUtil;
 import com.eddie.ecommerce.dao.impl.DireccionDAOImpl;
 import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.UsuarioDAOImpl;
@@ -22,10 +11,20 @@ import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Direccion;
 import com.eddie.ecommerce.model.ItemBiblioteca;
+import com.eddie.ecommerce.model.Resultados;
 import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.service.MailService;
-import com.eddie.ecommerce.service.Resultados;
 import com.eddie.ecommerce.service.UsuarioService;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import com.eddie.ecommerce.utils.PasswordEncryptionUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioServiceImpl implements UsuarioService{
 
@@ -43,24 +42,24 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Usuario create(Usuario u) throws Exception {
+	public boolean create(Usuario u) throws Exception {
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("Usuario = "+u.toString());
 		}
-
+		boolean creado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
-			c=ConnectionManager.getConnection();
+			c= ConnectionManager.getConnection();
 			c.setAutoCommit(false);
 
-			Usuario u2 = usuarioDao.create(u,c);
-			
-			mailService.sendMail(u.getEmail(), "Bienvenido a mi página web","<html><h1>Bienvenido a Power Gaming</h1><p>Hola muy buenas te has registrado correctamente</p></html>");
-
+			creado = usuarioDao.create(c,u);
+			if(creado) {
+				mailService.sendMail(u.getEmail(), "Bienvenido a mi pï¿½gina web", "<html><h1>Bienvenido a Power Gaming</h1><p>Hola muy buenas te has registrado correctamente</p></html>");
+			}
 			commit=true;
-			return u2;
+			return creado;
 
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
@@ -71,12 +70,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public void update(Usuario u) throws DataException {
+	public boolean update(Usuario u) throws DataException {
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("Usuario = "+u.toString());
 		}
-
+		boolean actualizado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -85,24 +84,24 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 			c.setAutoCommit(false);
 
-			usuarioDao.update(u, c);
 			commit = true;
+			actualizado = usuarioDao.update(c,u);
 
 		} catch (SQLException e) {
 			logger.error(e.getMessage(),e);
 		} finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-
+		return actualizado;
 	}
 
 	@Override
-	public long delete(String  email) throws DataException {
+	public boolean delete(String  email) throws DataException {
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
 		}
-
+		boolean borrado = false;
 		Connection connection = null;
 		boolean commit = false;
 
@@ -112,9 +111,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 			connection.setAutoCommit(false);
 
-			long result = usuarioDao.delete(email, connection);            
+			borrado = usuarioDao.delete(connection,email);
 			commit=true;  
-			return result;
+
 
 		} catch (SQLException e) {
 			logger.error(e.getMessage(),e);
@@ -122,7 +121,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		} finally {
 			JDBCUtils.closeConnection(connection, commit);
 		}		
-
+		return borrado;
 	}
 
 	@Override
@@ -139,7 +138,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			c.setAutoCommit(false);
 
 
-			u = usuarioDao.findById(email,c);
+			u = usuarioDao.findById(c,email);
 
 
 
@@ -172,7 +171,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			try {
 			c = ConnectionManager.getConnection();
 			c.setAutoCommit(true);
-			u = usuarioDao.findById(email, c);
+			u = usuarioDao.findById(c,email);
 			
 			} catch (SQLException e) {
 				logger.debug(e);
@@ -220,20 +219,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public ItemBiblioteca addJuegoBiblioteca(String email,ItemBiblioteca b) throws DataException {
+	public boolean addJuegoBiblioteca(String email,ItemBiblioteca b) throws DataException {
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("Biblioteca = "+b.toString());
 		}
-
-
 
 		boolean existe= existsInBiblioteca(email,b.getIdJuego());
 
 		if(existe) {
 			// ou retornas null ou lanzas unha excepiont... 
 		}
-
+		boolean anhadido=false;
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -244,17 +241,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 			b.setFechaComentario(null);
 			b.setComentario(null);
 			b.setPuntuacion(0);
-			b = itemBibliotecaDao.create(c, b);
 
 			commit=true;
 
+			anhadido= itemBibliotecaDao.create(c, b);
 
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-		return b;
+		return anhadido;
 	}
 
 	@Override
@@ -310,12 +307,12 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public Direccion createDireccion(Direccion d) throws DuplicateInstanceException, DataException {
+	public boolean createDireccion(Direccion d) throws DataException {
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("Direccion = "+d.toString());
 		}
-
+		boolean creado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -323,7 +320,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 			c.setAutoCommit(false);
 
 
-			d = direccionDao.create(c, d);
+			creado = direccionDao.create(c, d);
 
 			commit=true;		
 
@@ -333,7 +330,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-		return d;
+		return creado;
 	}
 
 	@Override
@@ -365,19 +362,19 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public void deleteDireccion(String email) throws DataException {
+	public boolean deleteDireccion(String email) throws DataException {
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
 		}
-
+		boolean borrado= false;
 		boolean commit=false;
 		Connection c=null;
 		try {
 			c=ConnectionManager.getConnection();
 			c.setAutoCommit(false);
 
-			direccionDao.delete(c, email);
+			borrado = direccionDao.delete(c, email);
 
 			commit=true;
 		}catch(SQLException e) {
@@ -385,7 +382,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-
+		return borrado;
 	}
 
 	@Override

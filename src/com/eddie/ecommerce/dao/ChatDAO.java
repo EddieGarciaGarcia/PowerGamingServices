@@ -1,12 +1,12 @@
 package com.eddie.ecommerce.dao;
 
-import java.util.Date;
-
-import com.eddie.ecommerce.model.Chat;
-import com.eddie.ecommerce.model.Usuario;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Chat;
+import com.eddie.ecommerce.model.Usuario;
+
+import java.util.Date;
 
 public interface ChatDAO {
 	public Chat findById(Integer id) throws InstanceNotFoundException, DataException;

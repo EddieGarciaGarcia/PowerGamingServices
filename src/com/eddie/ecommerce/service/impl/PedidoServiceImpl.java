@@ -1,22 +1,21 @@
 package com.eddie.ecommerce.service.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.eddie.ecommerce.dao.PedidoDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.PedidoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Pedido;
+import com.eddie.ecommerce.model.Resultados;
 import com.eddie.ecommerce.service.PedidoService;
-import com.eddie.ecommerce.service.Resultados;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class PedidoServiceImpl implements PedidoService{
 	
@@ -28,7 +27,7 @@ public class PedidoServiceImpl implements PedidoService{
 	}
 	
 	@Override
-	public Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws InstanceNotFoundException, DataException {
+	public Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
@@ -37,7 +36,7 @@ public class PedidoServiceImpl implements PedidoService{
 		boolean commit=false;
 		Connection c=null;
 		try {
-		c=ConnectionManager.getConnection();
+		c= ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
 		pedidos=pdao.findByEmail(c, email, startIndex, count);
@@ -51,7 +50,7 @@ public class PedidoServiceImpl implements PedidoService{
 	}
 
 	@Override
-	public void delete(Integer idPedido) throws InstanceNotFoundException, DataException {
+	public void delete(Integer idPedido) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Id= "+idPedido);
@@ -75,19 +74,19 @@ public class PedidoServiceImpl implements PedidoService{
 	}
 
 	@Override
-	public Pedido create(Pedido p) throws DuplicateInstanceException, DataException {
+	public boolean create(Pedido p) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Pedido = "+p.toString());
 		}
-		
+		boolean creado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
-		
-		p = pdao.create(c,p);
+
+			creado = pdao.create(c,p);
 
 		commit=true;
 
@@ -96,7 +95,7 @@ public class PedidoServiceImpl implements PedidoService{
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-		return p;
+		return creado;
 	}
 
 	@Override

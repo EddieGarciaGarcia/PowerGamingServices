@@ -1,13 +1,12 @@
-package com.eddie.ecommerce.dao.Utils;
+package com.eddie.ecommerce.utils;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class ConnectionManager	 {
 	

@@ -1,7 +1,6 @@
 package com.eddie.ecommerce.model;
 
 import java.util.Date;
-import java.util.List;
 
 public class ItemBiblioteca extends AbstractValueObject implements Comparable<ItemBiblioteca>{
 

@@ -1,13 +1,12 @@
 package com.eddie.ecommerce.service.impl;
 
+import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
+import com.eddie.ecommerce.service.MailService;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.eddie.ecommerce.dao.impl.CategoriaDAOImpl;
-import com.eddie.ecommerce.service.MailService;
 
 public class MailServiceImpl implements MailService {
 	

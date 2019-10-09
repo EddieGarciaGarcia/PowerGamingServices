@@ -1,23 +1,22 @@
 package com.eddie.ecommerce.service.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.eddie.ecommerce.cache.Cache;
-import com.eddie.ecommerce.cache.CacheManager;
-import com.eddie.ecommerce.cache.CacheNames;
 import com.eddie.ecommerce.dao.TipoEdicionDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.TipoEdicionDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.TipoEdicion;
 import com.eddie.ecommerce.service.TipoEdicionService;
+import com.eddie.ecommerce.utils.CacheManager;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.Constantes;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.ehcache.Cache;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class TipoEdicionServiceImpl implements TipoEdicionService{
 	
@@ -61,9 +60,9 @@ public class TipoEdicionServiceImpl implements TipoEdicionService{
 			logger.debug("Idioma = "+idioma);
 		}
 		
-		Cache<String, List> cacheTipoEdicion= CacheManager.getInstance().getCache(CacheNames.TIPOEDICIONCACHE, String.class, List.class);
+		Cache<String, List> cacheTipoEdicion= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
 		
-		List<TipoEdicion> tipoEdicion=cacheTipoEdicion.get(idioma);
+		List<TipoEdicion> tipoEdicion=cacheTipoEdicion.get(Constantes.CACHE_TIPO_EDICION);
 		
 		boolean commit=false;
 		if(tipoEdicion!=null) {
@@ -76,12 +75,12 @@ public class TipoEdicionServiceImpl implements TipoEdicionService{
 			}
 			Connection c=null;
 			try {
-			c=ConnectionManager.getConnection();
+			c= ConnectionManager.getConnection();
 			c.setAutoCommit(false);
 			
 			tipoEdicion=tedao.findAll(c, idioma);
 			
-			cacheTipoEdicion.put(idioma, tipoEdicion);
+			cacheTipoEdicion.put(Constantes.CACHE_TIPO_EDICION, tipoEdicion);
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);

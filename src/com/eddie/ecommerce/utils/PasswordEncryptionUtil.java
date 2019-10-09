@@ -1,10 +1,10 @@
-package com.eddie.ecommerce.dao.Utils;
+package com.eddie.ecommerce.utils;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 /**
- * Utilidad para la encriptación y validación de contraseñas.
- * (Se podría implementar también como servicio...)
+ * Utilidad para la encriptaciï¿½n y validaciï¿½n de contraseï¿½as.
+ * (Se podrï¿½a implementar tambiï¿½n como servicio...)
  * 
  * Desacoplar siempre que sea posible de APIs de terceros.
  * 

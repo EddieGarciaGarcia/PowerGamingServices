@@ -1,23 +1,23 @@
 package com.eddie.ecommerce.service.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.eddie.ecommerce.cache.Cache;
-import com.eddie.ecommerce.cache.CacheManager;
-import com.eddie.ecommerce.cache.CacheNames;
 import com.eddie.ecommerce.dao.PlataformaDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.PlataformaDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Plataforma;
 import com.eddie.ecommerce.service.PlataformaService;
+import com.eddie.ecommerce.utils.CacheManager;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.Constantes;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.ehcache.Cache;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class PlataformaServiceImpl implements PlataformaService{
 	
@@ -39,7 +39,7 @@ public class PlataformaServiceImpl implements PlataformaService{
 		boolean commit=false;
 		Connection c=null;
 		try {
-		c=ConnectionManager.getConnection();
+		c= ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
 		p = pdao.findbyIdPlataforma(c, id);		
@@ -58,9 +58,9 @@ public class PlataformaServiceImpl implements PlataformaService{
 	public List<Plataforma> findAll() throws DataException {
 		int i=1;
 		
-		Cache<Integer, List> cachePlataforma= CacheManager.getInstance().getCache(CacheNames.PLATAFORMACACHE, Integer.class, List.class);
+		Cache<String, List> cachePlataforma= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
 		
-		List<Plataforma> plataforma=cachePlataforma.get(i);
+		List<Plataforma> plataforma=cachePlataforma.get(Constantes.CACHE_PLATAFORMA);
 		
 		
 		boolean commit=false;
@@ -79,7 +79,7 @@ public class PlataformaServiceImpl implements PlataformaService{
 			
 			plataforma=pdao.findAll(c);
 			
-			cachePlataforma.put(i, plataforma);
+			cachePlataforma.put(Constantes.CACHE_PLATAFORMA, plataforma);
 			
 			}catch(DataException e) {
 				logger.error(e.getMessage(),e);

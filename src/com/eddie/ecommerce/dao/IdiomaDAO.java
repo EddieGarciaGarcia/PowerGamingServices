@@ -1,16 +1,16 @@
 package com.eddie.ecommerce.dao;
 
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.model.Idioma;
+
 import java.sql.Connection;
 import java.util.List;
-import com.eddie.ecommerce.model.Idioma;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 
 public interface IdiomaDAO {
 	
-	public Idioma findById(Connection conexion,String id, String idioma) throws  InstanceNotFoundException, DataException;;
-	
-	public List<Idioma> findAll(Connection conexion, String idioma) throws DataException;
-	
-	public List<Idioma> findByJuego(Connection conexion,Integer idJuego, String idioma) throws DataException;
+	Idioma findById(Connection conexion, String id, String idioma) throws DataException;;
+
+	List<Idioma> findAll(Connection conexion, String idioma) throws DataException;
+
+	List<Idioma> findByJuego(Connection conexion, Integer idJuego, String idioma) throws DataException;
 }

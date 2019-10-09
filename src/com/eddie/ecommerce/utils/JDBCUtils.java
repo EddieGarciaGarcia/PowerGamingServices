@@ -1,12 +1,12 @@
-package com.eddie.ecommerce.dao.Utils;
+package com.eddie.ecommerce.utils;
+
+import com.eddie.ecommerce.exceptions.DataException;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-
-import com.eddie.ecommerce.exceptions.DataException;
 
 /**
  * Factoriza los bloques de cï¿½digo habituales de JDBC 
@@ -128,12 +128,12 @@ public final class JDBCUtils {
         }
 	}
 	
-	//Añadir Where y and segun corresponda
+	//Aï¿½adir Where y and segun corresponda
 	public static void addClause(StringBuilder queryString, boolean first, String clause) {
 		queryString.append(first? " WHERE ": " AND ").append(clause);
 	}
 	
-	//Añadir set o coma segun corresponda
+	//Aï¿½adir set o coma segun corresponda
 	public static void addUpdate(StringBuilder queryString, boolean first, String clause) {
 		queryString.append(first? " SET ": " , ").append(clause);
 	}

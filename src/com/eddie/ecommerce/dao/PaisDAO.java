@@ -1,15 +1,14 @@
 package com.eddie.ecommerce.dao;
 
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.model.Pais;
+
 import java.sql.Connection;
 import java.util.List;
 
-import com.eddie.ecommerce.model.Pais;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-
 public interface PaisDAO {
 	
-	public Pais findById(Connection conexion,Integer id)throws InstanceNotFoundException, DataException;
+	Pais findById(Connection conexion, Integer id)throws DataException;
 		
-	public List<Pais> findAll(Connection conexion)throws DataException;
+	List<Pais> findAll(Connection conexion)throws DataException;
 }

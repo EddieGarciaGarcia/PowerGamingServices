@@ -1,19 +1,18 @@
 package com.eddie.ecommerce.service.impl;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.eddie.ecommerce.dao.PaisDAO;
-import com.eddie.ecommerce.dao.Utils.ConnectionManager;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
 import com.eddie.ecommerce.dao.impl.PaisDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.Pais;
 import com.eddie.ecommerce.service.PaisService;
+import com.eddie.ecommerce.utils.ConnectionManager;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class PaisServiceImpl implements PaisService{
 	
@@ -30,7 +29,7 @@ public class PaisServiceImpl implements PaisService{
 		Connection c=null;
 		List<Pais> pais=null;
 		try {
-		c=ConnectionManager.getConnection();
+		c= ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
 		pais=pdao.findAll(c)	;

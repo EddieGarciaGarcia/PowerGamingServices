@@ -1,248 +1,197 @@
 package com.eddie.ecommerce.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.eddie.ecommerce.dao.EdicionDAO;
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Edicion;
+import com.eddie.ecommerce.utils.JDBCUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.eddie.ecommerce.dao.EdicionDAO;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Edicion;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EdicionDAOImpl implements EdicionDAO{
 
 	private static Logger logger=LogManager.getLogger(EdicionDAOImpl.class);
 	
 	@Override
-	public Edicion findByIdEdicion(Connection conexion,Integer id) throws InstanceNotFoundException,DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("id = "+id);
-		}
-		
-		Edicion e=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
+	public Edicion findByIdEdicion(Connection conexion,Integer id) throws DataException {
+
+		Edicion edicion;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
 		try {
-			String sql;
-			sql="select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_edicion = ?";
+			query = new StringBuilder();
+			query.append("select id_edicion,id_juego,id_formato,id_tipo_edicion,precio ");
+			query.append("from edicion ");
+			query.append("where id_edicion = ?");
 
-			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
-			int i=1;
-			pst.setInt(i++, id);	
-			rs=pst.executeQuery();
+			preparedStatement=conexion.prepareStatement(query.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 
-			logger.debug(sql);
+			preparedStatement.setInt(1, id);
+			resultSet=preparedStatement.executeQuery();
 			
-			if(rs.next()){
-				e=loadNext(rs);
-				
+			if(resultSet.next()){
+				edicion=new Edicion();
+				return loadNext(resultSet,edicion);
 			}else {
 				throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Edicion.class.getName());
 			}
-			return e;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
 	
 	@Override
 	public List<Edicion> findByIdJuego(Connection conexion, Integer id) throws DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("id = "+id);
-		}
-		
-		Edicion e=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
+		Edicion edicion;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
+		List<Edicion> ediciones;
 		try {
+			query = new StringBuilder();
+			query.append("select id_edicion,id_juego,id_formato,id_tipo_edicion,precio ");
+			query.append("from edicion ");
+			query.append("where id_juego = ?");
 
-			String sql;
-			sql="select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego = ?";
+			preparedStatement=conexion.prepareStatement(query.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 
-			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
-			logger.debug(sql);
-			
-			int i=1;
-			pst.setInt(i++, id);	
-			rs=pst.executeQuery();
-			
-			List<Edicion> resultado=new ArrayList<Edicion>();
-			while(rs.next()){
-				e=loadNext(rs);
-				resultado.add(e);
+			preparedStatement.setInt(1, id);
+			resultSet=preparedStatement.executeQuery();
+
+			ediciones=new ArrayList<>();
+			while(resultSet.next()){
+				edicion=new Edicion();
+				ediciones.add(loadNext(resultSet,edicion));
 			}
-			return resultado;
+			return ediciones;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
 	
 	@Override
 	public List<Edicion> findByIdsJuego(Connection conexion, List<Integer> ids) throws DataException {
-		if(logger.isDebugEnabled()) {
-			logger.debug("id = "+ids);
-		}
-		
-		Edicion e=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
+		Edicion edicion;
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
+		List<Edicion> ediciones;
 		try {
 
-			StringBuilder sql;
-			sql=new StringBuilder("select id_edicion,id_juego,id_formato,id_tipo_edicion,precio from edicion where id_juego in (");
-			JDBCUtils.anhadirIN(sql, ids);
-			pst=conexion.prepareStatement(sql.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			query=new StringBuilder();
+			query.append("select id_edicion,id_juego,id_formato,id_tipo_edicion,precio ");
+			query.append("from edicion ");
+			query.append("where id_juego in (");
+			//Se añaden todos los ids por lo que se deben buscar
+			JDBCUtils.anhadirIN(query, ids);
+
+			preparedStatement=conexion.prepareStatement(query.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+
+			resultSet=preparedStatement.executeQuery();
 			
-			logger.debug(sql);
-			
-			int i=1;	
-			rs=pst.executeQuery();
-			
-			List<Edicion> resultado=new ArrayList<Edicion>();
-			while(rs.next()){
-				e=loadNext(rs);
-				resultado.add(e);
+			ediciones=new ArrayList<>();
+			while(resultSet.next()){
+				edicion=new Edicion();
+				ediciones.add(loadNext(resultSet,edicion));
 			}
-			return resultado;
+			return ediciones;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
 	@Override
-	public Edicion create(Connection conexion,Edicion e) throws DuplicateInstanceException, DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("e = "+e.toString());
-		}
-		
-		PreparedStatement pst=null;
-		ResultSet rs=null;
+	public boolean create(Connection conexion,Edicion edicion) throws DataException {
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
 		try {
-		
-			String sql;
-			sql="Insert Into edicion(id_juego,id_formato,id_tipo_edicion,precio) "
-					+ "values (?,?,?,?)";
+			query = new StringBuilder();
+			query.append("Insert Into edicion(id_juego,id_formato,id_tipo_edicion,precio) ");
+			query.append("values (?,?,?,?)");
 			
-			pst=conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			int i=1;
-			
-			pst.setInt(i++,e.getIdJuego());
-			pst.setInt(i++, e.getIdFormato());
-			pst.setInt(i++, e.getIdTipoEdicion());
-			pst.setDouble(i++, e.getPrecio());
+			preparedStatement=conexion.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
+			int i = 1;
+			preparedStatement.setInt(i++,edicion.getIdJuego());
+			preparedStatement.setInt(i++, edicion.getIdFormato());
+			preparedStatement.setInt(i++, edicion.getIdTipoEdicion());
+			preparedStatement.setDouble(i, edicion.getPrecio());
 
-			logger.debug(sql);
-			
-			int insertRow=pst.executeUpdate();
+			int insertRow=preparedStatement.executeUpdate();
 			
 			if(insertRow == 0) {
 				throw new SQLException(" No se pudo insertar");
 			}
-			rs=pst.getGeneratedKeys();
-			if(rs.next()) {
-				Integer idEdicion=rs.getInt(1);
-				e.setId(idEdicion);
+			resultSet=preparedStatement.getGeneratedKeys();
+			if(resultSet.next()) {
+				Integer idEdicion=resultSet.getInt(1);
+				edicion.setId(idEdicion);
 			}else {
-				throw new DataException("Problemas al autogenerar primary key");
+				return false;
 			}
-			return e;
+			return true;
 		}catch (SQLException ex) {
 			logger.error(ex.getMessage(),ex);
 			throw new DataException(ex);
 		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
 		}
 	}
 
 	@Override
-	public boolean update(Connection conexion,Edicion e) throws InstanceNotFoundException, DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("e = "+e.toString());
-		}
-		
+	public boolean update(Connection conexion,Edicion edicion) throws DataException {
 		PreparedStatement preparedStatement = null;
-		
-		StringBuilder sqlupdate;
-		try {	
-			
-			sqlupdate = new StringBuilder(" UPDATE edicion");
-			
+		StringBuilder query;
+		try {
+			query = new StringBuilder(" UPDATE edicion");
 			boolean first = true;
-			
-			if (e.getIdJuego()!=null) {
-				JDBCUtils.addUpdate(sqlupdate,first," id_juego = ?");
+			if (edicion.getIdJuego()!=null) {
+				JDBCUtils.addUpdate(query,first," id_juego = ?");
 				first=false;
 			}
-			
-			if (e.getIdFormato()!=null) {
-				JDBCUtils.addUpdate(sqlupdate,first," id_formato = ?");
+			if (edicion.getIdFormato()!=null) {
+				JDBCUtils.addUpdate(query,first," id_formato = ?");
 				first=false;
 			}
-			
-			if (e.getIdTipoEdicion()!=null) {
-				JDBCUtils.addUpdate(sqlupdate,first," id_tipo_edicion = ?");
+			if (edicion.getIdTipoEdicion()!=null) {
+				JDBCUtils.addUpdate(query,first," id_tipo_edicion = ?");
 				first=false;
 			}
-			
-			if (e.getPrecio()!=null) {
-				JDBCUtils.addUpdate(sqlupdate,first," precio = ?");
-				first=false;
+			if (edicion.getPrecio()!=null) {
+				JDBCUtils.addUpdate(query,first," precio = ?");
 			}
-					
-
-			sqlupdate.append("WHERE email = ?");
+			query.append("WHERE email = ?");
 			
-			preparedStatement = conexion.prepareStatement(sqlupdate.toString());
-			
+			preparedStatement = conexion.prepareStatement(query.toString());
 
 			int i = 1;
-			if (e.getIdJuego()!=null) 
-				preparedStatement.setInt(i++,e.getIdJuego());
-			
-			if (e.getIdFormato()!=null) 
-				preparedStatement.setInt(i++,e.getIdFormato());
-			if (e.getIdTipoEdicion()!=null) 
-				preparedStatement.setInt(i++,e.getIdTipoEdicion());
-			if (e.getPrecio()!=null) 
-				preparedStatement.setDouble(i++,e.getPrecio());
-			
-			logger.debug(sqlupdate);
-			
-			preparedStatement.setInt(i++, e.getId());
+			if (edicion.getIdJuego()!=null) preparedStatement.setInt(i++,edicion.getIdJuego());
+			if (edicion.getIdFormato()!=null) preparedStatement.setInt(i++,edicion.getIdFormato());
+			if (edicion.getIdTipoEdicion()!=null) preparedStatement.setInt(i++,edicion.getIdTipoEdicion());
+			if (edicion.getPrecio()!=null) preparedStatement.setDouble(i++,edicion.getPrecio());
+
+			preparedStatement.setInt(i, edicion.getId());
 
 			int updatedRows = preparedStatement.executeUpdate();
 
-			if (updatedRows > 1) {
-				throw new SQLException();
-			}     
-			return true;
+			return updatedRows == 1;
 		} catch (SQLException se) {
 			logger.error(se.getMessage(),se);
 			throw new DataException(se);    
@@ -252,25 +201,12 @@ public class EdicionDAOImpl implements EdicionDAO{
 	
 	}
 
-	public Edicion loadNext(ResultSet rs)throws DataException,SQLException{
-		int i=1;
-		int idEdicion  = rs.getInt(i++);
-		int idJuego =rs.getInt(i++);
-		int idFormato=rs.getInt(i++);
-		int idTipoEdicion=rs.getInt(i++);
-		double precio = rs.getDouble(i++);
-
-		Edicion e=new Edicion();
-		e.setId(idEdicion);
-		e.setIdJuego(idJuego);
-		e.setIdFormato(idFormato);
-		e.setIdTipoEdicion(idTipoEdicion);
-		e.setPrecio(precio);
-		
-		return e;
-
+	public Edicion loadNext(ResultSet resultSet,Edicion edicion)throws SQLException{
+		edicion.setId(resultSet.getInt("id_edicion"));
+		edicion.setIdJuego(resultSet.getInt("id_juego"));
+		edicion.setIdFormato(resultSet.getInt("id_formato"));
+		edicion.setIdTipoEdicion(resultSet.getInt("id_tipo_edicion"));
+		edicion.setPrecio(resultSet.getDouble("precio"));
+		return edicion;
 	}
-
-	
-	
 }

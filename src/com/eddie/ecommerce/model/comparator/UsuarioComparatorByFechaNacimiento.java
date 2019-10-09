@@ -1,8 +1,8 @@
 package com.eddie.ecommerce.model.comparator;
 
-import java.util.Comparator;
-
 import com.eddie.ecommerce.model.Usuario;
+
+import java.util.Comparator;
 
 public class UsuarioComparatorByFechaNacimiento  implements Comparator<Usuario>{
 	public UsuarioComparatorByFechaNacimiento() {}

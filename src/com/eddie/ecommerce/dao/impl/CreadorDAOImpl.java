@@ -1,5 +1,13 @@
 package com.eddie.ecommerce.dao.impl;
 
+import com.eddie.ecommerce.dao.CreadorDAO;
+import com.eddie.ecommerce.exceptions.DataException;
+import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
+import com.eddie.ecommerce.model.Creador;
+import com.eddie.ecommerce.utils.JDBCUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,100 +15,77 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+public class CreadorDAOImpl implements CreadorDAO {
 
-import com.eddie.ecommerce.dao.CreadorDAO;
-import com.eddie.ecommerce.dao.Utils.JDBCUtils;
-import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
-import com.eddie.ecommerce.model.Creador;
+    private static Logger logger = LogManager.getLogger(CreadorDAOImpl.class);
 
-public class CreadorDAOImpl implements CreadorDAO{
-	
-	private static Logger logger=LogManager.getLogger(CreadorDAOImpl.class);
+    @Override
+    public Creador findbyIdCreador(Connection conexion, Integer id) throws DataException {
 
-	@Override
-	public Creador findbyIdCreador(Connection conexion, Integer id) throws InstanceNotFoundException,DataException {
-		
-		if(logger.isDebugEnabled()) {
-			logger.debug("Id = "+id);
-		}
-		
-		Creador c=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
-	try {
-		String sql;
-		sql="select id_creador, nombre from creador where id_creador= ? ";
-		
-		logger.debug(sql);
-		
-		pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-		
-		int i=1;
-		pst.setInt(i++, id);
-		
-		rs=pst.executeQuery();
-		
-		if(rs.next()){
-			c=loadNext(rs);
-			
-		}else {
-			throw new InstanceNotFoundException("Error "+id+" id introducido incorrecto", Creador.class.getName());
-		}
-		return c;
-	}catch (SQLException ex) {
-		logger.error(ex.getMessage(),ex);
-		throw new DataException(ex);
-	}finally{
-		JDBCUtils.closeResultSet(rs);
-		JDBCUtils.closeStatement(pst);
-	}
-	}
+        Creador creador;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+		StringBuilder query;
+        try {
+            query= new StringBuilder();
+            query.append("select id_creador, nombre");
+			query.append(" from creador");
+			query.append(" where id_creador= ?");
 
-	@Override
-	public List<Creador> findAll(Connection conexion) throws DataException {
-		Creador c=null;
-		PreparedStatement pst=null;
-		ResultSet rs=null;
-		try {
-			
-			String sql;
-			sql="select id_creador, nombre from creador";
+            preparedStatement = conexion.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-			logger.debug(sql);
-			
-			pst=conexion.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
-			rs=pst.executeQuery();
-			
-			List<Creador> resultado=new ArrayList<Creador>();
-			while(rs.next()){
-				c=loadNext(rs);
-				resultado.add(c);
-			}
-			return resultado;
-		}catch (SQLException ex) {
-			logger.error(ex.getMessage(),ex);
-			throw new DataException(ex);
-		}finally{
-			JDBCUtils.closeResultSet(rs);
-			JDBCUtils.closeStatement(pst);
-		}
-	}
-	public Creador loadNext(ResultSet rs) 
-			throws DataException,SQLException{
-				int i=1;
-				Integer idCreador  = rs.getInt(i++);
-				String nombre = rs.getString(i++);
-				
-				
-				Creador c= new Creador();
-				c.setIdCreador(idCreador);
-				c.setNombre(nombre);
-				
-				return c;
-			
-		}
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                creador = new Creador();
+            	return loadNext(resultSet,creador);
+            } else {
+                throw new InstanceNotFoundException("Error " + id + " id introducido incorrecto", Creador.class.getName());
+            }
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new DataException(ex);
+        } finally {
+            JDBCUtils.closeResultSet(resultSet);
+            JDBCUtils.closeStatement(preparedStatement);
+        }
+    }
+
+    @Override
+    public List<Creador> findAll(Connection conexion) throws DataException {
+        Creador creador;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        StringBuilder query;
+        List<Creador> creadores;
+        try {
+           	query= new StringBuilder();
+            query.append("select id_creador, nombre");
+            query.append("from creador");
+
+            preparedStatement = conexion.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            resultSet = preparedStatement.executeQuery();
+
+            creadores = new ArrayList<>();
+            while (resultSet.next()) {
+                creador = new Creador();
+                creadores.add(loadNext(resultSet, creador));
+            }
+            return creadores;
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new DataException(ex);
+        } finally {
+            JDBCUtils.closeResultSet(resultSet);
+            JDBCUtils.closeStatement(preparedStatement);
+        }
+    }
+    public Creador loadNext(ResultSet resultSet, Creador creador) throws SQLException {
+        creador.setIdCreador(resultSet.getInt("id_creador"));
+        creador.setNombre(resultSet.getString("nombre"));
+        return creador;
+    }
 }
