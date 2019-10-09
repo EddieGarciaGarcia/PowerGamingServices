@@ -1,9 +1,10 @@
 package com.eddie.ecommerce.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Usuario extends AbstractValueObject implements Comparable<Usuario>{
+public class Usuario extends AbstractValueObject implements Comparable<Usuario>, Serializable {
 	
 	private String nombre=null;
 	private String apellido1=null;

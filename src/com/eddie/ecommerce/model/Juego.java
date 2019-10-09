@@ -1,9 +1,10 @@
 package com.eddie.ecommerce.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Juego implements ValueObject, Comparable<Juego>{
+public class Juego implements Comparable<Juego>, Serializable {
 	private Integer idJuego=null;
 	private String nombre = null;
 	private Integer fechaLanzamiento = null;

@@ -1,6 +1,8 @@
 package com.eddie.ecommerce.model;
 
-public class Categoria implements ValueObject{
+import java.io.Serializable;
+
+public class Categoria implements Serializable {
 	
 	private Integer idCategria=null;
 	private String nombre=null;

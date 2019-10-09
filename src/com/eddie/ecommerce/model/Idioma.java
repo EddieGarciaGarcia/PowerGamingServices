@@ -1,7 +1,9 @@
 package com.eddie.ecommerce.model;
 
 
-public class Idioma implements ValueObject{
+import java.io.Serializable;
+
+public class Idioma implements Serializable {
 
 	private String idIdioma;
 	private String nombre;

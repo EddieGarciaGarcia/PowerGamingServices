@@ -1,6 +1,8 @@
 package com.eddie.ecommerce.model;
 
-public class LineaPedido implements ValueObject{
+import java.io.Serializable;
+
+public class LineaPedido implements Serializable {
 	private Integer numeroLinea=null;
 	private Integer idEdicion=null;
 	private Integer pedido=null;

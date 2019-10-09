@@ -1,6 +1,8 @@
 package com.eddie.ecommerce.model;
 
-public class Pais implements ValueObject{
+import java.io.Serializable;
+
+public class Pais implements Serializable {
 	private Integer idPais=null;
 	private String nombre=null;
 	

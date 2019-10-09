@@ -1,8 +1,9 @@
 package com.eddie.ecommerce.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Chat implements ValueObject{
+public class Chat implements Serializable {
 	private Integer idMensage;
 	private String mensage;
 	private String email;

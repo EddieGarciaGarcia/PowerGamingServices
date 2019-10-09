@@ -1,6 +1,8 @@
 package com.eddie.ecommerce.model;
 
-public class Direccion implements ValueObject{
+import java.io.Serializable;
+
+public class Direccion implements Serializable {
 	private Integer idDireccion=null;
 	private String calle=null;
 	private String email=null;

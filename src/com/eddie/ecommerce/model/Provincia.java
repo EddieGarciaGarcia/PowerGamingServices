@@ -1,6 +1,8 @@
 package com.eddie.ecommerce.model;
 
-public class Provincia implements ValueObject{
+import java.io.Serializable;
+
+public class Provincia implements Serializable {
 	private Integer idProvincia=null;
 	private String nombre=null;
 	private Integer idPais=null;

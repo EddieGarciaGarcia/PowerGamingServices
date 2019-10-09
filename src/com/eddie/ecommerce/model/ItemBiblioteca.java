@@ -1,8 +1,9 @@
 package com.eddie.ecommerce.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ItemBiblioteca extends AbstractValueObject implements Comparable<ItemBiblioteca>{
+public class ItemBiblioteca extends AbstractValueObject implements Comparable<ItemBiblioteca>, Serializable {
 
 	private String email=null;
 	private Integer puntuacion=null;

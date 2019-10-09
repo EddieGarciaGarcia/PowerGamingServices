@@ -1,7 +1,9 @@
 
 package com.eddie.ecommerce.model;
 
-public class Creador implements ValueObject{
+import java.io.Serializable;
+
+public class Creador implements Serializable {
 	
 	private Integer idCreador;
 	private String nombre;

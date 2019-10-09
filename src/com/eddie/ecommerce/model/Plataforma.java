@@ -1,6 +1,8 @@
 package com.eddie.ecommerce.model;
 
-public class Plataforma implements ValueObject{
+import java.io.Serializable;
+
+public class Plataforma implements Serializable {
 	private Integer IdPlatadorma;
 	private String nombre;
 	

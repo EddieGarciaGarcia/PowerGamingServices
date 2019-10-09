@@ -1,7 +1,9 @@
 package com.eddie.ecommerce.model;
 
 
-public class JuegoCriteria extends Juego implements ValueObject {
+import java.io.Serializable;
+
+public class JuegoCriteria extends Juego implements Serializable {
 	
 	private int[] categoriaIDs = null;
 	private int[] plataformaIDs = null;

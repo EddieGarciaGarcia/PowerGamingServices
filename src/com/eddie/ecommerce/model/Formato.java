@@ -1,6 +1,8 @@
 package com.eddie.ecommerce.model;
 
-public class Formato implements ValueObject{
+import java.io.Serializable;
+
+public class Formato implements Serializable {
 	private Integer idFormato=null;
 	private String nombre=null;
 	

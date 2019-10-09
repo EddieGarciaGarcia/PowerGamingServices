@@ -1,9 +1,10 @@
 package com.eddie.ecommerce.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class Resultados<T> {
+public class Resultados<T> implements Serializable {
 	
 	private List<T> resultados= null;
 	private Integer startIndex=0;

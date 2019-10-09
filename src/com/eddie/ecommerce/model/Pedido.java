@@ -1,10 +1,11 @@
 package com.eddie.ecommerce.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Pedido implements ValueObject{
+public class Pedido implements Serializable {
 
 	private Integer idPedido=null;
 	private String email=null;
