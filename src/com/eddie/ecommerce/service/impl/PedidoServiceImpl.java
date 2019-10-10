@@ -3,8 +3,6 @@ package com.eddie.ecommerce.service.impl;
 import com.eddie.ecommerce.dao.PedidoDAO;
 import com.eddie.ecommerce.dao.impl.PedidoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.exceptions.DuplicateInstanceException;
-import com.eddie.ecommerce.exceptions.InstanceNotFoundException;
 import com.eddie.ecommerce.model.Pedido;
 import com.eddie.ecommerce.model.Resultados;
 import com.eddie.ecommerce.service.PedidoService;
@@ -25,10 +23,10 @@ public class PedidoServiceImpl implements PedidoService{
 	public PedidoServiceImpl() {
 		pdao= new PedidoDAOImpl();
 	}
-	
+
 	@Override
 	public Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws DataException {
-		
+
 		if(logger.isDebugEnabled()) {
 			logger.debug("Email = "+email);
 		}
@@ -36,10 +34,33 @@ public class PedidoServiceImpl implements PedidoService{
 		boolean commit=false;
 		Connection c=null;
 		try {
+			c= ConnectionManager.getConnection();
+			c.setAutoCommit(false);
+
+			pedidos=pdao.findByEmail(c, email, startIndex, count);
+
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return pedidos;
+	}
+
+	@Override
+	public List<Pedido> findAllByEmail(String email) throws DataException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		List<Pedido> pedidos=null;
+		boolean commit=false;
+		Connection c=null;
+		try {
 		c= ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		pedidos=pdao.findByEmail(c, email, startIndex, count);
+		pedidos=pdao.findAllByEmail(c, email);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);

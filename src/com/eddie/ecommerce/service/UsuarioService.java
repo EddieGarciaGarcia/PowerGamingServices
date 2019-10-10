@@ -19,9 +19,12 @@ public interface UsuarioService {
 	 Usuario findById(String email) throws DataException;
 	
 	Usuario login(String email, String password)throws DataException;
-	
+
 	//Biblioteca
 	Resultados<ItemBiblioteca> findByUsuario(String email, int startIndex, int count)throws DataException;
+
+	//Biblioteca
+	List<ItemBiblioteca> findByUsuario(String email)throws DataException;
 	
 	//A�adir a biblioteca
 	boolean addJuegoBiblioteca(String email, ItemBiblioteca b)throws DataException;
@@ -30,7 +33,7 @@ public interface UsuarioService {
 	List<Integer> existsInBiblioteca(String email, List<Integer> idsDeJuego)throws DataException;
 	
 	//Eliminar de la Biblioteca
-	long borrarJuegoBiblioteca(String email, Integer idJuego)throws DataException;
+	boolean borrarJuegoBiblioteca(String email, Integer idJuego)throws DataException;
 	
 	Direccion findByIdDireccion(String email) throws  DataException;
 	
@@ -40,7 +43,7 @@ public interface UsuarioService {
 	boolean deleteDireccion(String email) throws DataException;
 
 	//Puntuacion
-	public ItemBiblioteca create(ItemBiblioteca it)throws DataException;
+	boolean create(ItemBiblioteca it)throws DataException;
 	
-	public ItemBiblioteca findByIdEmail(String email, Integer idJuego)throws DataException;
+	ItemBiblioteca findByIdEmail(String email, Integer idJuego)throws DataException;
 }

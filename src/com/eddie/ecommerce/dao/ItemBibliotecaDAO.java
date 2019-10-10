@@ -11,6 +11,8 @@ public interface ItemBibliotecaDAO {
 
 	Resultados<ItemBiblioteca> findByUsuario(Connection connection, String email, int startIndex, int count) throws DataException;
 
+	List<ItemBiblioteca> findByUsuario(Connection connection, String email) throws DataException;
+
 	boolean exists(Connection connection, String email, Integer idJuego) throws DataException;
 
 	//Comprobar

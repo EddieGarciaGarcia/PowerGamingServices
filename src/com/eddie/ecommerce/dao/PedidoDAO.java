@@ -8,8 +8,10 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface PedidoDAO {
-	
+
 	Resultados<Pedido> findByEmail(Connection conexion, String email, int startIndex, int count)throws DataException;
+
+	List<Pedido> findAllByEmail(Connection conexion, String email)throws DataException;
 
 	List<Pedido> findByIds(Connection conexion, List<Integer> ids)throws DataException;
 

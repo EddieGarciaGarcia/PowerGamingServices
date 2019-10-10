@@ -9,12 +9,18 @@ import com.eddie.ecommerce.model.JuegoCriteria;
 import java.util.List;
 
 public interface JuegoService {
-	
+
 	//Buscador
 	Resultados<Juego> findByJuegoCriteria(JuegoCriteria juegoCriteria, String idioma, int startIndex, int count) throws DataException;
+
+	//Buscador del index.html todos los juegos por data
+	Resultados<Juego> findAllByDate(String idioma, int startIndex, int count) throws DataException;
+
+	//Buscador
+	List<Juego> findByJuegoCriteria(JuegoCriteria juegoCriteria, String idioma) throws DataException;
 	
 	//Buscador del index.html todos los juegos por data 
-	Resultados<Juego> findAllByDate(String idioma, int startIndex, int count) throws DataException;
+	List<Juego> findAllByDate(String idioma) throws DataException;
 	
 	//Buscador del index.html todos por puntuacion
 	List<Juego> findAllByValoracion(String idioma) throws DataException;

@@ -9,11 +9,14 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface JuegoDAO {
-	
-	
+
 	Resultados<Juego> findByJuegoCriteria(Connection connection, JuegoCriteria juegoCriteria, String idioma, int startIndex, int count) throws DataException;
-	
+
 	Resultados<Juego> findAllByDate(Connection connection, String idioma, int startIndex, int count) throws DataException;
+	
+	List<Juego> findByJuegoCriteria(Connection connection, JuegoCriteria juegoCriteria, String idioma) throws DataException;
+	
+	List<Juego> findAllByDate(Connection connection, String idioma) throws DataException;
 	
 	List<Juego> findByIDs(Connection connection, List<Integer> ids, String idioma)throws DataException;
 	

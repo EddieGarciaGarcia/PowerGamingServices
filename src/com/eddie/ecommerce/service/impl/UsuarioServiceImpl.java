@@ -219,6 +219,29 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
+	public List<ItemBiblioteca> findByUsuario(String email) throws DataException {
+
+		if(logger.isDebugEnabled()) {
+			logger.debug("Email = "+email);
+		}
+		List<ItemBiblioteca> biblio=null;
+		boolean commit=false;
+		Connection c=null;
+		try {
+			c=ConnectionManager.getConnection();
+			c.setAutoCommit(false);
+
+			biblio=itemBibliotecaDao.findByUsuario(c, email);
+
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(c, commit);
+		}
+		return biblio;
+	}
+
+	@Override
 	public boolean addJuegoBiblioteca(String email,ItemBiblioteca b) throws DataException {
 
 		if(logger.isDebugEnabled()) {
@@ -255,30 +278,28 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public long borrarJuegoBiblioteca(String email, Integer idJuego) throws DataException{
+	public boolean borrarJuegoBiblioteca(String email, Integer idJuego) throws DataException{
 
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+idJuego+" , email = "+email);
 		}
-
+		boolean borrado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
 			c=ConnectionManager.getConnection();
 			c.setAutoCommit(false);
 
-
-			itemBibliotecaDao.delete(c, email, idJuego);
+			borrado = itemBibliotecaDao.delete(c, email, idJuego);
 
 			commit=true;
 
-			return idJuego;
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-		return idJuego;
+		return borrado;
 
 	}
 
@@ -433,11 +454,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 
 	@Override
-	public ItemBiblioteca create(ItemBiblioteca it) throws DataException {
+	public boolean create(ItemBiblioteca it) throws DataException {
 		if(logger.isDebugEnabled()) {
 			logger.debug("it = "+it.toString());
 		}
-
+		boolean creado = false;
 		boolean commit=false;
 		Connection c=null;
 		try {
@@ -446,7 +467,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 			c.setAutoCommit(false);
 
-			itemBibliotecaDao.create(c, it);
+			creado=itemBibliotecaDao.create(c, it);
 			commit = true;
 
 		} catch (SQLException e) {
@@ -456,7 +477,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 		} finally {
 			JDBCUtils.closeConnection(c, commit);
 		}
-		return it;
+		return creado;
 	}
 
 	@Override

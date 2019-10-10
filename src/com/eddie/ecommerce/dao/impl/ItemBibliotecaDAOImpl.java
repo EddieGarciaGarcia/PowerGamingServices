@@ -57,6 +57,39 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO {
     }
 
     @Override
+    public List<ItemBiblioteca> findByUsuario(Connection connection, String email) throws DataException {
+        ItemBiblioteca itemBiblioteca;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        StringBuilder query;
+        try {
+            query = new StringBuilder();
+            query.append("select email,id_juego,puntuacion,comprado,comentario,fecha_comentario ");
+            query.append("from usuarios_juego ");
+            query.append("where email=?");
+
+            preparedStatement = connection.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            preparedStatement.setString(1, email);
+            resultSet = preparedStatement.executeQuery();
+
+            List<ItemBiblioteca> biblioteca = new ArrayList<>();
+            while (resultSet.next()){
+                    itemBiblioteca = new ItemBiblioteca();
+                    biblioteca.add(loadNext(resultSet, itemBiblioteca));
+            }
+
+            return biblioteca;
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new DataException(ex);
+        } finally {
+            JDBCUtils.closeResultSet(resultSet);
+            JDBCUtils.closeStatement(preparedStatement);
+        }
+    }
+
+    @Override
     public boolean exists(Connection connection, String email, Integer idJuego) throws DataException {
         boolean exist = false;
         PreparedStatement preparedStatement = null;

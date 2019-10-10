@@ -52,6 +52,35 @@ public class PedidoDAOImpl implements PedidoDAO {
 	}
 
 	@Override
+	public List<Pedido> findAllByEmail(Connection conexion, String email) throws DataException {
+		Pedido pedido = new Pedido();
+		PreparedStatement preparedStatement=null;
+		ResultSet resultSet=null;
+		StringBuilder query;
+		try {
+			query = new StringBuilder();
+			query.append("select id_pedido,email,total,fecha_pedido ");
+			query.append("from pedido ");
+			query.append("where email=? order by fecha_pedido desc");
+			preparedStatement=conexion.prepareStatement(query.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			preparedStatement.setString(1, email);
+			resultSet=preparedStatement.executeQuery();
+			List<Pedido> pedidos = new ArrayList<>();
+
+			while(resultSet.next()) {
+				pedidos.add(loadNext(resultSet , pedido));
+			}
+			return pedidos;
+		}catch (SQLException ex) {
+			logger.error(ex.getMessage(),ex);
+			throw new DataException(ex);
+		}finally{
+			JDBCUtils.closeResultSet(resultSet);
+			JDBCUtils.closeStatement(preparedStatement);
+		}
+	}
+
+	@Override
 	public Pedido findByEmail(Connection conexion, String email) throws DataException {
 		Pedido pedido = new Pedido();
 		PreparedStatement preparedStatement=null;

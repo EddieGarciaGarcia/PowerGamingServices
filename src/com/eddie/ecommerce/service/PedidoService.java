@@ -7,9 +7,12 @@ import com.eddie.ecommerce.model.Pedido;
 import java.util.List;
 
 public interface PedidoService {
-	
+
 	//Historial del Usuario
 	Resultados<Pedido> findByEmail(String email, int startIndex, int count) throws DataException;
+
+	//Historial del Usuario
+	List<Pedido> findAllByEmail(String email) throws DataException;
 	
 	List<Pedido> findByIds(List<Integer> ids)throws DataException;
 	

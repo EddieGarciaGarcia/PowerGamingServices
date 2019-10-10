@@ -30,10 +30,10 @@ public class JuegoServiceImpl implements JuegoService{
 		jdao=new JuegoDAOImpl();
 		ibDao=new ItemBibliotecaDAOImpl();
 	}
-	
+
 	@Override
 	public Resultados<Juego> findByJuegoCriteria(JuegoCriteria juegoCriteria, String idioma, int startIndex, int count) throws DataException {
-	
+
 		if(logger.isDebugEnabled()) {
 			logger.debug("Juego Criteria = "+juegoCriteria.toString()+" , idioma = "+idioma);
 		}
@@ -41,9 +41,9 @@ public class JuegoServiceImpl implements JuegoService{
 		boolean commit=false;
 		Connection connection=null;
 		try {
-		connection= ConnectionManager.getConnection();
-		connection.setAutoCommit(false);
-		juegos=jdao.findByJuegoCriteria(connection, juegoCriteria, idioma, startIndex, count);
+			connection=ConnectionManager.getConnection();
+			connection.setAutoCommit(false);
+			juegos=jdao.findByJuegoCriteria(connection, juegoCriteria, idioma, startIndex, count);
 
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
@@ -59,10 +59,52 @@ public class JuegoServiceImpl implements JuegoService{
 		Connection connection=null;
 		Resultados<Juego> juegos=null;
 		try {
+			connection=ConnectionManager.getConnection();
+			connection.setAutoCommit(false);
+
+			juegos=jdao.findAllByDate(connection, idioma, startIndex, count);
+
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(connection, commit);
+		}
+		return juegos;
+	}
+
+
+	@Override
+	public List<Juego> findByJuegoCriteria(JuegoCriteria juegoCriteria, String idioma) throws DataException {
+	
+		if(logger.isDebugEnabled()) {
+			logger.debug("Juego Criteria = "+juegoCriteria.toString()+" , idioma = "+idioma);
+		}
+		List<Juego> juegos=null;
+		boolean commit=false;
+		Connection connection=null;
+		try {
+		connection= ConnectionManager.getConnection();
+		connection.setAutoCommit(false);
+		juegos=jdao.findByJuegoCriteria(connection, juegoCriteria, idioma);
+
+		}catch(SQLException e) {
+			logger.error(e.getMessage(),e);
+		}finally {
+			JDBCUtils.closeConnection(connection, commit);
+		}
+		return juegos;
+	}
+
+	@Override
+	public List<Juego> findAllByDate(String idioma) throws DataException {
+		boolean commit=false;
+		Connection connection=null;
+		List<Juego> juegos=null;
+		try {
 		connection=ConnectionManager.getConnection();
 		connection.setAutoCommit(false);
 		
-		juegos=jdao.findAllByDate(connection, idioma, startIndex, count);
+		juegos=jdao.findAllByDate(connection, idioma);
 
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);

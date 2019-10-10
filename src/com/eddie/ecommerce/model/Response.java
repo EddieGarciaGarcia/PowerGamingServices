@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 public class Response {
     private String status;
     private String statusMsg;
-    private JsonObject salida;
+    private String salida;
 
     public Response(){}
 
@@ -25,11 +25,11 @@ public class Response {
         this.statusMsg = statusMsg;
     }
 
-    public JsonObject getSalida() {
+    public String getSalida() {
         return salida;
     }
 
-    public void setSalida(JsonObject salida) {
+    public void setSalida(String salida) {
         this.salida = salida;
     }
 }

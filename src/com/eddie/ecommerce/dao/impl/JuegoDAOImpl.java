@@ -26,7 +26,6 @@ public class JuegoDAOImpl implements JuegoDAO {
         idiomaDAO = new IdiomaDAOImpl();
         edicionDAO = new EdicionDAOImpl();
     }
-
     public Resultados<Juego> findByJuegoCriteria(Connection connection, JuegoCriteria juegoCriteria, String idioma, int startIndex, int count) throws DataException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -106,10 +105,10 @@ public class JuegoDAOImpl implements JuegoDAO {
         ResultSet resultSet = null;
         StringBuilder query;
         try {
-			query = new StringBuilder();
-			query.append("select id_juego, nombre,fecha_lanzamiento, id_creador ");
-			query.append("from juego ");
-			query.append("order by fecha_lanzamiento desc");
+            query = new StringBuilder();
+            query.append("select id_juego, nombre,fecha_lanzamiento, id_creador ");
+            query.append("from juego ");
+            query.append("order by fecha_lanzamiento desc");
             preparedStatement = connection.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             resultSet = preparedStatement.executeQuery();
             List<Juego> juegos = new ArrayList<>();
@@ -122,7 +121,104 @@ public class JuegoDAOImpl implements JuegoDAO {
                 } while ((currentCount < count) && resultSet.next());
             }
             int total = JDBCUtils.getTotalRows(resultSet);
-			return new Resultados<>(juegos, startIndex, total);
+            return new Resultados<>(juegos, startIndex, total);
+        } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new DataException(ex);
+        } finally {
+            JDBCUtils.closeResultSet(resultSet);
+            JDBCUtils.closeStatement(preparedStatement);
+        }
+    }
+    public List<Juego> findByJuegoCriteria(Connection connection, JuegoCriteria juegoCriteria, String idioma) throws DataException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        StringBuilder query;
+        try {
+            query = new StringBuilder();
+            query.append("select j.id_juego, j.nombre, j.fecha_lanzamiento, j.id_creador ");
+            query.append("from juego j INNER JOIN juego_idiomaweb jiw ON j.id_juego = jiw.id_juego ");
+            boolean first = true;
+            if (juegoCriteria.getCategoriaIDs() != null && juegoCriteria.getCategoriaIDs().length > 0) {
+                query.append(" inner join juego_categoria jc on j.id_juego=jc.id_juego inner join categoria c on jc.id_categoria=c.id_categoria ");
+            }
+            if (juegoCriteria.getIdiomaIDs() != null && juegoCriteria.getIdiomaIDs().length > 0) {
+                query.append(" inner join juego_idioma ji on j.id_juego=ji.id_juego inner join idioma i on ji.id_idioma=i.id_idioma ");
+            }
+            if (juegoCriteria.getPlataformaIDs() != null && juegoCriteria.getPlataformaIDs().length > 0) {
+                query.append(" inner join juego_plataforma jp on j.id_juego=jp.id_juego inner join plataforma p on jp.id_plataforma=p.id_plataforma ");
+            }
+            if (juegoCriteria.getNombre() != null) {
+                JDBCUtils.addClause(query, first, " j.nombre like ? ");
+                first = false;
+            }
+            if (juegoCriteria.getFechaLanzamiento() != null) {
+                JDBCUtils.addClause(query, first, " j.fecha_lanzamiento = ?");
+                first = false;
+            }
+            if (juegoCriteria.getIdCreador() != null) {
+                JDBCUtils.addClause(query, first, " j.id_creador = ? ");
+                first = false;
+            }
+            if (idioma != null) {
+                JDBCUtils.addClause(query, first, " jiw.id_idioma_web like ? ");
+                first = false;
+            }
+            if (juegoCriteria.getCategoriaIDs() != null && juegoCriteria.getCategoriaIDs().length > 0) {
+                JDBCUtils.addClause(query, first, addCategoria(juegoCriteria.getCategoriaIDs()).toString());
+            }
+            if (juegoCriteria.getIdiomaIDs() != null && juegoCriteria.getIdiomaIDs().length > 0) {
+                JDBCUtils.addClause(query, first, addIdioma(juegoCriteria.getIdiomaIDs()).toString());
+                first = false;
+            }
+            if (juegoCriteria.getPlataformaIDs() != null && juegoCriteria.getPlataformaIDs().length > 0) {
+                JDBCUtils.addClause(query, first, addPlataforma(juegoCriteria.getPlataformaIDs()).toString());
+            }
+            query.append(" group by j.id_juego");
+            preparedStatement = connection.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            int i = 1;
+            if (juegoCriteria.getNombre() != null) { preparedStatement.setString(i++, "%" + juegoCriteria.getNombre() + "%"); }
+            if (juegoCriteria.getFechaLanzamiento() != null) { preparedStatement.setInt(i++, juegoCriteria.getFechaLanzamiento()); }
+            if (juegoCriteria.getIdCreador() != null) { preparedStatement.setInt(i++, juegoCriteria.getIdCreador()); }
+            if (idioma != null) { preparedStatement.setString(i, idioma); }
+            resultSet = preparedStatement.executeQuery();
+            List<Juego> juegos = new ArrayList<>();
+            Juego juego;
+
+            while (resultSet.next()) {
+                juego = new Juego();
+                juegos.add(loadNext(connection, resultSet, idioma, juego));
+            }
+            return juegos;
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            throw new DataException(e);
+        } finally {
+            JDBCUtils.closeResultSet(resultSet);
+            JDBCUtils.closeStatement(preparedStatement);
+        }
+    }
+
+    public List<Juego> findAllByDate(Connection connection, String idioma) throws DataException {
+        Juego juego;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        StringBuilder query;
+        try {
+			query = new StringBuilder();
+			query.append("select id_juego, nombre,fecha_lanzamiento, id_creador ");
+			query.append("from juego ");
+			query.append("order by fecha_lanzamiento desc");
+            preparedStatement = connection.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            resultSet = preparedStatement.executeQuery();
+            List<Juego> juegos = new ArrayList<>();
+
+            while (resultSet.next()) {
+                juego = new Juego();
+                juegos.add(loadNext(connection, resultSet, idioma, juego));
+            }
+
+			return juegos;
         } catch (SQLException ex) {
             logger.error(ex.getMessage(), ex);
             throw new DataException(ex);
