@@ -2,6 +2,8 @@ package com.eddie.ecommerce.utils;
 
 public interface Constantes {
     public static final String NOMBRE_CACHE_ESTATICOS ="CacheEstaticos";
+    public static final String NOMBRE_CACHE_lOGIN ="CacheLogin";
+
     public static final String CACHE_CATEGORIA="Categoria";
     public static final String CACHE_CREADOR="Creador";
     public static final String CACHE_FORMATO="Formato";

@@ -13,8 +13,8 @@ public class MailServiceImpl implements MailService {
 	private static Logger logger=LogManager.getLogger(CategoriaDAOImpl.class);
 	
 	@Override
-	public void sendMail(String to,String subject,String message) {
-		
+	public boolean sendMail(String to,String subject,String message) {
+		boolean enviado = false;
 		HtmlEmail email = new HtmlEmail();
 		email.setHostName("smtp.googlemail.com");
 		email.setSmtpPort(465);
@@ -26,12 +26,13 @@ public class MailServiceImpl implements MailService {
 			email.setHtmlMsg(message);
 			email.addTo(to);
 			email.send();
+			enviado = true;
 		} catch (EmailException e) {
 			logger.error(e.getMessage(),e);
 			
 		}
 		
-
+		return enviado;
 	}
 	public static final String PASSWORD="eddiegg1";
 	

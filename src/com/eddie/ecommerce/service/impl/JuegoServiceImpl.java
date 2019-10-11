@@ -5,11 +5,10 @@ import com.eddie.ecommerce.dao.JuegoDAO;
 import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.JuegoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
-import com.eddie.ecommerce.model.ItemBiblioteca;
-import com.eddie.ecommerce.model.Juego;
-import com.eddie.ecommerce.model.JuegoCriteria;
-import com.eddie.ecommerce.model.Resultados;
+import com.eddie.ecommerce.model.*;
+import com.eddie.ecommerce.service.CreadorService;
 import com.eddie.ecommerce.service.JuegoService;
+import com.eddie.ecommerce.service.UsuarioService;
 import com.eddie.ecommerce.utils.ConnectionManager;
 import com.eddie.ecommerce.utils.JDBCUtils;
 import org.apache.logging.log4j.LogManager;
@@ -25,10 +24,14 @@ public class JuegoServiceImpl implements JuegoService{
 	
 	private JuegoDAO jdao=null;
 	private ItemBibliotecaDAO ibDao=null;
-	
+	private CreadorService creadorService = null;
+	private UsuarioService usuarioService = null;
+
 	public JuegoServiceImpl() {
 		jdao=new JuegoDAOImpl();
 		ibDao=new ItemBibliotecaDAOImpl();
+		creadorService = new CreadorServiceImpl();
+		usuarioService = new UsuarioServiceImpl();
 	}
 
 	@Override
@@ -134,7 +137,7 @@ public class JuegoServiceImpl implements JuegoService{
 	}
 
 	@Override
-	public Juego findById(Integer id,String idioma) throws DataException {
+	public Juego findById(Integer id,String email,String idioma) throws DataException {
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("id= "+id+" , idioma = "+idioma);
@@ -145,10 +148,15 @@ public class JuegoServiceImpl implements JuegoService{
 		try {
 		c=ConnectionManager.getConnection();
 		c.setAutoCommit(false);
-		
-		
+
 		j = jdao.findById(c,id, idioma);
-		
+		Creador creador = creadorService.findbyIdCreador(j.getIdCreador());
+		j.setNombreCreador(creador.getNombre());
+		j.setPuntuacionMedia(puntuacion(j.getIdJuego()));
+		if (email != null && !email.equals("")) {
+			j.setExisteEnBiblioteca(usuarioService.existsInBiblioteca(email, j.getIdJuego()));
+		}
+
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);
 		}finally {

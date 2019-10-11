@@ -25,10 +25,10 @@ public class ProvinciaServiceImpl implements ProvinciaService{
 	}
 
 	@Override
-	public List<Provincia> findAllByIdPais(Integer idPais) throws DataException {
+	public List<Provincia> findAll() throws DataException {
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("id= "+idPais);
+			logger.debug("id= ");
 		}
 		List<Provincia> p=null;
 		boolean commit=false;
@@ -37,7 +37,7 @@ public class ProvinciaServiceImpl implements ProvinciaService{
 		c= ConnectionManager.getConnection();
 		c.setAutoCommit(false);
 		
-		p=pdao.findAllByIdPais(c, idPais);
+		p=pdao.findAll(c);
 		
 		}catch(SQLException e) {
 			logger.error(e.getMessage(),e);

@@ -15,7 +15,9 @@ public class Juego implements Comparable<Juego>, Serializable {
 	private List<Idioma> idiomas=null;
 	private List<Plataforma> plataformas=null;
 	private List<Edicion> ediciones = null;
-	
+
+	private String nombreCreador = null;
+	private boolean existeEnBiblioteca = false;
 	public Juego() {
 		categoria= new ArrayList<Categoria>();
 		idiomas=new ArrayList<Idioma>();
@@ -28,12 +30,27 @@ public class Juego implements Comparable<Juego>, Serializable {
 		setFechaLanzamiento(fechaLanzamiento);
 		setIdCreador(creador);
 	}
-	
+
+	public boolean isExisteEnBiblioteca() {
+		return existeEnBiblioteca;
+	}
+
+	public void setExisteEnBiblioteca(boolean existeEnBiblioteca) {
+		this.existeEnBiblioteca = existeEnBiblioteca;
+	}
+
 	public Juego(String nombre) {
 		setNombre(nombre);
 
 	}
-	
+	public String getNombreCreador() {
+		return nombreCreador;
+	}
+
+	public void setNombreCreador(String nombreCreador) {
+		this.nombreCreador = nombreCreador;
+	}
+
 	public Integer getIdJuego() {
 		return idJuego;
 	}

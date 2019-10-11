@@ -9,6 +9,6 @@ import java.util.List;
 public interface ProvinciaService {
 	
 	//Listado de provincias segun el pais escogido
-	List<Provincia> findAllByIdPais(Integer idPais)throws DataException;
+	List<Provincia> findAll()throws DataException;
 
 }

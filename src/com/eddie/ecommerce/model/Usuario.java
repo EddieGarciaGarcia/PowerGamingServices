@@ -15,7 +15,7 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>,
 	private Date fechaNacimiento=null;
 	private String telefono=null;
 	private String genero=null;
-	
+	private String idLogin = null;
 	
 	public Usuario() {
 		
@@ -34,7 +34,15 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>,
 		
 		
 	}
-	
+
+	public String getIdLogin() {
+		return idLogin;
+	}
+
+	public void setIdLogin(String idLogin) {
+		this.idLogin = idLogin;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

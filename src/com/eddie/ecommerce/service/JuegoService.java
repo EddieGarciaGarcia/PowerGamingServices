@@ -28,7 +28,7 @@ public interface JuegoService {
 	List<Juego> findByIDs(List<Integer> ids, String idioma)throws DataException;
 	
 	//Buscar un juego en concreto
-	Juego findById(Integer id, String idioma)throws DataException;
+	Juego findById(Integer id,String email, String idioma)throws DataException;
 	
 	Juego create(Juego juego) throws DataException;
 	
