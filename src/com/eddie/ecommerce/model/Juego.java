@@ -18,11 +18,13 @@ public class Juego implements Comparable<Juego>, Serializable {
 
 	private String nombreCreador = null;
 	private boolean existeEnBiblioteca = false;
+
+
 	public Juego() {
-		categoria= new ArrayList<Categoria>();
-		idiomas=new ArrayList<Idioma>();
-		plataformas= new ArrayList<Plataforma>();
-		ediciones= new ArrayList<Edicion>();
+		categoria= new ArrayList<>();
+		idiomas=new ArrayList<>();
+		plataformas= new ArrayList<>();
+		ediciones= new ArrayList<>();
 	}
 	
 	public Juego(String nombre, Integer fechaLanzamiento,Integer creador) {

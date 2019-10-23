@@ -58,16 +58,16 @@ public class FormatoServiceImpl implements FormatoService{
 			logger.debug("Idioma = "+idioma);
 		}
 		
-		Cache<String, List> cache= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
+		/*Cache<String, List> cache= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);*/
 		
-		List<Formato> formato=cache.get(Constantes.CACHE_FORMATO);
+		List<Formato> formato=null/*cache.get(Constantes.CACHE_FORMATO)*/;
 		
 		boolean commit=false;
-		if(formato!=null) {
+		/*if(formato!=null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Acierto cache: {}", idioma);
 			}
-		}else {
+		}else {*/
 			if (logger.isDebugEnabled()) {
 				logger.debug("Fallo cache: {}", idioma);
 			}
@@ -78,14 +78,14 @@ public class FormatoServiceImpl implements FormatoService{
 			
 			formato= formatoDAO.findAll(connection, idioma);
 			
-			cache.put(Constantes.CACHE_FORMATO, formato);
+			/*cache.put(Constantes.CACHE_FORMATO, formato);*/
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
 			}finally {
 				JDBCUtils.closeConnection(connection, commit);
 			}
-		}
+		/*}*/
 		return formato;
 	}
 }

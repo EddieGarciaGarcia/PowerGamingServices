@@ -63,7 +63,7 @@ public class CreadorDAOImpl implements CreadorDAO {
         try {
            	query= new StringBuilder();
             query.append("select id_creador, nombre");
-            query.append("from creador");
+            query.append(" from creador");
 
             preparedStatement = conexion.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 

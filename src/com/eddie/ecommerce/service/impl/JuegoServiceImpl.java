@@ -6,9 +6,7 @@ import com.eddie.ecommerce.dao.impl.ItemBibliotecaDAOImpl;
 import com.eddie.ecommerce.dao.impl.JuegoDAOImpl;
 import com.eddie.ecommerce.exceptions.DataException;
 import com.eddie.ecommerce.model.*;
-import com.eddie.ecommerce.service.CreadorService;
-import com.eddie.ecommerce.service.JuegoService;
-import com.eddie.ecommerce.service.UsuarioService;
+import com.eddie.ecommerce.service.*;
 import com.eddie.ecommerce.utils.ConnectionManager;
 import com.eddie.ecommerce.utils.JDBCUtils;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class JuegoServiceImpl implements JuegoService{
 
@@ -26,12 +26,22 @@ public class JuegoServiceImpl implements JuegoService{
 	private ItemBibliotecaDAO ibDao=null;
 	private CreadorService creadorService = null;
 	private UsuarioService usuarioService = null;
+	private CategoriaService categoriaService = null;
+	private PlataformaService plataformaService= null;
+	private IdiomaService idiomaService = null;
+	private FormatoService formatoService = null;
+	private TipoEdicionService tipoEdicionService = null;
 
 	public JuegoServiceImpl() {
 		jdao=new JuegoDAOImpl();
 		ibDao=new ItemBibliotecaDAOImpl();
 		creadorService = new CreadorServiceImpl();
 		usuarioService = new UsuarioServiceImpl();
+		categoriaService = new CategoriaServiceImpl();
+		plataformaService = new PlataformaServiceImpl();
+		idiomaService = new IdiomaServiceImpl();
+		formatoService = new FormatoServiceImpl();
+		tipoEdicionService = new TipoEdicionServiceImpl();
 	}
 
 	@Override
@@ -378,5 +388,16 @@ public class JuegoServiceImpl implements JuegoService{
 		return juegoPuntuacion;
 	}
 
+	@Override
+	public HashMap<String, List<?>> datosCacheWeb(String idiomaWeb) throws DataException {
+		HashMap<String,List<?>> datosCacheWeb = new HashMap<>();
 
+		datosCacheWeb.put("Categorias", categoriaService.findAll(idiomaWeb));
+		datosCacheWeb.put("Creadores", creadorService.findAll());
+		datosCacheWeb.put("Platadaformas", plataformaService.findAll());
+		datosCacheWeb.put("Idiomas", idiomaService.findAll(idiomaWeb));
+		datosCacheWeb.put("TipoEdiciones", tipoEdicionService.findAll(idiomaWeb));
+
+		return datosCacheWeb;
+	}
 }

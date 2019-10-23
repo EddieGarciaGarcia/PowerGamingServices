@@ -161,9 +161,9 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO {
         StringBuilder query;
         try {
             query = new StringBuilder();
-            query.append("select email,id_juego,puntuacion,comprado,comentario,fecha_comentario ");
-            query.append("from usuarios_juego ");
-            query.append("where id_juego=? order by fecha_comentario desc");
+            query.append("select uj.email,id_juego,puntuacion,comprado,comentario,fecha_comentario,u.nombre_user ");
+            query.append("from usuarios_juego uj inner join usuario u on uj.email = u.email ");
+            query.append("where uj.id_juego=? order by uj.fecha_comentario desc");
 
             preparedStatement = connection.prepareStatement(query.toString(), ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
@@ -337,6 +337,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO {
         itemBiblioteca.setComprado(resultSet.getString("comprado"));
         itemBiblioteca.setComentario(resultSet.getString("comentario"));
         itemBiblioteca.setFechaComentario(resultSet.getDate("fecha_comentario"));
+        itemBiblioteca.setNombreUsuario(resultSet.getString("nombre_user"));
         return itemBiblioteca;
     }
 }

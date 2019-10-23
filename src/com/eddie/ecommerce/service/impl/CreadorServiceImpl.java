@@ -56,16 +56,16 @@ public class CreadorServiceImpl implements CreadorService{
 	public List<Creador> findAll() throws DataException {
 		int i=1;
 
-		Cache<String, List> cache= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
+		/*Cache<String, List> cache= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);*/
 		
-		List<Creador> creador=cache.get(Constantes.CACHE_CREADOR);
+		List<Creador> creador=null /*cache.get(Constantes.CACHE_CREADOR)*/;
 		
 		boolean commit=false;
-		if(creador!=null) {
+	/*	if(creador!=null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Acierto cache: {}", i);
 			}
-		}else {
+		}else {*/
 			if (logger.isDebugEnabled()) {
 				logger.debug("Fallo cache: {}", i);
 			}
@@ -76,14 +76,14 @@ public class CreadorServiceImpl implements CreadorService{
 
 			creador= creadorDAO.findAll(connection);
 
-			cache.put(Constantes.CACHE_CREADOR, creador);
+			/*cache.put(Constantes.CACHE_CREADOR, creador);*/
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
 			}finally {
 				JDBCUtils.closeConnection(connection, commit);
 			}
-		}
+		/*}*/
 		return creador;
 	}
 

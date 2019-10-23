@@ -58,17 +58,17 @@ public class PlataformaServiceImpl implements PlataformaService{
 	public List<Plataforma> findAll() throws DataException {
 		int i=1;
 		
-		Cache<String, List> cachePlataforma= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
+		/*Cache<String, List> cachePlataforma= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);*/
 		
-		List<Plataforma> plataforma=cachePlataforma.get(Constantes.CACHE_PLATAFORMA);
+		List<Plataforma> plataforma=null/*cachePlataforma.get(Constantes.CACHE_PLATAFORMA)*/;
 		
 		
 		boolean commit=false;
-		if(plataforma!=null) {
+		/*if(plataforma!=null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Acierto cache: {}", i);
 			}
-		}else {
+		}else {*/
 			if (logger.isDebugEnabled()) {
 				logger.debug("Fallo cache: {}", i);
 			}
@@ -79,7 +79,7 @@ public class PlataformaServiceImpl implements PlataformaService{
 			
 			plataforma=pdao.findAll(c);
 			
-			cachePlataforma.put(Constantes.CACHE_PLATAFORMA, plataforma);
+			/*cachePlataforma.put(Constantes.CACHE_PLATAFORMA, plataforma);*/
 			
 			}catch(DataException e) {
 				logger.error(e.getMessage(),e);
@@ -88,7 +88,7 @@ public class PlataformaServiceImpl implements PlataformaService{
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}
-		}
+		/*}*/
 		return plataforma;
 	}
 

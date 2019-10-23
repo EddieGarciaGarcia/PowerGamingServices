@@ -11,10 +11,18 @@ public class ItemBiblioteca extends AbstractValueObject implements Comparable<It
 	private Date fechaComentario=null;
 	private String comentario=null;
 	private String comprado=null;
-	
-	
+	private String nombreUsuario = null;
+
 	public ItemBiblioteca() {
-		
+
+	}
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 
 	public String getComprado() {

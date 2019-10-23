@@ -59,17 +59,17 @@ public class CategoriaServiceImpl implements CategoriaService {
 			logger.debug("Idioma = "+idioma);
 		}
 
-		Cache<String, List> cache= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
+		//Cache<String, List> cache= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
 		
-		List<Categoria> categoria = cache.get(Constantes.CACHE_CATEGORIA);
+		List<Categoria> categoria = null /*= cache.get(Constantes.CACHE_CATEGORIA)*/;
 		
 		boolean commit=false;
 		
-		if(categoria!=null) {
+		/*if(categoria!=null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Acierto cache: {}", categoria.size());
 			}
-		}else {
+		}else {*/
 			if (logger.isDebugEnabled()) {
 				logger.debug("Fallo cache");
 			}
@@ -80,14 +80,14 @@ public class CategoriaServiceImpl implements CategoriaService {
 				
 				categoria= categoriaDAO.findAll(connection, idioma);
 
-				cache.put(Constantes.CACHE_CATEGORIA, categoria);
+				/*cache.put(Constantes.CACHE_CATEGORIA, categoria);*/
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
 			}finally {
 				JDBCUtils.closeConnection(connection, commit);
 			}
-		}
+		/*}*/
 		return categoria;
 	}
 

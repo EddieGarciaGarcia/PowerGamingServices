@@ -16,7 +16,7 @@ public class Pedido implements Serializable {
 	private static final Integer IVA=21;
 	
 	public Pedido() {
-		lineaspedido=new ArrayList<LineaPedido>();
+		lineaspedido=new ArrayList<>();
 	}
 
 	public Integer getNumeroPedido() {

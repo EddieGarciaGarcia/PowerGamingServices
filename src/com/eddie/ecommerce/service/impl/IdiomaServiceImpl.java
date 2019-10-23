@@ -59,16 +59,16 @@ public class IdiomaServiceImpl implements IdiomaService{
 			logger.debug("Idioma = "+idiomaWeb);
 		}
 		
-		Cache<String, List> cacheIdioma= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
+		/*Cache<String, List> cacheIdioma= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);*/
 		
-		List<Idioma> idiomas=cacheIdioma.get(Constantes.CACHE_IDIOMA);
+		List<Idioma> idiomas=null/*cacheIdioma.get(Constantes.CACHE_IDIOMA)*/;
 		
 		boolean commit=false;
-		if(idiomas!=null) {
+		/*if(idiomas!=null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Acierto cache: {}", idiomaWeb);
 			}
-		}else {
+		}else {*/
 			if (logger.isDebugEnabled()) {
 				logger.debug("Fallo cache: {}", idiomaWeb);
 			}
@@ -79,14 +79,14 @@ public class IdiomaServiceImpl implements IdiomaService{
 			
 			idiomas= idiomaDAO.findAll(connection, idiomaWeb);
 			
-			cacheIdioma.put(Constantes.CACHE_IDIOMA, idiomas);
+			/*cacheIdioma.put(Constantes.CACHE_IDIOMA, idiomas);*/
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
 			}finally {
 				JDBCUtils.closeConnection(connection, commit);
 			}
-		}
+		/*}*/
 		return idiomas;
 	}
 

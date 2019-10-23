@@ -46,4 +46,5 @@ public interface UsuarioService {
 	boolean create(ItemBiblioteca it)throws DataException;
 	
 	ItemBiblioteca findByIdEmail(String email, Integer idJuego)throws DataException;
+
 }

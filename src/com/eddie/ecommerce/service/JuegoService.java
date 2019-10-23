@@ -6,6 +6,7 @@ import com.eddie.ecommerce.model.ItemBiblioteca;
 import com.eddie.ecommerce.model.Juego;
 import com.eddie.ecommerce.model.JuegoCriteria;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface JuegoService {
@@ -44,4 +45,7 @@ public interface JuegoService {
 	List<ItemBiblioteca> findByJuego(Integer idJuego) throws DataException;
 
 	Integer puntuacion(Integer idJuego)throws DataException;
+
+	//Datos para precarga de pagina y cacheo en web
+	HashMap<String, List<?>> datosCacheWeb(String idiomaWeb) throws DataException;
 }

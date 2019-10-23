@@ -60,16 +60,16 @@ public class TipoEdicionServiceImpl implements TipoEdicionService{
 			logger.debug("Idioma = "+idioma);
 		}
 		
-		Cache<String, List> cacheTipoEdicion= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);
+		/*Cache<String, List> cacheTipoEdicion= CacheManager.getCachePG(Constantes.NOMBRE_CACHE_ESTATICOS);*/
 		
-		List<TipoEdicion> tipoEdicion=cacheTipoEdicion.get(Constantes.CACHE_TIPO_EDICION);
+		List<TipoEdicion> tipoEdicion=null/*cacheTipoEdicion.get(Constantes.CACHE_TIPO_EDICION)*/;
 		
 		boolean commit=false;
-		if(tipoEdicion!=null) {
+		/*if(tipoEdicion!=null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Acierto cache: {}", idioma);
 			}
-		}else {
+		}else {*/
 			if (logger.isDebugEnabled()) {
 				logger.debug("Fallo cache: {}", idioma);
 			}
@@ -80,14 +80,14 @@ public class TipoEdicionServiceImpl implements TipoEdicionService{
 			
 			tipoEdicion=tedao.findAll(c, idioma);
 			
-			cacheTipoEdicion.put(Constantes.CACHE_TIPO_EDICION, tipoEdicion);
+			/*cacheTipoEdicion.put(Constantes.CACHE_TIPO_EDICION, tipoEdicion);*/
 			
 			}catch(SQLException e) {
 				logger.error(e.getMessage(),e);
 			}finally {
 				JDBCUtils.closeConnection(c, commit);
 			}
-		}
+		/*}*/
 		return tipoEdicion;
 	}
 
