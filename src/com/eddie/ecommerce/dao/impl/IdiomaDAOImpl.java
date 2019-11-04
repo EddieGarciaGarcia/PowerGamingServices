@@ -21,7 +21,7 @@ public class IdiomaDAOImpl implements IdiomaDAO {
 
     @Override
     public Idioma findById(Connection conexion, String id, String idiomaS) throws DataException {
-        Idioma idioma = new Idioma();
+        Idioma idioma;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         StringBuilder query;
@@ -38,6 +38,7 @@ public class IdiomaDAOImpl implements IdiomaDAO {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                idioma = new Idioma();
                 return loadNext(resultSet, idioma);
             } else {
                 throw new InstanceNotFoundException("Error " + id + " id introducido incorrecto", Idioma.class.getName());
@@ -53,7 +54,7 @@ public class IdiomaDAOImpl implements IdiomaDAO {
 
     @Override
     public List<Idioma> findAll(Connection conexion, String idiomaS) throws DataException {
-        Idioma idioma = new Idioma();
+        Idioma idioma;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         StringBuilder query;
@@ -71,6 +72,7 @@ public class IdiomaDAOImpl implements IdiomaDAO {
 
 			idiomas = new ArrayList<>();
             while (resultSet.next()) {
+                idioma = new Idioma();
                 idiomas.add(loadNext(resultSet, idioma));
             }
             return idiomas;
@@ -89,7 +91,7 @@ public class IdiomaDAOImpl implements IdiomaDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 		StringBuilder query;
-		Idioma idioma = new Idioma();
+		Idioma idioma;
 		List<Idioma> idiomas;
 		try {
 			query = new StringBuilder();
@@ -109,6 +111,7 @@ public class IdiomaDAOImpl implements IdiomaDAO {
             // Recupera la pagina de resultados
 			idiomas= new ArrayList<>();
             while (resultSet.next()) {
+                idioma = new Idioma();
                 idiomas.add(loadNext(resultSet, idioma));
             }
             return idiomas;

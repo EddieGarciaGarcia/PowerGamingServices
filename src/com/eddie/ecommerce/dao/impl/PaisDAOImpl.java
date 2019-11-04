@@ -21,7 +21,7 @@ public class PaisDAOImpl implements PaisDAO {
 
     @Override
     public Pais findById(Connection conexion, Integer id) throws DataException {
-        Pais pais = new Pais();
+        Pais pais;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         StringBuilder query;
@@ -34,6 +34,7 @@ public class PaisDAOImpl implements PaisDAO {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                pais = new Pais();
                 return loadNext(resultSet, pais);
             } else {
                 throw new InstanceNotFoundException("Error " + id + " id introducido incorrecto", Pais.class.getName());
@@ -49,7 +50,7 @@ public class PaisDAOImpl implements PaisDAO {
 
     @Override
     public List<Pais> findAll(Connection conexion) throws DataException {
-        Pais pais = new Pais();
+        Pais pais;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         StringBuilder query;
@@ -61,6 +62,7 @@ public class PaisDAOImpl implements PaisDAO {
             resultSet = preparedStatement.executeQuery();
             List<Pais> resultado = new ArrayList<>();
             while (resultSet.next()) {
+                pais = new Pais();
                 resultado.add(loadNext(resultSet, pais));
             }
             return resultado;

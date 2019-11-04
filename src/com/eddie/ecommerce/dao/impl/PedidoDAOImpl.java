@@ -20,7 +20,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 
 	@Override
 	public Resultados<Pedido> findByEmail(Connection conexion, String email, int startIndex, int count) throws DataException {
-		Pedido pedido = new Pedido();
+		Pedido pedido;
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		StringBuilder query;
@@ -36,6 +36,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 			int currentCount=0;
 			if ((startIndex >=1) && resultSet.absolute(startIndex)) {
 				do {
+					pedido = new Pedido();
 					pedidos.add(loadNext(resultSet , pedido));
 					currentCount++;
 				}while((currentCount<count) && resultSet.next());
@@ -53,7 +54,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 
 	@Override
 	public List<Pedido> findAllByEmail(Connection conexion, String email) throws DataException {
-		Pedido pedido = new Pedido();
+		Pedido pedido;
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		StringBuilder query;
@@ -68,6 +69,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 			List<Pedido> pedidos = new ArrayList<>();
 
 			while(resultSet.next()) {
+				pedido = new Pedido();
 				pedidos.add(loadNext(resultSet , pedido));
 			}
 			return pedidos;
@@ -82,7 +84,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 
 	@Override
 	public Pedido findByEmail(Connection conexion, String email) throws DataException {
-		Pedido pedido = new Pedido();
+		Pedido pedido;
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		StringBuilder query;
@@ -95,6 +97,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 			preparedStatement.setString(1, email);
 			resultSet=preparedStatement.executeQuery();
 			if(resultSet.next()){
+				pedido = new Pedido();
 				return loadNext(resultSet,pedido);
 			} else {
 				throw new InstanceNotFoundException("Error "+email+" id introducido incorrecto", Pedido.class.getName());
@@ -167,7 +170,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 
 	@Override
 	public List<Pedido> findByIds(Connection conexion, List<Integer> ids) throws DataException {
-		Pedido pedido = new Pedido();
+		Pedido pedido;
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		StringBuilder query;
@@ -181,6 +184,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 			resultSet=preparedStatement.executeQuery();
 			List<Pedido> pedidos=new ArrayList<>();
 			while(resultSet.next()){
+				pedido = new Pedido();
 				pedidos.add(loadNext(resultSet, pedido));
 			}
 			return pedidos;

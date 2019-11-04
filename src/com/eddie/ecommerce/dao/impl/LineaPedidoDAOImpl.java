@@ -19,7 +19,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO {
 
 	@Override
 	public List<LineaPedido> findByPedido(Connection conexion, Integer idPedido) throws DataException {
-		LineaPedido lineaPedido = new LineaPedido();
+		LineaPedido lineaPedido;
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		StringBuilder query;
@@ -33,6 +33,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO {
 			resultSet=preparedStatement.executeQuery();
 			List<LineaPedido> lineas = new ArrayList<>();
 			while(resultSet.next()){
+				lineaPedido = new LineaPedido();
 				lineas.add(loadNext(resultSet, lineaPedido));
 			}
 			return lineas;
@@ -47,7 +48,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO {
 
 	@Override
 	public LineaPedido findById(Connection conexion,Integer numeroLinea) throws DataException {
-		LineaPedido lineaPedido = new LineaPedido();
+		LineaPedido lineaPedido;
 		PreparedStatement preparedStatement=null;
 		ResultSet resultSet=null;
 		StringBuilder query;
@@ -62,6 +63,7 @@ public class LineaPedidoDAOImpl implements LineaPedidoDAO {
 			resultSet=preparedStatement.executeQuery();
 
 			if(resultSet.next()){
+				lineaPedido = new LineaPedido();
 				return loadNext(resultSet, lineaPedido);
 			}else {
 				throw new InstanceNotFoundException("Error "+numeroLinea+" id introducido incorrecto", LineaPedido.class.getName());

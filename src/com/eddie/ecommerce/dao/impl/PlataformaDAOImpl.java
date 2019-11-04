@@ -51,7 +51,7 @@ public class PlataformaDAOImpl implements PlataformaDAO {
 
     @Override
     public List<Plataforma> findAll(Connection conexion) throws DataException {
-        Plataforma plataforma = new Plataforma();
+        Plataforma plataforma;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         StringBuilder query;
@@ -63,6 +63,7 @@ public class PlataformaDAOImpl implements PlataformaDAO {
             resultSet = preparedStatement.executeQuery();
             List<Plataforma> resultado = new ArrayList<>();
             while (resultSet.next()) {
+                plataforma = new Plataforma();
                 resultado.add(loadNext(resultSet, plataforma));
             }
             return resultado;
@@ -79,7 +80,7 @@ public class PlataformaDAOImpl implements PlataformaDAO {
     public List<Plataforma> findByJuego(Connection conexion, Integer idJuego) throws DataException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-		Plataforma plataforma = new Plataforma();
+		Plataforma plataforma;
 		StringBuilder query;
         try {
 			query = new StringBuilder();
@@ -94,6 +95,7 @@ public class PlataformaDAOImpl implements PlataformaDAO {
             // Recupera la pagina de resultados
             List<Plataforma> plataformas = new ArrayList<>();
             while (resultSet.next()) {
+                plataforma = new Plataforma();
                 plataformas.add(loadNext(resultSet, plataforma));
             }
             return plataformas;
