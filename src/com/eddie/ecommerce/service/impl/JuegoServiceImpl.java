@@ -394,7 +394,7 @@ public class JuegoServiceImpl implements JuegoService{
 
 		datosCacheWeb.put("Categorias", categoriaService.findAll(idiomaWeb));
 		datosCacheWeb.put("Creadores", creadorService.findAll());
-		datosCacheWeb.put("Platadaformas", plataformaService.findAll());
+		datosCacheWeb.put("Plataformas", plataformaService.findAll());
 		datosCacheWeb.put("Idiomas", idiomaService.findAll(idiomaWeb));
 		datosCacheWeb.put("TipoEdiciones", tipoEdicionService.findAll(idiomaWeb));
 
