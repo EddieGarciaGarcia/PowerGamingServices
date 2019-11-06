@@ -3,14 +3,14 @@ package com.eddie.ecommerce.model;
 import java.io.Serializable;
 
 public class Plataforma implements Serializable {
-	private Integer idPlatadorma;
+	private Integer idPlataforma;
 	private String nombre;
 	
 	public Plataforma() {
 		
 	}
-	public Integer getIdPlatadorma() {
-		return idPlatadorma;
+	public Integer getIdPlataforma() {
+		return idPlataforma;
 	}
 	
 	public String getNombre() {
@@ -20,7 +20,7 @@ public class Plataforma implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public void setIdPlatadorma(Integer idPlatadorma) {
-		idPlatadorma = idPlatadorma;
+	public void setIdPlatadorma(Integer idPlataforma) {
+		this.idPlataforma = idPlataforma;
 	}
 }

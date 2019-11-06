@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Categoria implements Serializable {
 	
-	private Integer idCategria=null;
+	private Integer idCategoria=null;
 	private String nombre=null;
 	
 	private Categoria padre =null;
@@ -15,11 +15,11 @@ public class Categoria implements Serializable {
 	}
 
 	public Integer getIdCategria() {
-		return idCategria;
+		return idCategoria;
 	}
 
 	public void setIdCategria(Integer idCategria) {
-		this.idCategria = idCategria;
+		this.idCategoria = idCategria;
 	}
 
 	public String getNombre() {
