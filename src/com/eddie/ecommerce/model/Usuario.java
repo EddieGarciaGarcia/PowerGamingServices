@@ -16,6 +16,7 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>,
 	private String telefono=null;
 	private String genero=null;
 	private String idLogin = null;
+	private String ip = null;
 	
 	public Usuario() {
 		
@@ -100,6 +101,10 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>,
 		this.genero = genero;
 	}
 
+	public String getIp() { return ip; }
+
+	public void setIp(String ip) { this.ip = ip; }
+
 	public boolean equals(Object o) {
 		String otroEmail=((Usuario) o).getEmail();
 		if(this.getEmail()==null && otroEmail==null) {
@@ -114,13 +119,13 @@ public class Usuario extends AbstractValueObject implements Comparable<Usuario>,
 	
 	@Override
 	public final int compareTo(Usuario u) {
-		if(u.getNombre()==null && this.getNombre()==null) {
+		if(u.getEmail()==null && this.getEmail()==null) {
 			return 0;
 		}
-		if(u.getNombre()==null) return 1;
-		if(this.getNombre()==null)return -1;
+		if(u.getEmail()==null) return 1;
+		if(this.getEmail()==null)return -1;
 		
-		return this.getNombre().compareTo(u.getNombre());
+		return this.getEmail().compareTo(u.getEmail());
 		
 	}
 	

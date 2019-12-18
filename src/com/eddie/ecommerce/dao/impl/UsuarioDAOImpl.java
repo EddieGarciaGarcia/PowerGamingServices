@@ -171,8 +171,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			usuario.setTelefono(rs.getString("telefono"));
 			usuario.setPassword(rs.getString("password"));
 			usuario.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-			usuario.setNombreUser(rs.getString("genero"));
-			usuario.setGenero(rs.getString("nombre_user"));
+			usuario.setNombreUser(rs.getString("nombre_user"));
+			usuario.setGenero(rs.getString("genero"));
 			return usuario;
 	}
 }
