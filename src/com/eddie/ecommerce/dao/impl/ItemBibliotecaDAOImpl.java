@@ -173,6 +173,7 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO {
             List<ItemBiblioteca> biblioteca = new ArrayList<>();
             while (resultSet.next()) {
                 itemBiblioteca = new ItemBiblioteca();
+                itemBiblioteca.setNombreUsuario(resultSet.getString("nombre_user"));
                 biblioteca.add(loadNext(resultSet, itemBiblioteca));
             }
             return biblioteca;
@@ -337,7 +338,6 @@ public class ItemBibliotecaDAOImpl implements ItemBibliotecaDAO {
         itemBiblioteca.setComprado(resultSet.getString("comprado"));
         itemBiblioteca.setComentario(resultSet.getString("comentario"));
         itemBiblioteca.setFechaComentario(resultSet.getDate("fecha_comentario"));
-        itemBiblioteca.setNombreUsuario(resultSet.getString("nombre_user"));
         return itemBiblioteca;
     }
 }
