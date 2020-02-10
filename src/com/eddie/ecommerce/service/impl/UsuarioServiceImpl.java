@@ -85,6 +85,25 @@ public class UsuarioServiceImpl implements UsuarioService{
 			c.setAutoCommit(false);
 
 			commit = true;
+
+			Usuario usuario = findById(u.getEmail());
+
+            if(usuario.getNombre().equals(u.getNombre())){
+                u.setNombre(null);
+            }else if(usuario.getApellido1().equals(u.getApellido1())){
+                u.setApellido1(null);
+            }else if (usuario.getApellido2().equals(u.getApellido2())){
+                u.setApellido2(null);
+            }else if(usuario.getGenero().equals(u.getGenero())){
+                u.setGenero(null);
+            }else if(usuario.getPassword().equals(u.getPassword())){
+                u.setPassword(null);
+            }else if(usuario.getTelefono().equals(u.getTelefono())){
+                u.setTelefono(null);
+            }else if(usuario.getNombreUser().equals(u.getNombreUser())){
+                u.setNombreUser(null);
+            }
+
 			actualizado = usuarioDao.update(c,u);
 
 		} catch (SQLException e) {
